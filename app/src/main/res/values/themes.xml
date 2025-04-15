@@ -1,5 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
-    <style name="Theme.MaumNote" parent="android:Theme.Material.Light.NoActionBar" />
+    <style name="Theme.MaumNote" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="android:statusBarColor">
+            @color/white
+        </item>
+        <item name="android:navigationBarColor">
+            @color/white
+        </item>
+        <item name="android:windowSplashScreenBackground" tools:ignore="S">@color/white</item>
+        <item name="android:windowSplashScreenAnimatedIcon" tools:ignore="S">@drawable/splash</item>
+    </style>
+
+    <style name="Theme.PatchNote.Splash" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/white</item>
+        <item name="windowSplashScreenAnimatedIcon">@color/white</item>
+        <item name="windowSplashScreenAnimationDuration">100</item>
+        <item name="postSplashScreenTheme">@style/Theme.MaumNote</item>
+    </style>
 </resources>
