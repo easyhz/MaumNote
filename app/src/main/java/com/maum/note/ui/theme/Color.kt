@@ -14,3 +14,6 @@ val MainText = Color(0xFF232323)
 
 @Stable
 val SubText = Color(0xFF656565)
+
+@Stable
+val CardBackground = Color(0xFFFFFFFF)

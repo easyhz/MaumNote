@@ -23,7 +23,7 @@ import androidx.compose.ui.graphics.Color.Companion.Red
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.maum.note.core.designSystem.extension.noRippleClickable
+import com.maum.note.core.designSystem.extension.modifier.noRippleClickable
 import com.maum.note.ui.theme.MainBackground
 import com.maum.note.ui.theme.MainText
 import com.maum.note.ui.theme.Typography
