@@ -10,7 +10,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.maum.note.ui.theme.MainText
 import com.maum.note.ui.theme.SubText
-import com.maum.note.ui.theme.Typography
+import com.maum.note.ui.theme.AppTypography
 
 @Composable
 fun OnboardingText(
@@ -24,12 +24,12 @@ fun OnboardingText(
     ) {
         Text(
             text = subTitle,
-            style = Typography.body2,
+            style = AppTypography.body2,
             color = SubText
         )
         Text(
             text = title,
-            style = Typography.semiBold20,
+            style = AppTypography.semiBold20,
             color = MainText
         )
     }

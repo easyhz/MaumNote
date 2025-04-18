@@ -13,7 +13,7 @@ import com.maum.note.core.designSystem.util.textField.TextFieldContainer
 import com.maum.note.core.designSystem.util.textField.TextFieldType
 import com.maum.note.core.designSystem.util.textField.getTextFieldState
 import com.maum.note.ui.theme.MainText
-import com.maum.note.ui.theme.Typography
+import com.maum.note.ui.theme.AppTypography
 
 @Composable
 fun ContentTextField(
@@ -37,7 +37,7 @@ fun ContentTextField(
         value = value,
         onValueChange = onValueChange,
         modifier = modifier,
-        textStyle = Typography.body2.copy(
+        textStyle = AppTypography.body2.copy(
             color = MainText,
         ),
         readOnly = readOnly,

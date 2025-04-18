@@ -27,7 +27,7 @@ import com.maum.note.core.designSystem.component.topbar.TopBar
 import com.maum.note.core.designSystem.component.topbar.TopBarIcon
 import com.maum.note.core.model.note.NoteType
 import com.maum.note.ui.screen.note.creation.select.contract.NoteTypeSelectionState
-import com.maum.note.ui.theme.Typography
+import com.maum.note.ui.theme.AppTypography
 
 /**
  * Date: 2025. 4. 18.
@@ -101,7 +101,7 @@ private fun NoteTypeSelectionScreen(
         ) {
             Text(
                 text = stringResource(R.string.note_creation_note_type_selection_title),
-                style = Typography.h1_semiBold.copy(
+                style = AppTypography.h1_semiBold.copy(
                     textAlign = TextAlign.Center
                 )
             )

@@ -18,7 +18,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.maum.note.ui.theme.Placeholder
-import com.maum.note.ui.theme.Typography
+import com.maum.note.ui.theme.AppTypography
 import com.maum.note.ui.theme.White
 
 @Composable
@@ -63,7 +63,7 @@ private fun TextFieldContainerContent(
                         .align(Alignment.CenterStart)
                         .padding(start = 2.dp),
                     text = placeholder,
-                    style = Typography.body2,
+                    style = AppTypography.body2,
                     color = Placeholder,
                 )
             }

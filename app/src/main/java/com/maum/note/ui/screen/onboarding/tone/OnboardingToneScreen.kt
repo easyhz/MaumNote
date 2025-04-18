@@ -25,7 +25,7 @@ import com.maum.note.core.designSystem.component.topbar.TopBar
 import com.maum.note.core.designSystem.component.topbar.TopBarIcon
 import com.maum.note.ui.screen.onboarding.tone.contract.OnboardingToneState
 import com.maum.note.ui.theme.SubText
-import com.maum.note.ui.theme.Typography
+import com.maum.note.ui.theme.AppTypography
 
 /**
  * Date: 2025. 4. 18.
@@ -103,7 +103,7 @@ private fun OnboardingToneScreen(
 
             Text(
                 text = stringResource(R.string.onboarding_tone_description),
-                style = Typography.body3,
+                style = AppTypography.body3,
                 color = SubText
             )
         }

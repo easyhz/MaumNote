@@ -17,7 +17,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.maum.note.R
-import com.maum.note.ui.theme.Typography
+import com.maum.note.ui.theme.AppTypography
 
 
 @Composable
@@ -42,7 +42,7 @@ fun HomeTopBar(
             Text(
                 modifier = Modifier.widthIn(max = 200.dp),
                 text = stringResource(R.string.app_name),
-                style = Typography.h2_semiBold,
+                style = AppTypography.h2_semiBold,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
             )

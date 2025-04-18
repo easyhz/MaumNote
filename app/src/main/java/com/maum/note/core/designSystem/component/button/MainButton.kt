@@ -20,14 +20,14 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.maum.note.core.designSystem.extension.modifier.dropShadow
 import com.maum.note.core.designSystem.util.button.ButtonColor
-import com.maum.note.ui.theme.Typography
+import com.maum.note.ui.theme.AppTypography
 
 
 @Composable
 fun MainButton(
     modifier: Modifier = Modifier,
     text: String,
-    textStyle: TextStyle = Typography.bold20,
+    textStyle: TextStyle = AppTypography.bold20,
     buttonColor: ButtonColor = ButtonColor(),
     enabled: Boolean = true,
     height: Dp = 52.dp,

@@ -28,7 +28,7 @@ import com.maum.note.ui.theme.White
 import com.maum.note.ui.theme.MainText
 import com.maum.note.ui.theme.NoteBackground
 import com.maum.note.ui.theme.SubText
-import com.maum.note.ui.theme.Typography
+import com.maum.note.ui.theme.AppTypography
 
 @Composable
 fun NoteCard(
@@ -61,7 +61,7 @@ fun NoteCard(
         ) {
             Text(
                 text = content,
-                style = Typography.body2.copy(
+                style = AppTypography.body2.copy(
                     color = MainText,
                 ),
                 overflow = TextOverflow.Ellipsis
@@ -75,7 +75,7 @@ fun NoteCard(
                 modifier = Modifier
                     .weight(1f),
                 text = date,
-                style = Typography.body2.copy(
+                style = AppTypography.body2.copy(
                     color = SubText,
                 ),
             )

@@ -8,7 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.maum.note.ui.theme.SubText
-import com.maum.note.ui.theme.Typography
+import com.maum.note.ui.theme.AppTypography
 
 @Composable
 fun EmptyView(
@@ -21,7 +21,7 @@ fun EmptyView(
     ) {
         Text(
             text = text,
-            style = Typography.body2.copy(
+            style = AppTypography.body2.copy(
                 color = SubText
             ),
         )

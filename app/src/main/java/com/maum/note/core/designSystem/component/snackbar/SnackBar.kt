@@ -26,7 +26,7 @@ import androidx.compose.ui.unit.dp
 import com.maum.note.core.designSystem.extension.modifier.noRippleClickable
 import com.maum.note.ui.theme.MainBackground
 import com.maum.note.ui.theme.MainText
-import com.maum.note.ui.theme.Typography
+import com.maum.note.ui.theme.AppTypography
 
 @Composable
 internal fun AppSnackBar(
@@ -47,7 +47,7 @@ internal fun AppSnackBar(
                         modifier = Modifier.padding(horizontal = 12.dp, vertical = 10.dp),
                         text = actionLabel,
                         color = Red,
-                        style = Typography.body2
+                        style = AppTypography.body2
                     )
                 }
             }
@@ -103,7 +103,7 @@ private fun AppSnackBar(
                 overflow = TextOverflow.Ellipsis,
                 maxLines = 1,
                 color = MainBackground,
-                style = Typography.body2
+                style = AppTypography.body2
             )
             actionComposable?.invoke()
             dismissActionComposable?.invoke()

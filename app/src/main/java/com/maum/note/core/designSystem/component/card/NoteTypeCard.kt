@@ -27,7 +27,7 @@ import com.maum.note.ui.theme.MainBackground
 import com.maum.note.ui.theme.MainText
 import com.maum.note.ui.theme.Primary
 import com.maum.note.ui.theme.PrimaryBackground
-import com.maum.note.ui.theme.Typography
+import com.maum.note.ui.theme.AppTypography
 import com.maum.note.ui.theme.White
 
 @Composable
@@ -57,7 +57,7 @@ fun NoteTypeCard(
     ) {
         Text(
             text = stringResource(noteType.title),
-            style = Typography.h3_semiBold,
+            style = AppTypography.h3_semiBold,
             color = contentColor,
         )
     }
