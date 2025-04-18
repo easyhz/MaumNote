@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">MaumNote</string>
+
+    <string name="note_empty">작성된 노트가 없어요.</string>
 </resources>
