@@ -45,12 +45,14 @@ fun MainButton(
 
     Box(
         modifier = modifier
+            .fillMaxWidth()
             .imePadding()
             .height(height)
             .dropShadow(
                 shape = RoundedCornerShape(8.dp),
                 color = Color.Black.copy(0.25f),
                 offsetY = 6.dp,
+                blur = 12.dp
             )
             .clip(RoundedCornerShape(8.dp))
             .background(backgroundColor)
