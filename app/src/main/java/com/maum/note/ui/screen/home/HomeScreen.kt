@@ -71,7 +71,6 @@ private fun HomeScreen(
                         .height(196.dp),
                     content = it,
                     date = LocalDate.now().toString(),
-                    color = Color(0xFFE7FAED),
                     onClick = {
                         Toast.makeText(
                             context,

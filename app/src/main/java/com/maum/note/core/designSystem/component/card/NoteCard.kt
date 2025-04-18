@@ -24,8 +24,9 @@ import androidx.compose.ui.unit.dp
 import com.maum.note.R
 import com.maum.note.core.designSystem.extension.modifier.circleClickable
 import com.maum.note.core.designSystem.extension.modifier.dropShadow
-import com.maum.note.ui.theme.CardBackground
+import com.maum.note.ui.theme.White
 import com.maum.note.ui.theme.MainText
+import com.maum.note.ui.theme.NoteBackground
 import com.maum.note.ui.theme.SubText
 import com.maum.note.ui.theme.Typography
 
@@ -34,7 +35,7 @@ fun NoteCard(
     modifier: Modifier = Modifier,
     content: String,
     date: String,
-    color: Color,
+    color: Color = NoteBackground,
     onClick: () -> Unit,
     onClickCopy: () -> Unit,
 ) {
@@ -46,7 +47,7 @@ fun NoteCard(
                 blur = 4.dp,
             )
             .clip(RoundedCornerShape(4.dp))
-            .background(CardBackground)
+            .background(White)
             .clickable { onClick() }
             .padding(4.dp)
     ) {
