@@ -11,11 +11,13 @@ import com.maum.note.core.common.base.UiState
 data class OnboardingToneState(
     val isLoading: Boolean,
     val content: TextFieldValue,
+    val isImeVisible: Boolean,
 ) : UiState() {
     companion object {
         fun init(): OnboardingToneState = OnboardingToneState(
             isLoading = true,
             content = TextFieldValue(""),
+            isImeVisible = false,
         )
     }
 }
