@@ -15,6 +15,13 @@ object Typography {
         lineHeight = 20.sp,
     )
 
+    val semiBold20 = TextStyle(
+        fontFamily = fontFamily,
+        fontWeight = FontWeight.SemiBold,
+        fontSize = 20.sp,
+        lineHeight = 20.sp,
+    )
+
     val h1_semiBold = TextStyle(
         fontFamily = fontFamily,
         fontWeight = FontWeight.SemiBold,
@@ -46,5 +53,13 @@ object Typography {
         fontWeight = FontWeight.SemiBold,
         fontSize = 16.sp,
         lineHeight = (16 * 1.4).sp,
+    )
+
+
+    val body3 = TextStyle(
+        fontFamily = fontFamily,
+        fontWeight = FontWeight.Normal,
+        fontSize = 14.sp,
+        lineHeight = (14 * 1.4).sp,
     )
 }
