@@ -1,0 +1,10 @@
+<resources>
+    <string name="onboarding_tone_title">작성하셨던 알림장을 복사해 붙여주세요</string>
+    <string name="onboarding_tone_sub_title">선생님의 말투를 알아두면,\n알림장 문장이 더 자연스러워져요</string>
+    <string name="onboarding_tone_placeholder">작성하셨던 알림장을 복사해 붙여주세요</string>
+    <string name="onboarding_tone_description">
+        가정통신문, 놀이상황, 공지사항처럼
+        \n글쓰기 종류에 따라 문체를 따로 설정할 수 있어요.
+        \n이건 나중에 설정에서 변경하실 수 있어요!
+    </string>
+</resources>
