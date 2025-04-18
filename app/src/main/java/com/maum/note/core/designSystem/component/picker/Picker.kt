@@ -1,9 +1,7 @@
 package com.maum.note.core.designSystem.component.picker
 
 import androidx.compose.foundation.gestures.snapping.rememberSnapFlingBehavior
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
@@ -111,7 +109,7 @@ fun <T> Picker(
 @Composable
 private fun Preview() {
     val values = remember { (1..99).map { it.toString() } }
-    val valuesPickerState = rememberPickerState("23")
+    val valuesPickerState = rememberPickerState<String>("23")
 
     Picker(
         modifier = Modifier.width(120.dp),
