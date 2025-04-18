@@ -33,4 +33,11 @@ object Typography {
         fontSize = 16.sp,
         lineHeight = (16 * 1.4).sp,
     )
+
+    val body2_semiBold = TextStyle(
+        fontFamily = fontFamily,
+        fontWeight = FontWeight.SemiBold,
+        fontSize = 16.sp,
+        lineHeight = (16 * 1.4).sp,
+    )
 }
