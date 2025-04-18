@@ -1,4 +1,7 @@
 <resources>
+    <string name="onboarding_age_title">몇 세 아이들을 가르치시나요?</string>
+    <string name="onboarding_age_sub_title">아이들 연령에 따라 어울리는 말투로\n글 작성을 도와드릴 수 있어요 😊</string>
+
     <string name="onboarding_tone_title">작성하셨던 알림장을 복사해 붙여주세요</string>
     <string name="onboarding_tone_sub_title">선생님의 말투를 알아두면,\n알림장 문장이 더 자연스러워져요</string>
     <string name="onboarding_tone_placeholder">작성하셨던 알림장을 복사해 붙여주세요</string>
