@@ -1,22 +1,23 @@
 package com.maum.note.core.designSystem.util.textField
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.text.PlatformTextStyle
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.maum.note.ui.theme.Placeholder
 import com.maum.note.ui.theme.AppTypography
 import com.maum.note.ui.theme.White
@@ -50,24 +51,26 @@ private fun TextFieldContainerContent(
     placeholder: String,
     innerTextField: @Composable () -> Unit
 ) {
-    Row(
+    Box(
         modifier = modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.spacedBy(4.dp),
-        verticalAlignment = textFieldType.verticalAlignment
+        contentAlignment = textFieldType.alignment
     ) {
-        Box(modifier = Modifier.weight(1f)) {
-            innerTextField()
-            if (state == TextFieldState.Default) {
-                Text(
-                    modifier = Modifier
-                        .align(Alignment.CenterStart)
-                        .padding(start = 2.dp),
-                    text = placeholder,
-                    style = AppTypography.body2,
-                    color = Placeholder,
-                )
-            }
+        if (state == TextFieldState.Default) {
+            Text(
+                modifier = Modifier.offset(x = 2.dp, y = (-1.5).dp),
+                text = placeholder,
+                style = AppTypography.body2.copy(
+                    fontSize = 14.sp,
+                    lineHeight = 16.sp,
+                    textAlign = TextAlign.Justify,
+                    platformStyle = PlatformTextStyle(
+                        includeFontPadding = false,
+                    )
+                ),
+                color = Placeholder,
+            )
         }
+        innerTextField()
     }
 }
 

@@ -7,16 +7,16 @@ import androidx.compose.ui.unit.dp
 
 
 sealed class TextFieldType(
-    open val verticalAlignment: Alignment.Vertical,
+    open val alignment: Alignment,
     open val minHeight: Dp,
     open val paddingValues: PaddingValues,
 ) {
     data class Multiple(
-        override val verticalAlignment: Alignment.Vertical = Alignment.Top,
+        override val alignment: Alignment = Alignment.TopStart,
         override val minHeight: Dp = 200.dp,
         override val paddingValues: PaddingValues = PaddingValues(8.dp),
     ): TextFieldType(
-        verticalAlignment = verticalAlignment,
+        alignment = alignment,
         minHeight = minHeight,
         paddingValues = paddingValues,
     )
