@@ -34,7 +34,7 @@ abstract class BaseViewModel<State: UiState, SideEffect: UiSideEffect>(
     /**
      * [State] 설정
      */
-    fun reduce(reducer: State.() -> State) { _uiState.value = currentState.reducer() }
+    fun setState(reducer: State.() -> State) { _uiState.value = currentState.reducer() }
 
     /**
      * [SideEffect] 설정

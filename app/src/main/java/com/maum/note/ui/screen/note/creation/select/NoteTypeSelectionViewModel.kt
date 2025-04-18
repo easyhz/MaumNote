@@ -21,6 +21,6 @@ class NoteTypeSelectionViewModel @Inject constructor(
 
     fun selectNoteType(noteType: NoteType) {
         if (noteType == uiState.value.selectedNoteType) return
-        reduce { copy(selectedNoteType = noteType) }
+        setState { copy(selectedNoteType = noteType) }
     }
 }
