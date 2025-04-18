@@ -45,7 +45,6 @@ fun TopBarIcon(
     tint: Color = MainText,
     onClick: () -> Unit,
 ) {
-
     Box(
         modifier = modifier
             .size(48.dp)
