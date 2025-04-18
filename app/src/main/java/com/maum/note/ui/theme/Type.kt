@@ -5,7 +5,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 
-object Typography {
+object AppTypography {
     private val fontFamily = FontFamily.Default
 
     val bold20 = TextStyle(
