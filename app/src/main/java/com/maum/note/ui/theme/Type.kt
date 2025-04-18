@@ -8,58 +8,58 @@ import androidx.compose.ui.unit.sp
 object AppTypography {
     private val fontFamily = FontFamily.Default
 
-    val bold20 = TextStyle(
-        fontFamily = fontFamily,
-        fontWeight = FontWeight.Bold,
-        fontSize = 20.sp,
-        lineHeight = 20.sp,
-    )
-
-    val semiBold20 = TextStyle(
+    val heading1_semiBold = TextStyle(
         fontFamily = fontFamily,
         fontWeight = FontWeight.SemiBold,
-        fontSize = 20.sp,
-        lineHeight = 20.sp,
+        fontSize = 28.sp,
+        lineHeight = 32.sp,
     )
 
-    val h1_semiBold = TextStyle(
+    val heading2_semiBold = TextStyle(
         fontFamily = fontFamily,
         fontWeight = FontWeight.SemiBold,
         fontSize = 24.sp,
         lineHeight = 28.sp,
     )
 
-    val h2_semiBold = TextStyle(
+    val heading3_semiBold = TextStyle(
         fontFamily = fontFamily,
         fontWeight = FontWeight.SemiBold,
         fontSize = 22.sp,
     )
 
-    val h3_semiBold = TextStyle(
+    val heading4_semiBold = TextStyle(
+        fontFamily = fontFamily,
+        fontWeight = FontWeight.SemiBold,
+        fontSize = 20.sp,
+        lineHeight = 24.sp,
+    )
+
+    val heading5_semiBold = TextStyle(
         fontFamily = fontFamily,
         fontWeight = FontWeight.SemiBold,
         fontSize = 18.sp,
+        lineHeight = 22.sp,
     )
 
-    val body2 = TextStyle(
+    val body1 = TextStyle(
         fontFamily = fontFamily,
         fontWeight = FontWeight.Medium,
         fontSize = 16.sp,
-        lineHeight = (16 * 1.4).sp,
+        lineHeight = 20.sp,
     )
 
-    val body2_semiBold = TextStyle(
+    val body1_semiBold = TextStyle(
         fontFamily = fontFamily,
         fontWeight = FontWeight.SemiBold,
         fontSize = 16.sp,
         lineHeight = (16 * 1.4).sp,
     )
 
-
-    val body3 = TextStyle(
+    val body2_regular = TextStyle(
         fontFamily = fontFamily,
         fontWeight = FontWeight.Normal,
         fontSize = 14.sp,
-        lineHeight = (14 * 1.4).sp,
+        lineHeight = 16.sp,
     )
 }

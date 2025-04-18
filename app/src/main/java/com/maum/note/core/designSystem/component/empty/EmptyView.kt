@@ -21,7 +21,7 @@ fun EmptyView(
     ) {
         Text(
             text = text,
-            style = AppTypography.body2.copy(
+            style = AppTypography.body1.copy(
                 color = SubText
             ),
         )

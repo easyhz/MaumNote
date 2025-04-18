@@ -46,7 +46,7 @@ fun SettingItemView(
         ) {
             Text(
                 text = stringResource(majorSettingItem.stringResId),
-                style = AppTypography.h3_semiBold,
+                style = AppTypography.heading5_semiBold,
                 color = MainText
             )
         }
@@ -64,14 +64,14 @@ fun SettingItemView(
                 Text(
                     modifier = Modifier.weight(1f),
                     text = stringResource(item.stringResId),
-                    style = AppTypography.body2,
+                    style = AppTypography.body1,
                     color = MainText,
                 )
                 when(item) {
                     EtcSettingItem.VERSION -> {
                         Text(
                             text = item.getValue() ?: "",
-                            style = AppTypography.body3,
+                            style = AppTypography.body2_regular,
                             color = MainText,
                         )
                     }

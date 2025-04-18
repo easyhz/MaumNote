@@ -31,7 +31,7 @@ import com.maum.note.ui.theme.AppTypography
 fun MainButton(
     modifier: Modifier = Modifier,
     text: String,
-    textStyle: TextStyle = AppTypography.bold20,
+    textStyle: TextStyle = AppTypography.heading4_semiBold,
     buttonColor: ButtonColor = ButtonColor(),
     enabled: Boolean = true,
     isImeVisible: Boolean? = null,

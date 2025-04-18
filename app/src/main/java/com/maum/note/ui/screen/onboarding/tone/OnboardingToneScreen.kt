@@ -127,7 +127,7 @@ private fun OnboardingToneScreen(
 
             Text(
                 text = stringResource(R.string.onboarding_tone_description),
-                style = AppTypography.body3,
+                style = AppTypography.body2_regular,
                 color = SubText
             )
         }

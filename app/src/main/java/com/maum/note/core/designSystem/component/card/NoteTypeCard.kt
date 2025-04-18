@@ -57,7 +57,7 @@ fun NoteTypeCard(
     ) {
         Text(
             text = stringResource(noteType.title),
-            style = AppTypography.h3_semiBold,
+            style = AppTypography.heading5_semiBold,
             color = contentColor,
         )
     }

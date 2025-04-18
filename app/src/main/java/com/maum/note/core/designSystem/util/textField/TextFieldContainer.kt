@@ -59,7 +59,7 @@ private fun TextFieldContainerContent(
             Text(
                 modifier = Modifier.offset(x = 2.dp, y = (-1.5).dp),
                 text = placeholder,
-                style = AppTypography.body2.copy(
+                style = AppTypography.body1.copy(
                     fontSize = 14.sp,
                     lineHeight = 16.sp,
                     textAlign = TextAlign.Justify,

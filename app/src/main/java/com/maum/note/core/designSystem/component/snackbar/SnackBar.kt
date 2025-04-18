@@ -47,7 +47,7 @@ internal fun AppSnackBar(
                         modifier = Modifier.padding(horizontal = 12.dp, vertical = 10.dp),
                         text = actionLabel,
                         color = Red,
-                        style = AppTypography.body2
+                        style = AppTypography.body1
                     )
                 }
             }
@@ -103,7 +103,7 @@ private fun AppSnackBar(
                 overflow = TextOverflow.Ellipsis,
                 maxLines = 1,
                 color = MainBackground,
-                style = AppTypography.body2
+                style = AppTypography.body1
             )
             actionComposable?.invoke()
             dismissActionComposable?.invoke()

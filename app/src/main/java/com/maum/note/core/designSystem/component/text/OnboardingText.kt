@@ -24,12 +24,12 @@ fun OnboardingText(
     ) {
         Text(
             text = subTitle,
-            style = AppTypography.body2,
+            style = AppTypography.body1,
             color = SubText
         )
         Text(
             text = title,
-            style = AppTypography.semiBold20,
+            style = AppTypography.heading4_semiBold,
             color = MainText
         )
     }

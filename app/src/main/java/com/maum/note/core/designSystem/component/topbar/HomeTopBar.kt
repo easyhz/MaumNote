@@ -42,7 +42,7 @@ fun HomeTopBar(
             Text(
                 modifier = Modifier.widthIn(max = 200.dp),
                 text = stringResource(R.string.app_name),
-                style = AppTypography.h2_semiBold,
+                style = AppTypography.heading3_semiBold,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
             )

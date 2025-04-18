@@ -76,7 +76,7 @@ private fun SettingScreen(
                     Text(
                         modifier = it,
                         text = stringResource(R.string.setting),
-                        style = AppTypography.h3_semiBold,
+                        style = AppTypography.heading5_semiBold,
                         color = MainText
                     )
                 }

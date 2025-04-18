@@ -37,7 +37,7 @@ fun ContentTextField(
         value = value,
         onValueChange = onValueChange,
         modifier = modifier,
-        textStyle = AppTypography.body2.copy(
+        textStyle = AppTypography.body1.copy(
             color = MainText,
         ),
         readOnly = readOnly,

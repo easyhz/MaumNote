@@ -28,7 +28,7 @@ fun AgeNumberPicker(
         Text(
             modifier = contentModifier.padding(8.dp),
             text = stringResource(getItem(values, index).title),
-            style = AppTypography.body2_semiBold,
+            style = AppTypography.body1_semiBold,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
         )

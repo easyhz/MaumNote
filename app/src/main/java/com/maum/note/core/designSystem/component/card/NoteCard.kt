@@ -61,7 +61,7 @@ fun NoteCard(
         ) {
             Text(
                 text = content,
-                style = AppTypography.body2.copy(
+                style = AppTypography.body1.copy(
                     color = MainText,
                 ),
                 overflow = TextOverflow.Ellipsis
@@ -75,7 +75,7 @@ fun NoteCard(
                 modifier = Modifier
                     .weight(1f),
                 text = date,
-                style = AppTypography.body2.copy(
+                style = AppTypography.body1.copy(
                     color = SubText,
                 ),
             )

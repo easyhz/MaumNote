@@ -101,7 +101,7 @@ private fun NoteTypeSelectionScreen(
         ) {
             Text(
                 text = stringResource(R.string.note_creation_note_type_selection_title),
-                style = AppTypography.h1_semiBold.copy(
+                style = AppTypography.heading3_semiBold.copy(
                     textAlign = TextAlign.Center
                 )
             )
