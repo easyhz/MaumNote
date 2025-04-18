@@ -1,0 +1,5 @@
+<resources>
+    <string name="note_type_letter_greeting">가정통신문 인사말</string>
+    <string name="note_type_play_context">놀이 상황</string>
+    <string name="note_type_announcement_content">공지사항</string>
+</resources>

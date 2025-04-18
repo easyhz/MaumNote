@@ -8,6 +8,13 @@ import androidx.compose.ui.unit.sp
 object Typography {
     private val fontFamily = FontFamily.Default
 
+    val bold20 = TextStyle(
+        fontFamily = fontFamily,
+        fontWeight = FontWeight.Bold,
+        fontSize = 20.sp,
+        lineHeight = 20.sp,
+    )
+
     val h1_semiBold = TextStyle(
         fontFamily = fontFamily,
         fontWeight = FontWeight.SemiBold,
