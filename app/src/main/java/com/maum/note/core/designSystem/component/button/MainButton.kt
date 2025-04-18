@@ -1,14 +1,18 @@
 package com.maum.note.core.designSystem.component.button
 
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -30,6 +34,7 @@ fun MainButton(
     textStyle: TextStyle = AppTypography.bold20,
     buttonColor: ButtonColor = ButtonColor(),
     enabled: Boolean = true,
+    isImeVisible: Boolean? = null,
     height: Dp = 52.dp,
     onClick: () -> Unit,
 ) {
@@ -42,19 +47,26 @@ fun MainButton(
     val textColor = remember(enabled, buttonColor.contentColor) {
         if (enabled) buttonColor.contentColor else buttonColor.disabledContentColor
     }
+    val padding by getPadding(isImeVisible = isImeVisible)
+    val cornerRadius by getCornerRadius(isImeVisible = isImeVisible)
 
     Box(
         modifier = modifier
             .fillMaxWidth()
+            .padding(padding)
             .imePadding()
             .height(height)
-            .dropShadow(
-                shape = RoundedCornerShape(8.dp),
-                color = Color.Black.copy(0.25f),
-                offsetY = 6.dp,
-                blur = 12.dp
+            .then(
+                if (isImeVisible == null) {
+                    Modifier.dropShadow(
+                        shape = RoundedCornerShape(8.dp),
+                        color = Color.Black.copy(0.25f),
+                        offsetY = 6.dp,
+                        blur = 12.dp
+                    )
+                } else Modifier
             )
-            .clip(RoundedCornerShape(8.dp))
+            .clip(RoundedCornerShape(cornerRadius))
             .background(backgroundColor)
             .clickable(enabled) { onClickInvoke() },
         contentAlignment = Alignment.Center
@@ -65,6 +77,38 @@ fun MainButton(
             color = textColor
         )
     }
+}
+
+@Composable
+fun getPadding(
+    isImeVisible: Boolean?,
+    defaultPadding: Dp = 20.dp,
+    changedPadding: Dp = 0.dp
+): State<Dp> {
+    return animateDpAsState(
+        targetValue = if (isImeVisible == true) {
+            changedPadding
+        } else {
+            defaultPadding
+        },
+        label = ""
+    )
+}
+
+@Composable
+private fun getCornerRadius(
+    isImeVisible: Boolean?,
+    defaultPadding: Dp = 8.dp,
+    changedPadding: Dp = 0.dp
+): State<Dp> {
+    return animateDpAsState(
+        targetValue = if (isImeVisible == true) {
+            changedPadding
+        } else {
+            defaultPadding
+        },
+        label = ""
+    )
 }
 
 @Preview
