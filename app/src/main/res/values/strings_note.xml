@@ -1,10 +1,21 @@
 <resources>
     <string name="note_empty">아직 작성한 노트가 없어요.\n첫 번째 노트를 작성해 볼까요?</string>
 
+    <string name="note_type_default">기본 문체</string>
     <string name="note_type_letter_greeting">가정통신문 인사말</string>
     <string name="note_type_play_context">놀이 상황</string>
     <string name="note_type_announcement_content">공지사항</string>
 
     <string name="note_creation_note_type_selection_title">작성할 노트의 종류를\n선택해 주세요</string>
     <string name="note_creation_note_type_selection_button">다음</string>
+
+    <string name="note_type_default_placeholder">기본 문체를 입력해주세요</string>
+    <string name="note_type_letter_greeting_placeholder">가정통신문 인사말 예시문을 입력해주세요</string>
+    <string name="note_type_play_context_placeholder">놀이 상황 예시문을 입력해주세요</string>
+    <string name="note_type_announcement_content_placeholder">공지사항 예시문을 입력해주세요</string>
+
+    <string name="note_type_default_caption">모든 글에 공통으로 적용돼요.</string>
+    <string name="note_type_letter_greeting_caption">가정통신문 인사말 작성에 활용돼요.</string>
+    <string name="note_type_play_context_caption">놀이 활동 기록에 활용돼요.</string>
+    <string name="note_type_announcement_content_caption">공지사항 작성에 활용돼요.</string>
 </resources>

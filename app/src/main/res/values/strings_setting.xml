@@ -9,4 +9,6 @@
 
     <string name="setting_etc_about">마음노트 사용법</string>
     <string name="setting_etc_version">버전</string>
+
+    <string name="setting_note_tone_save">저장하기</string>
 </resources>
