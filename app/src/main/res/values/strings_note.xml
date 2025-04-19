@@ -1,4 +1,6 @@
 <resources>
+    <string name="note_empty">아직 작성한 노트가 없어요.\n첫 번째 노트를 작성해 볼까요?</string>
+
     <string name="note_type_letter_greeting">가정통신문 인사말</string>
     <string name="note_type_play_context">놀이 상황</string>
     <string name="note_type_announcement_content">공지사항</string>
