@@ -18,4 +18,12 @@
     <string name="note_type_letter_greeting_caption">가정통신문 인사말 작성에 활용돼요.</string>
     <string name="note_type_play_context_caption">놀이 활동 기록에 활용돼요.</string>
     <string name="note_type_announcement_content_caption">공지사항 작성에 활용돼요.</string>
+
+    <string name="note_detail_title">노트 상세</string>
+    <string name="note_detail_copy_button">복사하기</string>
+    <string name="note_detail_date">%1s 작성</string>
+
+    <string name="note_detail_age">연령</string>
+    <string name="note_detail_sentence">설정한 분량</string>
+    <string name="note_detail_input">입력한 정보</string>
 </resources>
