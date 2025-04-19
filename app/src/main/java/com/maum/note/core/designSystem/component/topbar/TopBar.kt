@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -15,7 +16,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.maum.note.R
+import com.maum.note.core.designSystem.extension.modifier.circleClickable
 import com.maum.note.core.designSystem.extension.modifier.noRippleClickable
+import com.maum.note.ui.theme.AppTypography
 import com.maum.note.ui.theme.MainText
 
 @Composable
@@ -55,6 +58,28 @@ fun TopBarIcon(
             painter = painter,
             contentDescription = null,
             tint = tint
+        )
+    }
+}
+
+@Composable
+fun TopBarText(
+    modifier: Modifier = Modifier,
+    text: String,
+    alignment: Alignment,
+    color: Color = MainText,
+    onClick: (() -> Unit)? = null,
+) {
+    Box(
+        modifier = modifier
+            .circleClickable(onClick != null) { onClick?.invoke() },
+        contentAlignment = alignment
+    ) {
+        Text(
+            modifier = modifier,
+            text = text,
+            style = AppTypography.heading5_semiBold,
+            color = color
         )
     }
 }
