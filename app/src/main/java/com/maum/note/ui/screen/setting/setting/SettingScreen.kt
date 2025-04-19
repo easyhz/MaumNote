@@ -1,4 +1,4 @@
-package com.maum.note.ui.screen.setting
+package com.maum.note.ui.screen.setting.setting
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
@@ -24,7 +24,7 @@ import com.maum.note.core.designSystem.component.topbar.TopBar
 import com.maum.note.core.designSystem.component.topbar.TopBarIcon
 import com.maum.note.core.model.setting.MajorSettingItem
 import com.maum.note.core.model.setting.SettingItem
-import com.maum.note.ui.screen.setting.contract.SettingState
+import com.maum.note.ui.screen.setting.setting.contract.SettingState
 import com.maum.note.ui.theme.AppTypography
 import com.maum.note.ui.theme.MainText
 

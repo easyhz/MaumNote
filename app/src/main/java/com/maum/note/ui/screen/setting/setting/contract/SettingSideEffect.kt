@@ -1,4 +1,4 @@
-package com.maum.note.ui.screen.setting.contract
+package com.maum.note.ui.screen.setting.setting.contract
 
 import com.maum.note.core.common.base.UiSideEffect
 

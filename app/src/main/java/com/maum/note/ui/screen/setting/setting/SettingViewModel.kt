@@ -1,4 +1,4 @@
-package com.maum.note.ui.screen.setting
+package com.maum.note.ui.screen.setting.setting
 
 import com.maum.note.core.common.base.BaseViewModel
 import com.maum.note.core.model.setting.EtcSettingItem
@@ -6,8 +6,8 @@ import com.maum.note.core.model.setting.NoteSettingItem
 import com.maum.note.core.model.setting.SettingItem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
-import com.maum.note.ui.screen.setting.contract.SettingSideEffect
-import com.maum.note.ui.screen.setting.contract.SettingState
+import com.maum.note.ui.screen.setting.setting.contract.SettingSideEffect
+import com.maum.note.ui.screen.setting.setting.contract.SettingState
 
 /**
  * Date: 2025. 4. 18.
