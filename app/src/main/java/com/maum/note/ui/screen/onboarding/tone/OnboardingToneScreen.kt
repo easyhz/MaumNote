@@ -29,6 +29,7 @@ import com.maum.note.core.designSystem.component.button.MainButton
 import com.maum.note.core.designSystem.component.scaffold.AppScaffold
 import com.maum.note.core.designSystem.component.text.OnboardingText
 import com.maum.note.core.designSystem.component.textField.ContentTextField
+import com.maum.note.core.designSystem.component.textField.TextField
 import com.maum.note.core.designSystem.component.topbar.TopBar
 import com.maum.note.core.designSystem.component.topbar.TopBarIcon
 import com.maum.note.core.designSystem.extension.modifier.noRippleClickable
@@ -123,6 +124,7 @@ private fun OnboardingToneScreen(
                 value = uiState.content,
                 onValueChange = onValueChange,
                 placeholder = stringResource(R.string.onboarding_tone_placeholder),
+                maxCount = 100
             )
 
             Text(
