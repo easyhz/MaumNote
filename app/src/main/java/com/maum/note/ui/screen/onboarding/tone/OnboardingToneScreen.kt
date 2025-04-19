@@ -86,7 +86,7 @@ private fun OnboardingToneScreen(
     clearFocus: () -> Unit,
 ) {
     AppScaffold(
-        modifier = modifier,
+        modifier = modifier.noRippleClickable { clearFocus() },
         topBar = {
             TopBar(
                 leftContent = {
@@ -109,7 +109,6 @@ private fun OnboardingToneScreen(
     ) { innerPadding ->
         Column(
             modifier = Modifier
-                .noRippleClickable { clearFocus() }
                 .padding(innerPadding)
                 .verticalScroll(scrollState)
                 .padding(horizontal = 20.dp, vertical = 8.dp),
