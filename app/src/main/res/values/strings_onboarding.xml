@@ -1,4 +1,15 @@
 <resources>
+    <string name="onboarding_start_title">마음노트</string>
+    <string name="onboarding_start_sub_title">똑똑한 보육일지 도우미</string>
+    <string name="onboarding_start_button">시작하기</string>
+
+    <string name="onboarding_start_information_notice_title">쉽게 쓰는 알림장</string>
+    <string name="onboarding_start_information_notice_content">키워드만 입력하면 따뜻한 알림장이 완성돼요</string>
+    <string name="onboarding_start_information_tone_title">내 말투 그대로</string>
+    <string name="onboarding_start_information_tone_content">평소에 쓰던 말투를 기억해서 자연스럽게 써줘요</string>
+    <string name="onboarding_start_information_student_title">아이마다 다르게</string>
+    <string name="onboarding_start_information_student_content">성격과 이름에 맞는 문장을 알아서 바꿔줘요</string>
+
     <string name="onboarding_age_title">몇 세 아이들을 가르치시나요?</string>
     <string name="onboarding_age_sub_title">아이들 연령에 따라 어울리는 말투로\n글 작성을 도와드릴 수 있어요 😊</string>
 
