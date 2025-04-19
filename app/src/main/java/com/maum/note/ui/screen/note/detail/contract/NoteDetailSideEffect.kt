@@ -1,0 +1,12 @@
+package com.maum.note.ui.screen.note.detail.contract
+
+import com.maum.note.core.common.base.UiSideEffect
+
+/**
+ * Date: 2025. 4. 19.
+ * Time: 오후 11:24
+ */
+
+sealed class NoteDetailSideEffect : UiSideEffect() {
+
+}
