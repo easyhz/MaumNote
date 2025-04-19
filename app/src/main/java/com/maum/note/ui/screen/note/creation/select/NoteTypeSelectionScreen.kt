@@ -108,7 +108,7 @@ private fun NoteTypeSelectionScreen(
             Column(
                 verticalArrangement = Arrangement.spacedBy(24.dp)
             ) {
-                NoteType.entries.forEach { noteType ->
+                NoteType.entries.filter { it.enabledSelection }.forEach { noteType ->
                     NoteTypeCard(
                         noteType = noteType,
                         isChecked = uiState.selectedNoteType == noteType,
