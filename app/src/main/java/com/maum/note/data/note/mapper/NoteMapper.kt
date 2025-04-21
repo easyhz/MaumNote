@@ -6,7 +6,7 @@ import com.maum.note.core.model.note.AgeType
 import com.maum.note.core.model.note.NoteType
 import com.maum.note.core.model.note.SentenceType
 import com.maum.note.data.note.model.request.NoteRequestData
-import com.maum.note.domain.note.model.request.NoteRequest
+import com.maum.note.domain.note.model.request.NoteRequestParam
 import java.time.LocalDateTime
 
 fun NoteRequestData.toEntity() = NoteEntity(
@@ -20,7 +20,7 @@ fun NoteRequestData.toEntity() = NoteEntity(
     isDeleted = false,
 )
 
-fun NoteRequest.toRequestData() = NoteRequestData(
+fun NoteRequestParam.toRequestData() = NoteRequestData(
     noteType = NoteType.getByValue(noteType) ?: throw AppError.DefaultError("Invalid note type"),
     age = AgeType.getByValue(age) ?: throw AppError.DefaultError("Invalid age type"),
     sentenceCount = SentenceType.getByValue(sentenceCount) ?: throw AppError.DefaultError("Invalid sentence count"),
