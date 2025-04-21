@@ -19,6 +19,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.maum.note.R
 import com.maum.note.core.common.util.collect.collectInSideEffectWithLifecycle
+import com.maum.note.ui.screen.splash.contract.SplashSideEffect
 import com.maum.note.ui.screen.splash.contract.SplashState
 import com.maum.note.ui.theme.AppTypography
 import com.maum.note.ui.theme.MainBackground
@@ -32,7 +33,9 @@ import com.maum.note.ui.theme.SubText
 @Composable
 fun SplashScreen(
     modifier: Modifier = Modifier,
-    viewModel: SplashViewModel = hiltViewModel()
+    viewModel: SplashViewModel = hiltViewModel(),
+    navigateToOnboarding: () -> Unit,
+    navigateToMain: () -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -42,7 +45,10 @@ fun SplashScreen(
     )
 
     viewModel.sideEffect.collectInSideEffectWithLifecycle { sideEffect ->
-        TODO("Not yet implemented")
+        when(sideEffect) {
+            is SplashSideEffect.NavigateToOnboarding -> navigateToOnboarding()
+            is SplashSideEffect.NavigateToMain -> navigateToMain()
+        }
     }
 }
 
