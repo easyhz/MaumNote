@@ -65,7 +65,6 @@ private fun OnboardingStartScreen(
         bottomBar = {
             MainButton(
                 modifier = Modifier
-                    .padding(vertical = 12.dp, horizontal = 20.dp)
                     .fillMaxWidth(),
                 text = stringResource(id = R.string.onboarding_start_button),
                 onClick = onClickNext

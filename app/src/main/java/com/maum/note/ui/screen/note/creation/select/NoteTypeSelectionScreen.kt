@@ -85,7 +85,6 @@ private fun NoteTypeSelectionScreen(
                 exit = fadeOut()
             ) {
                 MainButton(
-                    modifier = Modifier.padding(20.dp),
                     text = stringResource(R.string.note_creation_note_type_selection_button),
                     onClick = onClickNext,
                 )
