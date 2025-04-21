@@ -3,12 +3,12 @@
 
     <style name="Theme.MaumNote" parent="android:Theme.Material.Light.NoActionBar">
         <item name="android:statusBarColor">
-            @color/white
+            @color/main_background
         </item>
         <item name="android:navigationBarColor">
-            @color/white
+            @color/main_background
         </item>
-        <item name="android:windowSplashScreenBackground" tools:ignore="S">@color/white</item>
-        <item name="android:windowSplashScreenAnimatedIcon" tools:ignore="S">@drawable/splash</item>
+        <item name="android:windowSplashScreenBackground" tools:ignore="S">@color/main_background</item>
+        <item name="android:windowSplashScreenAnimatedIcon" tools:ignore="S">@color/main_background</item>
     </style>
 </resources>
