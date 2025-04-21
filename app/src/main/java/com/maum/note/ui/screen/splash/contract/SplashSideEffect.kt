@@ -9,5 +9,5 @@ import com.maum.note.core.common.base.UiSideEffect
 
 sealed class SplashSideEffect : UiSideEffect() {
     data object NavigateToOnboarding : SplashSideEffect()
-    data object NavigateToMain : SplashSideEffect()
+    data object NavigateToHome : SplashSideEffect()
 }

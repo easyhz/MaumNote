@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -35,7 +34,7 @@ fun SplashScreen(
     modifier: Modifier = Modifier,
     viewModel: SplashViewModel = hiltViewModel(),
     navigateToOnboarding: () -> Unit,
-    navigateToMain: () -> Unit,
+    navigateToHome: () -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -47,7 +46,7 @@ fun SplashScreen(
     viewModel.sideEffect.collectInSideEffectWithLifecycle { sideEffect ->
         when(sideEffect) {
             is SplashSideEffect.NavigateToOnboarding -> navigateToOnboarding()
-            is SplashSideEffect.NavigateToMain -> navigateToMain()
+            is SplashSideEffect.NavigateToHome -> navigateToHome()
         }
     }
 }

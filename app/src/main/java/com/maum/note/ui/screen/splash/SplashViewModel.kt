@@ -45,11 +45,19 @@ class SplashViewModel @Inject constructor(
     private fun handleUserStep(userStep: UserStep) {
         when(userStep) {
             UserStep.NewUserToOnboarding, UserStep.ExistingUserToOnboarding -> {
-                postSideEffect { SplashSideEffect.NavigateToOnboarding }
+                navigateToOnboarding()
             }
             UserStep.AlreadyLoginToMain -> {
-                postSideEffect { SplashSideEffect.NavigateToMain }
+                navigateToHome()
             }
         }
+    }
+
+    private fun navigateToOnboarding() {
+        postSideEffect { SplashSideEffect.NavigateToOnboarding }
+    }
+
+    private fun navigateToHome() {
+        postSideEffect { SplashSideEffect.NavigateToHome }
     }
 }
