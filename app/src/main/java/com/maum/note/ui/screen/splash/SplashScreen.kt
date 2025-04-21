@@ -1,6 +1,7 @@
 package com.maum.note.ui.screen.splash
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -50,31 +51,30 @@ private fun SplashScreen(
     modifier: Modifier = Modifier,
     uiState: SplashState,
 ) {
-    Surface(
-        modifier = modifier.fillMaxSize(),
-        color = MainBackground,
+    Box(
+        modifier = modifier
+            .fillMaxSize()
+            .background(MainBackground)
     ) {
-        Box(modifier = Modifier.fillMaxSize()) {
-            Image(
-                modifier = Modifier
-                    .align(Alignment.Center)
-                    .size(72.dp),
-                painter = painterResource(
-                    id = R.drawable.ic_app_icon
-                ),
-                contentDescription = "logo",
-            )
+        Image(
+            modifier = Modifier
+                .align(Alignment.Center)
+                .size(72.dp),
+            painter = painterResource(
+                id = R.drawable.ic_app_icon
+            ),
+            contentDescription = "logo",
+        )
 
-            Text(
-                modifier = Modifier
-                    .align(Alignment.BottomEnd)
-                    .padding(20.dp),
-                text = uiState.version,
-                style = AppTypography.body2_regular.copy(
-                    color = SubText
-                )
+        Text(
+            modifier = Modifier
+                .align(Alignment.BottomEnd)
+                .padding(20.dp),
+            text = uiState.version,
+            style = AppTypography.body2_regular.copy(
+                color = SubText
             )
-        }
+        )
     }
 }
 
