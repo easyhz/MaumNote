@@ -5,9 +5,12 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
+import androidx.navigation.navOptions
+import com.maum.note.core.navigation.home.navigateToHome
 import com.maum.note.core.navigation.onboarding.screen.Onboarding
 import com.maum.note.ui.screen.onboarding.age.OnboardingAgeScreen
 import com.maum.note.ui.screen.onboarding.start.OnboardingStartScreen
+import com.maum.note.ui.screen.onboarding.tone.OnboardingToneScreen
 
 fun NavGraphBuilder.onboardingGraph(
     navController: NavController
@@ -24,9 +27,14 @@ fun NavGraphBuilder.onboardingGraph(
         }
 
         composable<Onboarding.Tone> {
-//             OnboardingToneScreen(
-//                 navigateToHome = navController::navigateToHome
-//             )
+            val navOptions = navOptions {
+                popUpTo(navController.graph.id) { inclusive = true }
+            }
+
+            OnboardingToneScreen(
+                navigateUp = navController::navigateUp,
+                navigateToNext = { navController.navigateToHome(navOptions = navOptions) }
+            )
         }
     }
 }

@@ -29,7 +29,6 @@ import com.maum.note.core.designSystem.component.button.MainButton
 import com.maum.note.core.designSystem.component.scaffold.AppScaffold
 import com.maum.note.core.designSystem.component.text.OnboardingText
 import com.maum.note.core.designSystem.component.textField.ContentTextField
-import com.maum.note.core.designSystem.component.textField.TextField
 import com.maum.note.core.designSystem.component.topbar.TopBar
 import com.maum.note.core.designSystem.component.topbar.TopBarIcon
 import com.maum.note.core.designSystem.extension.modifier.noRippleClickable
@@ -47,7 +46,7 @@ fun OnboardingToneScreen(
     modifier: Modifier = Modifier,
     viewModel: OnboardingToneViewModel = hiltViewModel(),
     navigateUp: () -> Unit,
-    onClickNext: () -> Unit,
+    navigateToNext: () -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val scrollState = rememberScrollState()
@@ -63,7 +62,7 @@ fun OnboardingToneScreen(
         uiState = uiState,
         scrollState = scrollState,
         navigateUp = navigateUp,
-        onClickNext = onClickNext,
+        onClickNext = navigateToNext,
         onValueChange = viewModel::onContentValueChange,
         clearFocus = focusManager::clearFocus
     )
