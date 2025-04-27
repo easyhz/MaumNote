@@ -6,9 +6,7 @@ import com.maum.note.R
 enum class AgeType(
     @StringRes val title: Int
 ) {
-    NONE(
-        title = R.string.age_type_none
-    ), MIXED(
+    MIXED(
         title = R.string.age_type_mixed
     ), ZERO(
         title = R.string.age_type_zero

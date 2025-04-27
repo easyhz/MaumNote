@@ -38,7 +38,7 @@ fun AgeNumberPicker(
 @Preview
 @Composable
 private fun Preview() {
-    val valuesPickerState = rememberPickerState(AgeType.NONE)
+    val valuesPickerState = rememberPickerState(AgeType.MIXED)
     AgeNumberPicker(
         state = valuesPickerState,
     )
