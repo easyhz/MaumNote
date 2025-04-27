@@ -35,7 +35,9 @@ import com.maum.note.ui.screen.onboarding.age.contract.OnboardingAgeState
 @Composable
 fun OnboardingAgeScreen(
     modifier: Modifier = Modifier,
-    viewModel: OnboardingAgeViewModel = hiltViewModel()
+    viewModel: OnboardingAgeViewModel = hiltViewModel(),
+    navigateUp: () -> Unit,
+    navigateToNext: () -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val pickerState = rememberPickerState(AgeType.MIXED)
