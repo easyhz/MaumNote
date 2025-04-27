@@ -38,7 +38,7 @@ fun OnboardingAgeScreen(
     viewModel: OnboardingAgeViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    val pickerState = rememberPickerState(AgeType.NONE)
+    val pickerState = rememberPickerState(AgeType.MIXED)
     OnboardingAgeScreen(
         modifier = modifier,
         uiState = uiState,
@@ -56,7 +56,7 @@ fun OnboardingAgeScreen(
 private fun OnboardingAgeScreen(
     modifier: Modifier = Modifier,
     uiState: OnboardingAgeState,
-    pickerState: PickerState<AgeType> = rememberPickerState(AgeType.NONE),
+    pickerState: PickerState<AgeType> = rememberPickerState(AgeType.MIXED),
     navigateUp: () -> Unit,
     onClickNext: () -> Unit,
 ) {
