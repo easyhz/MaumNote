@@ -43,10 +43,10 @@ fun NoteCard(
     Column(
         modifier = modifier
             .dropShadow(
-                shape = RoundedCornerShape(4.dp),
+                shape = RoundedCornerShape(8.dp),
                 blur = 4.dp,
             )
-            .clip(RoundedCornerShape(4.dp))
+            .clip(RoundedCornerShape(8.dp))
             .background(White)
             .clickable { onClick() }
             .padding(4.dp)
@@ -55,7 +55,7 @@ fun NoteCard(
             modifier = Modifier
                 .fillMaxWidth()
                 .weight(1f)
-                .clip(RoundedCornerShape(2.dp))
+                .clip(RoundedCornerShape(6.dp))
                 .background(color)
                 .padding(8.dp)
         ) {
