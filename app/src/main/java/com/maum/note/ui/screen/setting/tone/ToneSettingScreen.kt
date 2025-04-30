@@ -42,7 +42,8 @@ import com.maum.note.ui.theme.Primary
 @Composable
 fun ToneSettingScreen(
     modifier: Modifier = Modifier,
-    viewModel: ToneSettingViewModel = hiltViewModel()
+    viewModel: ToneSettingViewModel = hiltViewModel(),
+    navigateUp: () -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val scrollState = rememberLazyListState()
@@ -52,7 +53,7 @@ fun ToneSettingScreen(
         modifier = modifier,
         uiState = uiState,
         scrollState = scrollState,
-        navigateUp = {},
+        navigateUp = navigateUp,
         onValueChange = { type, value ->
             viewModel.onContentValueChange(noteType = type, newValue = value)
         },

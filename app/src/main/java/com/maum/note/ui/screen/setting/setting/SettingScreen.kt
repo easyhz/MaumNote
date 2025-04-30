@@ -38,6 +38,7 @@ fun SettingScreen(
     modifier: Modifier = Modifier,
     viewModel: SettingViewModel = hiltViewModel(),
     navigateUp: () -> Unit,
+    navigateToToneSetting: () -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
