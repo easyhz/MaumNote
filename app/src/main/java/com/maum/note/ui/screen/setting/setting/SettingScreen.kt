@@ -40,6 +40,7 @@ fun SettingScreen(
     viewModel: SettingViewModel = hiltViewModel(),
     navigateUp: () -> Unit,
     navigateToToneSetting: () -> Unit,
+    navigateToAgeSetting: () -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -54,6 +55,9 @@ fun SettingScreen(
         when(sideEffect) {
             SettingSideEffect.NavigateToToneSetting -> {
                 navigateToToneSetting()
+            }
+            SettingSideEffect.NavigateToAgeSetting -> {
+                navigateToAgeSetting()
             }
         }
     }

@@ -12,4 +12,7 @@ object Setting: Parcelable {
 
     @Serializable
     data object Tone
+
+    @Serializable
+    data object Age
 }

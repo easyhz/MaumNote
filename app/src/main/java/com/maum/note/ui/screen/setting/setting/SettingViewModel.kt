@@ -31,13 +31,10 @@ class SettingViewModel @Inject constructor(
     private fun handleNoteSettingItem(item: NoteSettingItem) {
         when (item) {
             NoteSettingItem.AGE -> {
-                // navigate to age setting screen
+                navigateToAgeSetting()
             }
             NoteSettingItem.TONE -> {
                 navigateToToneSetting()
-            }
-            NoteSettingItem.TRASH -> {
-                // navigate to trash screen
             }
         }
     }
@@ -53,5 +50,9 @@ class SettingViewModel @Inject constructor(
 
     private fun navigateToToneSetting() {
         postSideEffect { SettingSideEffect.NavigateToToneSetting }
+    }
+
+    private fun navigateToAgeSetting() {
+        postSideEffect { SettingSideEffect.NavigateToAgeSetting }
     }
 }
