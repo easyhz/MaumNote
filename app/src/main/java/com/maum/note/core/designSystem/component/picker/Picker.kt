@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -39,20 +38,17 @@ fun <T> Picker(
     items: List<T>,
     state: PickerState<T>,
     modifier: Modifier = Modifier,
-    visibleItemsCount: Int = 5,
     dividerModifier: Modifier = Modifier,
     dividerColor: Color = SubText,
     content: @Composable (modifier: Modifier, index: Int) -> Unit,
 ) {
-
-    val visibleItemsMiddle = visibleItemsCount / 2
+    val visibleItemsMiddle = state.visibleItemsCount / 2
     val listScrollCount = Integer.MAX_VALUE
     val listScrollMiddle = listScrollCount / 2
     val listStartIndex =
         listScrollMiddle - listScrollMiddle % items.size - visibleItemsMiddle + items.indexOf(state.initialValue)
 
-    val listState = rememberLazyListState(initialFirstVisibleItemIndex = listStartIndex)
-    val flingBehavior = rememberSnapFlingBehavior(lazyListState = listState)
+    val flingBehavior = rememberSnapFlingBehavior(lazyListState = state.listState)
 
     val itemHeightPixels = remember { mutableStateOf(0) }
     val itemHeightDp = pxToDp(itemHeightPixels.value)
@@ -65,21 +61,25 @@ fun <T> Picker(
         )
     }
 
-    LaunchedEffect(listState) {
-        snapshotFlow { listState.firstVisibleItemIndex }
+    LaunchedEffect(state.listState) {
+        snapshotFlow { state.listState.firstVisibleItemIndex }
             .map { index -> getItem(items, index + visibleItemsMiddle) }
             .distinctUntilChanged()
             .collect { item -> state.selectedItem = item }
     }
 
+    LaunchedEffect(Unit) {
+        state.listState.scrollToItem(listStartIndex)
+    }
+
     Box(modifier = modifier) {
         LazyColumn(
-            state = listState,
+            state = state.listState,
             flingBehavior = flingBehavior,
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
                 .fillMaxWidth()
-                .height(itemHeightDp * visibleItemsCount)
+                .height(itemHeightDp * state.visibleItemsCount)
                 .fadingEdge(fadingEdgeGradient)
         ) {
             items(listScrollCount) { index ->
