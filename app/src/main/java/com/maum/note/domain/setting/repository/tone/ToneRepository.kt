@@ -1,7 +1,7 @@
-package com.maum.note.domain.tone.repository
+package com.maum.note.domain.setting.repository.tone
 
-import com.maum.note.domain.tone.model.request.UpdateToneRequestParam
-import com.maum.note.domain.tone.model.response.ToneResponseResult
+import com.maum.note.domain.setting.model.tone.request.UpdateToneRequestParam
+import com.maum.note.domain.setting.model.tone.response.ToneResponseResult
 
 interface ToneRepository {
     suspend fun getAllSelectedTones(): List<ToneResponseResult>

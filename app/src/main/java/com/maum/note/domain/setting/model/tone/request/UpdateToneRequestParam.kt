@@ -1,4 +1,4 @@
-package com.maum.note.domain.tone.model.request
+package com.maum.note.domain.setting.model.tone.request
 
 data class UpdateToneRequestParam(
     val noteType: String,

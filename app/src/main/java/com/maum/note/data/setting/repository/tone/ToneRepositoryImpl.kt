@@ -1,10 +1,10 @@
-package com.maum.note.data.tone.repository
+package com.maum.note.data.setting.repository.tone
 
-import com.maum.note.data.tone.datasource.local.ToneLocalDataSource
-import com.maum.note.data.tone.mapper.ToneMapper
-import com.maum.note.domain.tone.model.request.UpdateToneRequestParam
-import com.maum.note.domain.tone.model.response.ToneResponseResult
-import com.maum.note.domain.tone.repository.ToneRepository
+import com.maum.note.data.setting.datasource.tone.local.ToneLocalDataSource
+import com.maum.note.data.setting.mapper.tone.ToneMapper
+import com.maum.note.domain.setting.model.tone.request.UpdateToneRequestParam
+import com.maum.note.domain.setting.model.tone.response.ToneResponseResult
+import com.maum.note.domain.setting.repository.tone.ToneRepository
 import javax.inject.Inject
 
 class ToneRepositoryImpl @Inject constructor(

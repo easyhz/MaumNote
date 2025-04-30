@@ -6,8 +6,8 @@ import com.maum.note.core.common.base.BaseViewModel
 import com.maum.note.core.common.di.dispatcher.AppDispatchers
 import com.maum.note.core.common.di.dispatcher.Dispatcher
 import com.maum.note.core.model.note.NoteType
-import com.maum.note.domain.tone.model.request.UpdateToneRequestParam
-import com.maum.note.domain.tone.usecase.UpdateToneUseCase
+import com.maum.note.domain.setting.model.tone.request.UpdateToneRequestParam
+import com.maum.note.domain.setting.usecase.tone.UpdateToneUseCase
 import com.maum.note.ui.screen.onboarding.tone.contract.OnboardingToneSideEffect
 import com.maum.note.ui.screen.onboarding.tone.contract.OnboardingToneState
 import dagger.hilt.android.lifecycle.HiltViewModel

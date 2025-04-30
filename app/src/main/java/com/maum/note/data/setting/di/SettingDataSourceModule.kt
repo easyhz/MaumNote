@@ -1,7 +1,7 @@
-package com.maum.note.data.tone.di
+package com.maum.note.data.setting.di
 
-import com.maum.note.data.tone.datasource.local.ToneLocalDataSource
-import com.maum.note.data.tone.datasource.local.ToneLocalDataSourceImpl
+import com.maum.note.data.setting.datasource.tone.local.ToneLocalDataSource
+import com.maum.note.data.setting.datasource.tone.local.ToneLocalDataSourceImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -9,7 +9,7 @@ import dagger.hilt.components.SingletonComponent
 
 @Module
 @InstallIn(SingletonComponent::class)
-interface ToneDataSourceModule {
+interface SettingDataSourceModule {
      @Binds
      fun bindToneLocalDataSource(
          toneLocalDataSourceImpl: ToneLocalDataSourceImpl

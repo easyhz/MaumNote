@@ -1,7 +1,7 @@
-package com.maum.note.data.tone.mapper
+package com.maum.note.data.setting.mapper.tone
 
 import com.maum.note.core.database.tone.entity.ToneEntity
-import com.maum.note.domain.tone.model.response.ToneResponseResult
+import com.maum.note.domain.setting.model.tone.response.ToneResponseResult
 import javax.inject.Inject
 
 class ToneMapper @Inject constructor(
