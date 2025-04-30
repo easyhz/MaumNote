@@ -38,7 +38,9 @@ class SplashViewModel @Inject constructor(
                 handleUserStep(it)
             }
         }.onFailure {
-            setState { copy(isLoading = false) }
+            withContext(mainDispatcher) {
+                setState { copy(isLoading = false) }
+            }
         }
     }
 
