@@ -32,6 +32,7 @@ import com.maum.note.core.designSystem.component.textField.ContentTextField
 import com.maum.note.core.designSystem.component.topbar.TopBar
 import com.maum.note.core.designSystem.component.topbar.TopBarIcon
 import com.maum.note.core.designSystem.extension.modifier.noRippleClickable
+import com.maum.note.ui.screen.onboarding.tone.contract.OnboardingToneSideEffect
 import com.maum.note.ui.screen.onboarding.tone.contract.OnboardingToneState
 import com.maum.note.ui.theme.SubText
 import com.maum.note.ui.theme.AppTypography
@@ -62,14 +63,16 @@ fun OnboardingToneScreen(
         uiState = uiState,
         scrollState = scrollState,
         navigateUp = navigateUp,
-        onClickNext = navigateToNext,
+        onClickNext = viewModel::onClickNext,
         onValueChange = viewModel::onContentValueChange,
         clearFocus = focusManager::clearFocus
     )
 
     viewModel.sideEffect.collectInSideEffectWithLifecycle { sideEffect ->
         when (sideEffect) {
-            else -> { }
+            is OnboardingToneSideEffect.NavigateToNext -> {
+                navigateToNext()
+            }
         }
     }
 }
