@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import com.maum.note.core.database.AppDatabase
 import com.maum.note.core.database.note.dao.NoteDao
+import com.maum.note.core.database.tone.dao.ToneDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -30,5 +31,11 @@ object DatabaseModule {
     @Singleton
     fun provideNoteDao(appDatabase: AppDatabase): NoteDao {
         return appDatabase.noteDao
+    }
+
+    @Provides
+    @Singleton
+    fun provideToneDao(appDatabase: AppDatabase): ToneDao {
+        return appDatabase.toneDao
     }
 }
