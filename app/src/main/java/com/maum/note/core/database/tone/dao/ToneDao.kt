@@ -27,21 +27,21 @@ interface ToneDao {
         """
         SELECT *
         FROM TONE
-        WHERE toneType = :toneType
+        WHERE noteType = :noteType
           AND isSelected = 1
         ORDER BY createdAt DESC
         LIMIT 1
     """
     )
-    fun findByToneType(toneType: String): ToneEntity?
+    fun findByNoteType(noteType: String): ToneEntity?
 
     @Transaction
-    suspend fun updateTone(toneType: String, content: String) {
-        val tone = findByToneType(toneType)
+    suspend fun updateTone(noteType: String, content: String) {
+        val tone = findByNoteType(noteType)
 
         val toneEntity = tone?.copy(content = content, updatedAt = LocalDateTime.now().toString())
             ?: ToneEntity(
-                toneType = toneType,
+                noteType = noteType,
                 content = content,
                 isSelected = true,
                 createdAt = LocalDateTime.now().toString(),

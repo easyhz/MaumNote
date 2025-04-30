@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 
 /**
  * @param id
- * @param toneType [ToneType] name - 톤 종류
+ * @param noteType [NoteType] name - 톤 종류
  * @param content - 내용
  * @param isSelected - 선택 여부
  * @param createdAt - 생성일
@@ -14,12 +14,12 @@ import androidx.room.PrimaryKey
  */
 @Entity(
     tableName = "TONE",
-    indices = [Index(value = ["toneType", "isSelected"], unique = true)]
+    indices = [Index(value = ["noteType", "isSelected"], unique = true)]
 )
 data class ToneEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
-    val toneType: String, // ToneType
+    val noteType: String, // NoteType
     val content: String,
     val isSelected: Boolean,
     val createdAt: String, // LocalDateTime
