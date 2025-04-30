@@ -34,13 +34,15 @@ import java.time.LocalDate
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier,
-    viewModel: HomeViewModel = hiltViewModel()
+    viewModel: HomeViewModel = hiltViewModel(),
+    navigateToSetting: () -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     HomeScreen(
         modifier = modifier,
-        uiState = uiState
+        uiState = uiState,
+        onClickSetting = navigateToSetting
     )
 
     viewModel.sideEffect.collectInSideEffectWithLifecycle { sideEffect ->
@@ -52,12 +54,15 @@ fun HomeScreen(
 private fun HomeScreen(
     modifier: Modifier = Modifier,
     uiState: HomeState,
+    onClickSetting: () -> Unit,
 ) {
     val context = LocalContext.current
     AppScaffold(
         modifier = modifier,
         topBar = {
-            HomeTopBar { }
+            HomeTopBar(
+                onClickSetting = onClickSetting
+            )
         }
     ) { innerPadding ->
         if (uiState.noteList.isEmpty()) {
@@ -104,6 +109,7 @@ private fun HomeScreen(
 @Composable
 private fun HomeScreenPreview() {
     HomeScreen(
-        uiState = HomeState.init()
+        uiState = HomeState.init(),
+        onClickSetting = { }
     )
 }

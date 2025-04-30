@@ -10,6 +10,7 @@ import com.maum.note.core.designSystem.util.transition.enterSlide
 import com.maum.note.core.designSystem.util.transition.exitSlide
 import com.maum.note.core.navigation.home.homeGraph
 import com.maum.note.core.navigation.onboarding.onboardingGraph
+import com.maum.note.core.navigation.setting.settingGraph
 import com.maum.note.core.navigation.splash.screen.Splash
 import com.maum.note.core.navigation.splash.splashGraph
 
@@ -32,5 +33,6 @@ fun MaumNoteApp(
         splashGraph(navController = navController)
         onboardingGraph(navController = navController)
         homeGraph(navController = navController)
+        settingGraph(navController = navController)
     }
 }

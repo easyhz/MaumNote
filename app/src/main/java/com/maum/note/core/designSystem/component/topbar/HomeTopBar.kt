@@ -6,7 +6,9 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.widthIn
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -17,6 +19,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.maum.note.R
+import com.maum.note.core.designSystem.extension.modifier.circleClickable
 import com.maum.note.ui.theme.AppTypography
 
 
@@ -47,13 +50,13 @@ fun HomeTopBar(
                 overflow = TextOverflow.Ellipsis,
             )
         }
-//        Icon(
-//            modifier = Modifier.size(32.dp).circleClickable(
-//                onClick = onClickSetting
-//            ),
-//            painter = painterResource(R.drawable.ic_setting),
-//            contentDescription = null
-//        )
+        Icon(
+            modifier = Modifier.size(32.dp).circleClickable(
+                onClick = onClickSetting
+            ),
+            painter = painterResource(R.drawable.ic_setting),
+            contentDescription = null
+        )
     }
 }
 
