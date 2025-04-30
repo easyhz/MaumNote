@@ -34,7 +34,7 @@ class SettingViewModel @Inject constructor(
                 // navigate to age setting screen
             }
             NoteSettingItem.TONE -> {
-                // navigate to tone setting screen
+                navigateToToneSetting()
             }
             NoteSettingItem.TRASH -> {
                 // navigate to trash screen
@@ -49,5 +49,9 @@ class SettingViewModel @Inject constructor(
             }
             EtcSettingItem.VERSION -> { }
         }
+    }
+
+    private fun navigateToToneSetting() {
+        postSideEffect { SettingSideEffect.NavigateToToneSetting }
     }
 }

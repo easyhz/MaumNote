@@ -8,5 +8,5 @@ import com.maum.note.core.common.base.UiSideEffect
  */
 
 sealed class SettingSideEffect : UiSideEffect() {
-
+    data object NavigateToToneSetting : SettingSideEffect()
 }
