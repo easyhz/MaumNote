@@ -8,7 +8,7 @@ import javax.inject.Inject
 class AgeRepositoryImpl @Inject constructor(
     private val ageLocalDataSource: AgeLocalDataSource
 ): AgeRepository {
-    override suspend fun getAgeSetting(): Flow<String> {
+    override fun getAgeSetting(): Flow<String> {
         return ageLocalDataSource.getAgeSetting()
     }
 

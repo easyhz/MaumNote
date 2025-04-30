@@ -7,7 +7,7 @@ import javax.inject.Inject
 class GetAgeSettingUseCase @Inject constructor(
     private val ageRepository: AgeRepository
 ) {
-    suspend fun invoke(): Flow<String> {
+    fun invoke(): Flow<String> {
         return ageRepository.getAgeSetting()
     }
 }

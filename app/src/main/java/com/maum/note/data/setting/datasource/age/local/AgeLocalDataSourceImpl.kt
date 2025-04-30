@@ -7,7 +7,7 @@ import javax.inject.Inject
 class AgeLocalDataSourceImpl @Inject constructor(
     private val ageDataStore: AgeDataStore
 ): AgeLocalDataSource {
-    override suspend fun getAgeSetting(): Flow<String> {
+    override fun getAgeSetting(): Flow<String> {
         return ageDataStore.getAgeSetting()
     }
 
