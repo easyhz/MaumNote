@@ -1,6 +1,7 @@
 package com.maum.note.ui.screen.onboarding.age.contract
 
 import com.maum.note.core.common.base.UiState
+import com.maum.note.core.model.note.AgeType
 
 /**
  * Date: 2025. 4. 18.
@@ -8,11 +9,13 @@ import com.maum.note.core.common.base.UiState
  */
 
 data class OnboardingAgeState(
-    val isLoading: Boolean
+    val isLoading: Boolean,
+    val age: AgeType
 ) : UiState() {
     companion object {
         fun init(): OnboardingAgeState = OnboardingAgeState(
-            isLoading = true
+            isLoading = true,
+            age = AgeType.MIXED
         )
     }
 }

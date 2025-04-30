@@ -25,6 +25,7 @@ import com.maum.note.core.designSystem.component.topbar.TopBarIcon
 import com.maum.note.core.designSystem.util.picker.PickerState
 import com.maum.note.core.designSystem.util.picker.rememberPickerState
 import com.maum.note.core.model.note.AgeType
+import com.maum.note.ui.screen.onboarding.age.contract.OnboardingAgeSideEffect
 import com.maum.note.ui.screen.onboarding.age.contract.OnboardingAgeState
 
 /**
@@ -45,12 +46,14 @@ fun OnboardingAgeScreen(
         modifier = modifier,
         uiState = uiState,
         pickerState = pickerState,
-        navigateUp = { },
-        onClickNext = { },
+        navigateUp = navigateUp,
+        onClickNext = { viewModel.onClickNext(pickerState.selectedItem) },
     )
 
     viewModel.sideEffect.collectInSideEffectWithLifecycle { sideEffect ->
-        TODO("Not yet implemented")
+        when(sideEffect) {
+            OnboardingAgeSideEffect.NavigateToNext -> navigateToNext()
+        }
     }
 }
 
