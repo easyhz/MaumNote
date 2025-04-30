@@ -52,6 +52,9 @@ fun OnboardingAgeScreen(
 
     viewModel.sideEffect.collectInSideEffectWithLifecycle { sideEffect ->
         when(sideEffect) {
+            is OnboardingAgeSideEffect.SetPickerAge -> {
+                pickerState.animateToItem(sideEffect.ageType, AgeType.entries)
+            }
             OnboardingAgeSideEffect.NavigateToNext -> navigateToNext()
         }
     }
