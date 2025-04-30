@@ -39,14 +39,15 @@ import com.maum.note.ui.theme.MainText
 @Composable
 fun OnboardingStartScreen(
     modifier: Modifier = Modifier,
-    viewModel: OnboardingStartViewModel = hiltViewModel()
+    viewModel: OnboardingStartViewModel = hiltViewModel(),
+    navigateToNext: () -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     OnboardingStartScreen(
         modifier = modifier,
         uiState = uiState,
-        onClickNext = { }
+        onClickNext = navigateToNext
     )
 
     viewModel.sideEffect.collectInSideEffectWithLifecycle { sideEffect ->

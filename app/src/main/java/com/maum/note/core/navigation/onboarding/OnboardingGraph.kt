@@ -19,7 +19,9 @@ fun NavGraphBuilder.onboardingGraph(
         startDestination = Onboarding.Start,
     ) {
         composable<Onboarding.Start> {
-            OnboardingStartScreen()
+            OnboardingStartScreen(
+                navigateToNext = navController::navigateToOnboardingAge,
+            )
         }
 
         composable<Onboarding.Age> {
