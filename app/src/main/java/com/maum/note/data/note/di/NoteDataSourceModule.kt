@@ -9,7 +9,7 @@ import dagger.hilt.components.SingletonComponent
 
 @Module
 @InstallIn(SingletonComponent::class)
-interface DataSourceModule {
+interface NoteDataSourceModule {
     @Binds
     fun bindNoteLocalDataSource(
         noteLocalDataSourceImpl: NoteLocalDataSourceImpl

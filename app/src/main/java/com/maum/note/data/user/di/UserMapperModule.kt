@@ -9,7 +9,7 @@ import dagger.hilt.components.SingletonComponent
 
 @Module
 @InstallIn(SingletonComponent::class)
-object MapperModule {
+object UserMapperModule {
     @Provides
     fun provideUserMapper(): UserMapper {
         return UserMapper(DateTimeFormatter())
