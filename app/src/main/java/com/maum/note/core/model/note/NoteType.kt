@@ -20,16 +20,16 @@ enum class NoteType(
         placeholder = R.string.note_type_letter_greeting_placeholder,
         caption = R.string.note_type_letter_greeting_caption
     ),
-    PLAY_CONTEXT(
-        title = R.string.note_type_play_context,
-        placeholder = R.string.note_type_play_context_placeholder,
-        caption = R.string.note_type_play_context_caption
-    ),
     ANNOUNCEMENT_CONTENT(
         title = R.string.note_type_announcement_content,
         placeholder = R.string.note_type_announcement_content_placeholder,
         caption = R.string.note_type_announcement_content_caption
-    );
+    ),
+    PLAY_CONTEXT(
+        title = R.string.note_type_play_context,
+        placeholder = R.string.note_type_play_context_placeholder,
+        caption = R.string.note_type_play_context_caption
+    ),;
 
     companion object {
         fun getByValue(value: String): NoteType? {
