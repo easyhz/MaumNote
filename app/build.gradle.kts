@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -10,6 +12,9 @@ plugins {
     alias(libs.plugins.gms)
     alias(libs.plugins.firebase.crashlytics)
 }
+
+val localProperties = Properties()
+localProperties.load(project.rootProject.file("local.properties").inputStream())
 
 android {
     namespace = "com.maum.note"
@@ -29,12 +34,16 @@ android {
     }
 
     buildTypes {
+        debug {
+            buildConfigField("String", "GPT_API_URL", localProperties["gpt.api.url.dev"].toString())
+        }
         release {
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            buildConfigField("String", "GPT_API_URL", localProperties["gpt.api.url.prod"].toString())
         }
     }
 
@@ -125,4 +134,10 @@ dependencies {
     implementation(libs.firebase.crashlytics)
     implementation(libs.firebase.analytics)
     implementation(libs.firebase.appcheck.playintegrity)
+
+    // retrofit
+    implementation(libs.retrofit.core)
+    implementation(libs.retrofit.gson.converter)
+    implementation(libs.okhttp)
+    implementation(libs.okhttp.logging)
 }
