@@ -1,5 +1,7 @@
 package com.maum.note.core.common.error
 
+import com.maum.note.core.network.common.model.error.gpt.GptError
+
 
 sealed class AppError: Exception() {
     /* 예상하지 못한 에러 */
@@ -26,6 +28,17 @@ sealed class AppError: Exception() {
         private fun readResolve(): Any = NoUserDataError
     }
 
+    /* network 에러 */
+    data object NetworkConnectionError : AppError() {
+        @JvmStatic
+        private fun readResolve(): Any = NetworkConnectionError
+    }
+
     data class DefaultError(override val message: String) : AppError()
+
+    data class GptRequestError(
+        override val message: String,
+        val error: GptError
+    ) : AppError()
 
 }
