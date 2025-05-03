@@ -1,4 +1,4 @@
-package com.maum.note.core.network.common.di
+package com.maum.note.core.network.gpt.di
 
 import javax.inject.Qualifier
 

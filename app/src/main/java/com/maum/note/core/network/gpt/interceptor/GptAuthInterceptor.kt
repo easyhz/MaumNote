@@ -1,4 +1,4 @@
-package com.maum.note.core.network.interceptor.gpt
+package com.maum.note.core.network.gpt.interceptor
 
 import okhttp3.Interceptor
 import okhttp3.Response

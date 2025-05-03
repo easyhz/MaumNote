@@ -1,9 +1,9 @@
-package com.maum.note.core.network.common.di
+package com.maum.note.core.network.gpt.di
 
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.maum.note.BuildConfig
-import com.maum.note.core.network.common.adapter.gpt.GptResultCallAdapterFactory
+import com.maum.note.core.network.gpt.adapter.GptResultCallAdapterFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

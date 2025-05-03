@@ -1,6 +1,6 @@
 package com.maum.note.core.common.error
 
-import com.maum.note.core.network.common.model.error.gpt.GptErrorResponse
+import com.maum.note.core.network.gpt.model.error.GptErrorResponse
 
 sealed class HttpError : AppError() {
 

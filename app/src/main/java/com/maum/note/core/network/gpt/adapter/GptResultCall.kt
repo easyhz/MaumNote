@@ -1,8 +1,8 @@
-package com.maum.note.core.network.common.adapter.gpt
+package com.maum.note.core.network.gpt.adapter
 
 import com.google.gson.Gson
 import com.maum.note.core.common.error.AppError
-import com.maum.note.core.network.common.util.gpt.toGptResult
+import com.maum.note.core.network.gpt.util.toGptResult
 import okhttp3.Request
 import okio.Timeout
 import retrofit2.Call

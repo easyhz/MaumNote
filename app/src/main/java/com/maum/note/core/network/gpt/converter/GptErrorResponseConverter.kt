@@ -1,7 +1,7 @@
-package com.maum.note.core.network.common.converter.gpt
+package com.maum.note.core.network.gpt.converter
 
 import com.google.gson.Gson
-import com.maum.note.core.network.common.model.error.gpt.GptErrorResponse
+import com.maum.note.core.network.gpt.model.error.GptErrorResponse
 
 class GptErrorResponseConverter(
     private val gson: Gson

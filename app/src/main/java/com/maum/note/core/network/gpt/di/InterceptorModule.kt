@@ -1,6 +1,6 @@
-package com.maum.note.core.network.common.di
+package com.maum.note.core.network.gpt.di
 
-import com.maum.note.core.network.interceptor.gpt.GptAuthInterceptor
+import com.maum.note.core.network.gpt.interceptor.GptAuthInterceptor
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

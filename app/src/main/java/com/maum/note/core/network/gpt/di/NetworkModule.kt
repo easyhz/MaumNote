@@ -1,6 +1,6 @@
-package com.maum.note.core.network.common.di
+package com.maum.note.core.network.gpt.di
 
-import com.maum.note.core.network.common.adapter.gpt.GptResultCallAdapterFactory
+import com.maum.note.core.network.gpt.adapter.GptResultCallAdapterFactory
 import com.google.gson.Gson
 import com.maum.note.BuildConfig
 import dagger.Module

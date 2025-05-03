@@ -1,9 +1,9 @@
-package com.maum.note.core.network.common.util.gpt
+package com.maum.note.core.network.gpt.util
 
 import com.google.gson.Gson
 import com.maum.note.core.common.error.AppError
 import com.maum.note.core.common.error.getGptError
-import com.maum.note.core.network.common.converter.gpt.GptErrorResponseConverter
+import com.maum.note.core.network.gpt.converter.GptErrorResponseConverter
 import retrofit2.Response
 
 fun <T> Response<T>.toGptResult(

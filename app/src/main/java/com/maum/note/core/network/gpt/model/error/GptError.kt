@@ -1,4 +1,4 @@
-package com.maum.note.core.network.common.model.error.gpt
+package com.maum.note.core.network.gpt.model.error
 
 data class GptError(
     val code: String,

@@ -1,4 +1,4 @@
-package com.maum.note.core.network.common.adapter.gpt
+package com.maum.note.core.network.gpt.adapter
 
 import com.google.gson.Gson
 import retrofit2.Call
