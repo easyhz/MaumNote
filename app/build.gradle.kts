@@ -140,4 +140,7 @@ dependencies {
     implementation(libs.retrofit.gson.converter)
     implementation(libs.okhttp)
     implementation(libs.okhttp.logging)
+
+    // moshi
+    implementation(libs.moshi.kotlin)
 }
