@@ -12,11 +12,12 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalClipboardManager
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.maum.note.core.common.util.collect.collectInSideEffectWithLifecycle
 import com.maum.note.core.designSystem.component.button.HomeFloatingActionButton
 import com.maum.note.core.designSystem.component.card.NoteCard
 import com.maum.note.core.designSystem.component.empty.EmptyView
@@ -39,18 +40,18 @@ fun HomeScreen(
     navigateToDetail: (Note) -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val clipboardManager = LocalClipboardManager.current
 
     HomeScreen(
         modifier = modifier,
         uiState = uiState,
         onClickSetting = navigateToSetting,
         navigateToCreation = navigateToCreation,
-        navigateToDetail = navigateToDetail
+        navigateToDetail = navigateToDetail,
+        onClickCopy = {
+            clipboardManager.setText(AnnotatedString(it.result))
+        }
     )
-
-    viewModel.sideEffect.collectInSideEffectWithLifecycle { sideEffect ->
-        TODO("Not yet implemented")
-    }
 }
 
 @Composable
@@ -60,6 +61,7 @@ private fun HomeScreen(
     onClickSetting: () -> Unit,
     navigateToCreation: () -> Unit,
     navigateToDetail: (Note) -> Unit,
+    onClickCopy: (Note) -> Unit,
 ) {
 
     AppScaffold(
@@ -97,7 +99,7 @@ private fun HomeScreen(
                         navigateToDetail(it)
                     },
                     onClickCopy = {
-
+                        onClickCopy(it)
                     }
                 )
             }
@@ -112,6 +114,7 @@ private fun HomeScreenPreview() {
         uiState = HomeState.init(),
         onClickSetting = { },
         navigateToCreation = { },
-        navigateToDetail = {  }
+        navigateToDetail = { },
+        onClickCopy = { },
     )
 }
