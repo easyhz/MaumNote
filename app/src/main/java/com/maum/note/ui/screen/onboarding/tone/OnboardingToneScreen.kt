@@ -103,7 +103,7 @@ private fun OnboardingToneScreen(
         },
         bottomBar = {
             MainButton(
-                text = stringResource(R.string.note_creation_note_type_selection_button),
+                text = stringResource(R.string.onboarding_start_button),
                 isImeVisible = uiState.isImeVisible,
                 onClick = onClickNext,
             )

@@ -84,7 +84,7 @@ private fun OnboardingAgeScreen(
         },
         bottomBar = {
             MainButton(
-                text = stringResource(R.string.note_creation_note_type_selection_button),
+                text = stringResource(R.string.onboarding_next_button),
                 onClick = onClickNext,
             )
         }
