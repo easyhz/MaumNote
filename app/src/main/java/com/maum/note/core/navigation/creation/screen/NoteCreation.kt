@@ -17,5 +17,14 @@ object NoteCreation: Parcelable {
     )
 
     @Serializable
-    data object NoteGeneration
+    data class NoteGeneration(
+        val generationParam: GenerationArgs
+    )
 }
+
+@Serializable
+data class GenerationArgs(
+    val noteType: String,
+    val sentenceCount: String,
+    val inputContent: String,
+)

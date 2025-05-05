@@ -13,7 +13,7 @@ data class NoteGenerationMapParam(
     fun toInputRequestMapParam(): InputRequestMapParam {
         return InputRequestMapParam(
             noteType = getEnumOrThrow(noteGenerationRequestParam.noteType, NoteType::getByValue),
-            ageType = getEnumOrThrow(noteGenerationRequestParam.age, AgeType::getByValue),
+            ageType = getEnumOrThrow(noteGenerationRequestParam.ageType, AgeType::getByValue),
             sentenceType = getEnumOrThrow(noteGenerationRequestParam.sentenceCount, SentenceType::getByValue),
             inputContent = noteGenerationRequestParam.inputContent,
             defaultTone = defaultTone,
