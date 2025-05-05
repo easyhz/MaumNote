@@ -10,6 +10,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextLayoutResult
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
@@ -17,6 +18,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.maum.note.core.designSystem.util.textField.TextFieldType
 import com.maum.note.ui.theme.AppTypography
+import com.maum.note.ui.theme.DestructiveRed
 import com.maum.note.ui.theme.SubText
 
 @Composable
@@ -73,10 +75,24 @@ fun ContentTextField(
                 Text(
                     text = "${value.text.length}/$it",
                     style = AppTypography.body2_regular,
-                    color = SubText
+                    color = getMaxCountColor(
+                        text = value.text,
+                        maxCount = it
+                    )
                 )
             }
         }
+    }
+}
+
+private fun getMaxCountColor(
+    text: String,
+    maxCount: Int,
+): Color {
+    return if (text.length > maxCount) {
+        DestructiveRed
+    } else {
+        SubText
     }
 }
 
