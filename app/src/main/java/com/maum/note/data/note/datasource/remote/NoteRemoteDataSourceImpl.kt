@@ -10,6 +10,6 @@ class NoteRemoteDataSourceImpl @Inject constructor(
     private val gptApi: GptApi
 ): NoteRemoteDataSource {
     override suspend fun generateNote(request: GptRequest): Result<GptResponse> {
-        return gptApi.requestGenerateNote(request)
+        return gptApi.requestNoteGenerate(request)
     }
 }

@@ -6,5 +6,5 @@ import retrofit2.http.POST
 
 interface GptApi {
     @POST("/v1/responses")
-    suspend fun requestGenerateNote(request: GptRequest): Result<GptResponse>
+    suspend fun requestNoteGenerate(request: GptRequest): Result<GptResponse>
 }
