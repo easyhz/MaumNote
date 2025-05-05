@@ -17,6 +17,7 @@ data class NoteContentState(
     val inputText: TextFieldValue,
     val maxCount: Int,
     val isShowSentenceCountBottomSheet: Boolean,
+    val isShowNext: Boolean,
 ) : UiState() {
     companion object {
         fun init(): NoteContentState = NoteContentState(
@@ -26,6 +27,7 @@ data class NoteContentState(
             inputText = TextFieldValue(""),
             maxCount = 100,
             isShowSentenceCountBottomSheet = false,
+            isShowNext = false,
         )
     }
 }

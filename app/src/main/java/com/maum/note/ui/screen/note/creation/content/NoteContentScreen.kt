@@ -1,5 +1,8 @@
 package com.maum.note.ui.screen.note.creation.content
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
@@ -111,13 +114,19 @@ private fun NoteContentScreen(
                     }
                 },
                 rightContent = {
-                    TopBarText(
+                    AnimatedVisibility(
                         modifier = it,
-                        text = stringResource(id = R.string.note_content_create),
-                        alignment = Alignment.CenterEnd,
-                        color = Primary,
-                        onClick = onClickNext
-                    )
+                        visible = uiState.isShowNext,
+                        enter = fadeIn(),
+                        exit = fadeOut(),
+                    ) {
+                        TopBarText(
+                            text = stringResource(id = R.string.note_content_create),
+                            alignment = Alignment.CenterEnd,
+                            color = Primary,
+                            onClick = onClickNext
+                        )
+                    }
                 },
             )
         },
@@ -144,7 +153,9 @@ private fun NoteContentScreen(
                     placeholder = uiState.noteType?.inputPlaceholder?.let { stringResource(it) }
                         ?: "",
                     maxCount = uiState.maxCount,
-                    caption = stringResource(R.string.note_type_common_hint),
+                    caption = if (uiState.noteType == NoteType.ANNOUNCEMENT_CONTENT) null else stringResource(
+                        R.string.note_type_common_hint
+                    ),
                     hint = uiState.noteType?.hint?.let { stringResource(it) },
                 )
             }
