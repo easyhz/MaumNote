@@ -29,3 +29,6 @@ val PrimaryBackground = Color(0xFFEDF6FF)
 
 @Stable
 val DimColor = Color(0xFF000000).copy(0.4f)
+
+@Stable
+val DestructiveRed = Color(0xFFFF3D3D)
