@@ -2,6 +2,7 @@ package com.maum.note.data.note.mapper
 
 import com.maum.note.R
 import com.maum.note.core.common.helper.resource.ResourceHelper
+import com.maum.note.core.common.util.date.DateTimeFormatter
 import com.maum.note.core.common.util.gpt.GptRole
 import com.maum.note.core.database.note.entity.NoteEntity
 import com.maum.note.core.model.note.NoteType
@@ -12,11 +13,13 @@ import com.maum.note.data.note.model.NoteGenerationMapParam
 import com.maum.note.data.note.model.InputRequestMapParam
 import com.maum.note.domain.note.model.request.NoteRequestParam
 import com.maum.note.domain.note.model.response.NoteGenerationResponse
+import com.maum.note.domain.note.model.response.NoteResponse
 import java.time.LocalDateTime
 import javax.inject.Inject
 
 class NoteMapper @Inject constructor(
     private val resourceHelper: ResourceHelper,
+    private val dateTimeFormatter: DateTimeFormatter
 ) {
     fun mapToNoteEntity(noteRequestParam: NoteRequestParam): NoteEntity = NoteEntity(
         noteType = noteRequestParam.noteType,
@@ -44,6 +47,18 @@ class NoteMapper @Inject constructor(
     ) = NoteGenerationResponse(
         status = response.status,
         result = response.output.getOrNull(0)?.content?.getOrNull(0)?.text ?: "",
+    )
+
+    fun mapToNoteResponse(
+        noteEntity: NoteEntity
+    ) = NoteResponse(
+        id = noteEntity.id,
+        noteType = noteEntity.noteType,
+        ageType = noteEntity.age,
+        sentenceCountType = noteEntity.sentenceCount,
+        inputContent = noteEntity.inputContent,
+        result = noteEntity.result,
+        createdAt = dateTimeFormatter.convertStringToDateTime(noteEntity.createdAt),
     )
 
     private fun createGptInputRequests(
