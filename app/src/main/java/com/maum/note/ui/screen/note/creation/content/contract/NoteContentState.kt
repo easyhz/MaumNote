@@ -23,7 +23,7 @@ data class NoteContentState(
         fun init(): NoteContentState = NoteContentState(
             isLoading = true,
             noteType = null,
-            selectedSentenceType = SentenceType.ONE_TO_TWO,
+            selectedSentenceType = SentenceType.TWO_TO_THREE,
             inputText = TextFieldValue(""),
             maxCount = 100,
             isShowSentenceCountBottomSheet = false,

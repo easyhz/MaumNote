@@ -6,11 +6,13 @@ import com.maum.note.R
 enum class SentenceType(
     @StringRes val title: Int
 ) {
-    ONE_TO_TWO(
-        title = R.string.sentence_one_to_two
+    TWO_TO_THREE(
+        title = R.string.sentence_two_to_three
     ),
-    THREE_TO_FOUR(
-        title = R.string.sentence_three_to_four
+    FOUR_TO_FIVE(
+        title = R.string.sentence_four_to_five
+    ), OVER_TEN(
+        title = R.string.sentence_over_ten
     );
 
     companion object {

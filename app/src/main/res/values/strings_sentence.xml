@@ -1,4 +1,5 @@
 <resources>
-    <string name="sentence_one_to_two">1~2줄</string>
-    <string name="sentence_three_to_four">3~4줄</string>
+    <string name="sentence_two_to_three">2~3문장</string>
+    <string name="sentence_four_to_five">4~5문장</string>
+    <string name="sentence_over_ten">10문장 이상</string>
 </resources>
