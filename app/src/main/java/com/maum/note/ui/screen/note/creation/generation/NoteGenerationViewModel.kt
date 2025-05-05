@@ -30,9 +30,9 @@ class NoteGenerationViewModel @Inject constructor(
     }
 
     private fun changeTextIndex() = viewModelScope.launch {
-        for (i in 1 until currentState.captionTexts.size) {
+        for (index in 1 until currentState.captionTexts.size) {
             delay(3000L)
-            setState { copy(currentTextIndex = i) }
+            setState { copy(currentTextIndex = index) }
         }
     }
 
