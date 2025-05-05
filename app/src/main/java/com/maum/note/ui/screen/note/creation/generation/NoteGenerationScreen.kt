@@ -27,6 +27,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.maum.note.core.common.util.collect.collectInSideEffectWithLifecycle
 import com.maum.note.core.designSystem.component.loading.LoadingIndicator
 import com.maum.note.core.designSystem.component.scaffold.AppScaffold
+import com.maum.note.core.model.error.ErrorMessage
+import com.maum.note.ui.screen.note.creation.generation.contract.NoteGenerationSideEffect
 import com.maum.note.ui.screen.note.creation.generation.contract.NoteGenerationState
 import com.maum.note.ui.theme.AppTypography
 import com.maum.note.ui.theme.Primary
@@ -39,7 +41,8 @@ import com.maum.note.ui.theme.Primary
 @Composable
 fun NoteGenerationScreen(
     modifier: Modifier = Modifier,
-    viewModel: NoteGenerationViewModel = hiltViewModel()
+    viewModel: NoteGenerationViewModel = hiltViewModel(),
+    navigateUp: (errorMessage: ErrorMessage?) -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -49,7 +52,9 @@ fun NoteGenerationScreen(
     )
 
     viewModel.sideEffect.collectInSideEffectWithLifecycle { sideEffect ->
-        TODO("Not yet implemented")
+        when(sideEffect) {
+            is NoteGenerationSideEffect.NavigateUp -> navigateUp(sideEffect.errorMessage)
+        }
     }
 }
 

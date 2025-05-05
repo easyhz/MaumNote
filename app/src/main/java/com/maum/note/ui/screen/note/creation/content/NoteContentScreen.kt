@@ -14,9 +14,11 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.SheetState
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -28,6 +30,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.maum.note.R
 import com.maum.note.core.common.util.collect.collectInSideEffectWithLifecycle
 import com.maum.note.core.designSystem.component.bottomSheet.SentenceCountBottomSheet
+import com.maum.note.core.designSystem.component.dialog.BasicDialog
 import com.maum.note.core.designSystem.component.scaffold.AppScaffold
 import com.maum.note.core.designSystem.component.section.SelectionSection
 import com.maum.note.core.designSystem.component.textField.ContentTextFieldWithTitle
@@ -35,11 +38,14 @@ import com.maum.note.core.designSystem.component.topbar.TopBar
 import com.maum.note.core.designSystem.component.topbar.TopBarIcon
 import com.maum.note.core.designSystem.component.topbar.TopBarText
 import com.maum.note.core.designSystem.extension.modifier.noRippleClickable
+import com.maum.note.core.designSystem.util.dialog.BasicDialogButton
+import com.maum.note.core.model.error.ErrorMessage
 import com.maum.note.core.model.note.NoteType
 import com.maum.note.core.model.note.SentenceType
 import com.maum.note.core.model.note.generation.GenerationNote
 import com.maum.note.ui.screen.note.creation.content.contract.NoteContentSideEffect
 import com.maum.note.ui.screen.note.creation.content.contract.NoteContentState
+import com.maum.note.ui.theme.AppTypography
 import com.maum.note.ui.theme.Primary
 
 /**
@@ -52,12 +58,17 @@ import com.maum.note.ui.theme.Primary
 fun NoteContentScreen(
     modifier: Modifier = Modifier,
     viewModel: NoteContentViewModel = hiltViewModel(),
+    errorMessage: ErrorMessage?,
     navigateUp: () -> Unit,
     navigateToNext: (GenerationNote) -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val scrollState = rememberLazyListState()
     val focusManager = LocalFocusManager.current
+
+    LaunchedEffect(errorMessage) {
+        viewModel.setErrorMessage(errorMessage)
+    }
 
     NoteContentScreen(
         modifier = modifier,
@@ -71,6 +82,22 @@ fun NoteContentScreen(
         onClickSentenceBottomSheetItem = viewModel::onClickSentenceBottomSheetItem,
         clearFocus = focusManager::clearFocus
     )
+
+    uiState.errorMessage?.let { error ->
+        BasicDialog(
+            title = error.title ?: stringResource(R.string.error_title),
+            content = error.message,
+            positiveButton = BasicDialogButton(
+                text = stringResource(R.string.dialog_positive_button),
+                backgroundColor = Primary,
+                style = AppTypography.heading5_semiBold.copy(color = Color.White),
+                onClick = {
+                    viewModel.setErrorMessage(null)
+                }
+            ),
+            negativeButton = null
+        )
+    }
 
     viewModel.sideEffect.collectInSideEffectWithLifecycle { sideEffect ->
         when (sideEffect) {

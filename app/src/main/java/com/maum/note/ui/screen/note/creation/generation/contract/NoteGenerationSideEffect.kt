@@ -1,6 +1,7 @@
 package com.maum.note.ui.screen.note.creation.generation.contract
 
 import com.maum.note.core.common.base.UiSideEffect
+import com.maum.note.core.model.error.ErrorMessage
 
 /**
  * Date: 2025. 5. 5.
@@ -8,5 +9,5 @@ import com.maum.note.core.common.base.UiSideEffect
  */
 
 sealed class NoteGenerationSideEffect : UiSideEffect() {
-
+    data class NavigateUp(val errorMessage: ErrorMessage?) : NoteGenerationSideEffect()
 }

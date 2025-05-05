@@ -3,13 +3,14 @@ package com.maum.note.ui.screen.note.creation.content
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.lifecycle.SavedStateHandle
 import com.maum.note.core.common.base.BaseViewModel
+import com.maum.note.core.model.error.ErrorMessage
 import com.maum.note.core.model.note.NoteType
 import com.maum.note.core.model.note.SentenceType
 import com.maum.note.core.model.note.generation.GenerationNote
-import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import com.maum.note.ui.screen.note.creation.content.contract.NoteContentSideEffect
 import com.maum.note.ui.screen.note.creation.content.contract.NoteContentState
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
 /**
  * Date: 2025. 5. 5.
@@ -65,6 +66,10 @@ class NoteContentViewModel @Inject constructor(
     fun onClickSentenceBottomSheetItem(sentenceType: SentenceType) {
         setState { copy(selectedSentenceType = sentenceType) }
         onDismissRequestSentenceBottomSheet()
+    }
+
+    fun setErrorMessage(errorMessage: ErrorMessage?) {
+        setState { copy(errorMessage = errorMessage) }
     }
 
     private fun navigateUp() {

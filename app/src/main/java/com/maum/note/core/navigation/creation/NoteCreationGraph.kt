@@ -5,6 +5,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
+import com.maum.note.core.model.error.ErrorMessage
 import com.maum.note.core.model.note.NoteType
 import com.maum.note.core.model.note.generation.GenerationNote
 import com.maum.note.core.navigation.creation.screen.NoteCreation
@@ -26,17 +27,30 @@ fun NavGraphBuilder.noteCreationGraph(
             )
         }
 
-        composable<NoteCreation.NoteContent> {
-             NoteContentScreen(
-                 navigateUp = navController::navigateUp,
-                 navigateToNext = navController::navigateToNoteGeneration,
-             )
+        composable<NoteCreation.NoteContent> { navBackStackEntry ->
+            val error = navBackStackEntry.savedStateHandle.get<ErrorMessage>("errorMessage")
+
+            NoteContentScreen(
+                errorMessage = error?.let {
+                    ErrorMessage(title = error.title, message = error.message)
+                },
+                navigateUp = navController::navigateUp,
+                navigateToNext = navController::navigateToNoteGeneration,
+            )
         }
 
         composable<NoteCreation.NoteGeneration>(
             typeMap = NoteCreation.NoteGeneration.typeMap,
         ) {
-            NoteGenerationScreen()
+            NoteGenerationScreen(
+                navigateUp = { errorMessage ->
+                    navController.previousBackStackEntry?.savedStateHandle?.set(
+                        key = "errorMessage",
+                        value = errorMessage
+                    )
+                    navController.navigateUp()
+                },
+            )
         }
 
     }
@@ -50,6 +64,12 @@ fun NavController.navigateToNoteContent(noteType: NoteType, navOptions: NavOptio
     navigate(route = NoteCreation.NoteContent(noteType = noteType.name), navOptions = navOptions)
 }
 
-fun NavController.navigateToNoteGeneration(generationNote: GenerationNote, navOptions: NavOptions? = null) {
-    navigate(route = NoteCreation.NoteGeneration(generationNoteArgs = generationNote.toArgs()), navOptions = navOptions)
+fun NavController.navigateToNoteGeneration(
+    generationNote: GenerationNote,
+    navOptions: NavOptions? = null
+) {
+    navigate(
+        route = NoteCreation.NoteGeneration(generationNoteArgs = generationNote.toArgs()),
+        navOptions = navOptions
+    )
 }

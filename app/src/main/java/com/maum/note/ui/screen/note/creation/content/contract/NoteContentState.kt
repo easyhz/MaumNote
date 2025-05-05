@@ -2,6 +2,7 @@ package com.maum.note.ui.screen.note.creation.content.contract
 
 import androidx.compose.ui.text.input.TextFieldValue
 import com.maum.note.core.common.base.UiState
+import com.maum.note.core.model.error.ErrorMessage
 import com.maum.note.core.model.note.NoteType
 import com.maum.note.core.model.note.SentenceType
 
@@ -18,6 +19,7 @@ data class NoteContentState(
     val maxCount: Int,
     val isShowSentenceCountBottomSheet: Boolean,
     val isShowNext: Boolean,
+    val errorMessage: ErrorMessage?,
 ) : UiState() {
     companion object {
         fun init(): NoteContentState = NoteContentState(
@@ -28,6 +30,7 @@ data class NoteContentState(
             maxCount = 100,
             isShowSentenceCountBottomSheet = false,
             isShowNext = false,
+            errorMessage = null,
         )
     }
 }
