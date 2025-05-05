@@ -2,6 +2,8 @@
     <string name="onboarding_start_title">마음노트</string>
     <string name="onboarding_start_sub_title">똑똑한 보육일지 도우미</string>
     <string name="onboarding_start_button">시작하기</string>
+    <string name="onboarding_next_button">다음</string>
+
 
     <string name="onboarding_start_information_notice_title">쉽게 쓰는 알림장</string>
     <string name="onboarding_start_information_notice_content">키워드만 입력하면 따뜻한 알림장이 완성돼요</string>
