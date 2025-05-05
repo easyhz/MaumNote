@@ -17,5 +17,5 @@ object NoteCreation: Parcelable {
     )
 
     @Serializable
-    data object Loading
+    data object NoteGeneration
 }

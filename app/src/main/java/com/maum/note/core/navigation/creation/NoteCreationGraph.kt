@@ -26,11 +26,11 @@ fun NavGraphBuilder.noteCreationGraph(
         composable<NoteCreation.NoteContent> {
              NoteContentScreen(
                  navigateUp = navController::navigateUp,
-                 navigateToNext = navController::navigateToNoteLoading,
+                 navigateToNext = navController::navigateToNoteGeneration,
              )
         }
 
-        composable<NoteCreation.Loading> {  }
+        composable<NoteCreation.NoteGeneration> {  }
 
     }
 }
@@ -43,6 +43,6 @@ fun NavController.navigateToNoteContent(noteType: NoteType, navOptions: NavOptio
     navigate(route = NoteCreation.NoteContent(noteType = noteType.name), navOptions = navOptions)
 }
 
-fun NavController.navigateToNoteLoading(navOptions: NavOptions? = null) {
-    navigate(route = NoteCreation.Loading, navOptions = navOptions)
+fun NavController.navigateToNoteGeneration(navOptions: NavOptions? = null) {
+    navigate(route = NoteCreation.NoteGeneration, navOptions = navOptions)
 }
