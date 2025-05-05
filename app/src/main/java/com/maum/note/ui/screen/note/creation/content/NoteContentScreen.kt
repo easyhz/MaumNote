@@ -37,6 +37,8 @@ import com.maum.note.core.designSystem.component.topbar.TopBarText
 import com.maum.note.core.designSystem.extension.modifier.noRippleClickable
 import com.maum.note.core.model.note.NoteType
 import com.maum.note.core.model.note.SentenceType
+import com.maum.note.core.model.note.generation.GenerationNote
+import com.maum.note.ui.screen.note.creation.content.contract.NoteContentSideEffect
 import com.maum.note.ui.screen.note.creation.content.contract.NoteContentState
 import com.maum.note.ui.theme.Primary
 
@@ -51,7 +53,7 @@ fun NoteContentScreen(
     modifier: Modifier = Modifier,
     viewModel: NoteContentViewModel = hiltViewModel(),
     navigateUp: () -> Unit,
-    navigateToNext: () -> Unit,
+    navigateToNext: (GenerationNote) -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val scrollState = rememberLazyListState()
@@ -71,10 +73,12 @@ fun NoteContentScreen(
     )
 
     viewModel.sideEffect.collectInSideEffectWithLifecycle { sideEffect ->
-        TODO("Not yet implemented")
-//        when (sideEffect) {
-//
-//        }
+        when (sideEffect) {
+            is NoteContentSideEffect.NavigateUp -> navigateUp()
+            is NoteContentSideEffect.NavigateToNext -> {
+                navigateToNext(sideEffect.generationNote)
+            }
+        }
     }
 }
 

@@ -5,6 +5,7 @@ import androidx.lifecycle.SavedStateHandle
 import com.maum.note.core.common.base.BaseViewModel
 import com.maum.note.core.model.note.NoteType
 import com.maum.note.core.model.note.SentenceType
+import com.maum.note.core.model.note.generation.GenerationNote
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import com.maum.note.ui.screen.note.creation.content.contract.NoteContentSideEffect
@@ -47,7 +48,14 @@ class NoteContentViewModel @Inject constructor(
     }
 
     fun onClickNext() {
-//        postSideEffect { NoteContentSideEffect.NavigateToNext }
+        val noteType = currentState.noteType ?: return navigateUp()
+        val generationNote = GenerationNote(
+            noteType = noteType.name,
+            sentenceCountType = currentState.selectedSentenceType.name,
+            inputContent = currentState.inputText.text,
+        )
+
+        postSideEffect { NoteContentSideEffect.NavigateToNext(generationNote = generationNote) }
     }
 
     fun onDismissRequestSentenceBottomSheet() {

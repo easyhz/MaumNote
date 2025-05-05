@@ -6,8 +6,11 @@ import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import com.maum.note.core.model.note.NoteType
+import com.maum.note.core.model.note.generation.GenerationNote
 import com.maum.note.core.navigation.creation.screen.NoteCreation
+import com.maum.note.core.navigation.creation.screen.toArgs
 import com.maum.note.ui.screen.note.creation.content.NoteContentScreen
+import com.maum.note.ui.screen.note.creation.generation.NoteGenerationScreen
 import com.maum.note.ui.screen.note.creation.select.NoteTypeSelectionScreen
 
 fun NavGraphBuilder.noteCreationGraph(
@@ -30,7 +33,11 @@ fun NavGraphBuilder.noteCreationGraph(
              )
         }
 
-        composable<NoteCreation.NoteGeneration> {  }
+        composable<NoteCreation.NoteGeneration>(
+            typeMap = NoteCreation.NoteGeneration.typeMap,
+        ) {
+            NoteGenerationScreen()
+        }
 
     }
 }
@@ -43,6 +50,6 @@ fun NavController.navigateToNoteContent(noteType: NoteType, navOptions: NavOptio
     navigate(route = NoteCreation.NoteContent(noteType = noteType.name), navOptions = navOptions)
 }
 
-fun NavController.navigateToNoteGeneration(navOptions: NavOptions? = null) {
-    navigate(route = NoteCreation.NoteGeneration, navOptions = navOptions)
+fun NavController.navigateToNoteGeneration(generationNote: GenerationNote, navOptions: NavOptions? = null) {
+    navigate(route = NoteCreation.NoteGeneration(generationNoteArgs = generationNote.toArgs()), navOptions = navOptions)
 }
