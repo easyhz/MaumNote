@@ -13,6 +13,12 @@
     <string name="note_content_sentence_count">분량(문장 수)</string>
     <string name="note_content_input">정보 입력</string>
 
+    <string name="note_generation_loading_1">내용을 읽고, 어울리는 표현을 찾는 중이에요</string>
+    <string name="note_generation_loading_2">아이와 부모님을 떠올리며 문장을 쓰고 있어요</string>
+    <string name="note_generation_loading_3">조금만 기다려 주세요! 문장을 만들고 있어요</string>
+    <string name="note_generation_loading_4">알림장 문장을 정성스럽게 다듬고 있어요</string>
+    <string name="note_generation_loading_5">글이 곧 완성돼요. 잠시만 기다려 주세요 :)</string>
+
     <string name="note_type_default_tone_placeholder">기본 문체를 입력해주세요</string>
     <string name="note_type_letter_greeting_tone_placeholder">가정통신문 인사말 예시문을 입력해주세요</string>
     <string name="note_type_announcement_content_tone_placeholder">공지사항 예시문을 입력해주세요</string>
