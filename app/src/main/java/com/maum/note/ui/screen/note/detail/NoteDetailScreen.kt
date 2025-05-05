@@ -10,14 +10,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.maum.note.R
-import com.maum.note.core.common.util.collect.collectInSideEffectWithLifecycle
 import com.maum.note.core.designSystem.component.button.MainButton
 import com.maum.note.core.designSystem.component.scaffold.AppScaffold
 import com.maum.note.core.designSystem.component.section.DetailSection
@@ -27,6 +28,7 @@ import com.maum.note.core.designSystem.component.topbar.TopBarText
 import com.maum.note.core.model.note.NoteDetailType
 import com.maum.note.core.model.note.NoteType
 import com.maum.note.ui.screen.note.detail.contract.NoteDetailState
+import com.maum.note.ui.theme.AppTypography
 
 /**
  * Date: 2025. 4. 19.
@@ -40,17 +42,16 @@ fun NoteDetailScreen(
     navigateUp: () -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val clipboardManager = LocalClipboardManager.current
 
     NoteDetailScreen(
         modifier = modifier,
         uiState = uiState,
         navigateUp = navigateUp,
-        onClickCopyButton = { }
+        onClickCopyButton = {
+            clipboardManager.setText(AnnotatedString(uiState.detailContent[0].content))
+        }
     )
-
-    viewModel.sideEffect.collectInSideEffectWithLifecycle { sideEffect ->
-        TODO("Not yet implemented")
-    }
 }
 
 @Composable
@@ -96,6 +97,7 @@ private fun NoteDetailScreen(
             item {
                 Text(
                     text = stringResource(R.string.note_detail_date, uiState.date.toString()),
+                    style = AppTypography.body1,
                 )
             }
             items(uiState.detailContent) { note ->
