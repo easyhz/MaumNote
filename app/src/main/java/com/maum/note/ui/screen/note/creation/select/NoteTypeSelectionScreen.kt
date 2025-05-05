@@ -19,7 +19,6 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.maum.note.R
-import com.maum.note.core.common.util.collect.collectInSideEffectWithLifecycle
 import com.maum.note.core.designSystem.component.button.MainButton
 import com.maum.note.core.designSystem.component.card.NoteTypeCard
 import com.maum.note.core.designSystem.component.scaffold.AppScaffold
@@ -39,7 +38,7 @@ fun NoteTypeSelectionScreen(
     modifier: Modifier = Modifier,
     viewModel: NoteTypeSelectionViewModel = hiltViewModel(),
     navigateUp: () -> Unit,
-    navigateToNext: () -> Unit,
+    navigateToNext: (NoteType) -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -48,12 +47,8 @@ fun NoteTypeSelectionScreen(
         uiState = uiState,
         navigateUp = navigateUp,
         onSelectNoteType = viewModel::selectNoteType,
-        onClickNext = navigateToNext
+        onClickNext = { uiState.selectedNoteType?.let { navigateToNext(it) } }
     )
-
-    viewModel.sideEffect.collectInSideEffectWithLifecycle { sideEffect ->
-        TODO("Not yet implemented")
-    }
 }
 
 @Composable
