@@ -32,3 +32,6 @@ val DimColor = Color(0xFF000000).copy(0.4f)
 
 @Stable
 val DestructiveRed = Color(0xFFFF3D3D)
+
+@Stable
+val ButtonShapeColor = Color(0xFFF0F0F2)
