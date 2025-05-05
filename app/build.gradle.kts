@@ -143,4 +143,7 @@ dependencies {
 
     // moshi
     implementation(libs.moshi.kotlin)
+
+    // lottie
+    implementation(libs.lottie)
 }

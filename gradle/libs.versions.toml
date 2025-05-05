@@ -31,6 +31,8 @@ retrofit = "2.11.0"
 okhttp = "4.12.0"
 moshi = "1.15.0"
 
+lottie = "6.4.0"
+
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -86,6 +88,8 @@ retrofit-core = { group = "com.squareup.retrofit2", name = "retrofit", version.r
 retrofit-gson-converter = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofit" }
 
 moshi-kotlin = { group = "com.squareup.moshi", name = "moshi-kotlin", version.ref = "moshi" }
+
+lottie = { group = "com.airbnb.android", name = "lottie-compose", version.ref = "lottie"}
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
