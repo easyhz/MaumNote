@@ -39,7 +39,7 @@ fun HomeTopBar(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Image(
-                modifier = Modifier.height(32.dp),
+                modifier = Modifier.height(40.dp),
                 painter = painterResource(R.drawable.ic_app_icon),
                 contentDescription = null
             )
