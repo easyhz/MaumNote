@@ -31,6 +31,7 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+        buildConfigField("String", "GPT_API_KEY", localProperties["gpt.api.key"].toString())
     }
 
     buildTypes {
