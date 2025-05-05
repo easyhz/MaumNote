@@ -1,5 +1,6 @@
 package com.maum.note.ui.screen.note.creation.content
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -92,6 +93,10 @@ private fun NoteContentScreen(
     onClickSentenceBottomSheetItem: (SentenceType) -> Unit,
     clearFocus: () -> Unit,
 ) {
+    BackHandler {
+        clearFocus()
+        navigateUp()
+    }
     AppScaffold(
         modifier = modifier.noRippleClickable { clearFocus() },
         topBar = {
@@ -101,7 +106,10 @@ private fun NoteContentScreen(
                         modifier = it,
                         painter = painterResource(id = R.drawable.ic_arrow_left_leading),
                         alignment = Alignment.CenterStart,
-                        onClick = navigateUp
+                        onClick = {
+                            clearFocus()
+                            navigateUp()
+                        }
                     )
                 },
                 centerContent = {
