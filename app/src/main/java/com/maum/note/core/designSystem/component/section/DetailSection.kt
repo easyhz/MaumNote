@@ -27,6 +27,7 @@ fun DetailSection(
     title: String,
     value: String,
     minHeight: Dp = 0.dp,
+    enabled: Boolean = true,
 ) {
     Column(
         modifier = modifier.fillMaxWidth(),
@@ -36,8 +37,7 @@ fun DetailSection(
             text = title,
             style = AppTypography.body1_semiBold,
         )
-
-        SelectionContainer {
+        val content = @Composable {
             Box(
                 modifier = Modifier
                     .heightIn(min = 48.dp)
@@ -48,13 +48,19 @@ fun DetailSection(
                 contentAlignment = Alignment.Center
             ) {
                 Text(
-                    modifier = Modifier.fillMaxWidth().heightIn(min = minHeight),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .heightIn(min = minHeight),
                     text = value,
-                    style = AppTypography.body1.copy(
-                        textAlign = TextAlign.Start,
-                    ),
+                    style = AppTypography.body1.copy(textAlign = TextAlign.Start),
                 )
             }
+        }
+
+        if (enabled) {
+            SelectionContainer { content() }
+        } else {
+            content()
         }
     }
 }

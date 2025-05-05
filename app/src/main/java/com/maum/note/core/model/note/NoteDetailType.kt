@@ -6,6 +6,7 @@ import com.maum.note.R
 sealed class NoteDetailType(
     @StringRes val title: Int,
     val content: String,
+    val isCopyable: Boolean = true,
 ) {
     data class Type(val noteType: NoteType, val value: String): NoteDetailType(
         title = noteType.title,
@@ -16,12 +17,14 @@ sealed class NoteDetailType(
     ): NoteDetailType(
         title = R.string.note_detail_age,
         content = value,
+        isCopyable = false
     )
     data class Sentence(
         val value: String
     ): NoteDetailType(
         title = R.string.note_detail_sentence,
         content = value,
+        isCopyable = false
     )
     data class Input(
         val value: String
