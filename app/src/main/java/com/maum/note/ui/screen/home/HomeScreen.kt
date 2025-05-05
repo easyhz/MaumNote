@@ -19,6 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.maum.note.core.common.util.collect.collectInSideEffectWithLifecycle
+import com.maum.note.core.designSystem.component.button.HomeFloatingActionButton
 import com.maum.note.core.designSystem.component.card.NoteCard
 import com.maum.note.core.designSystem.component.empty.EmptyView
 import com.maum.note.core.designSystem.component.scaffold.AppScaffold
@@ -36,13 +37,15 @@ fun HomeScreen(
     modifier: Modifier = Modifier,
     viewModel: HomeViewModel = hiltViewModel(),
     navigateToSetting: () -> Unit,
+    navigateToCreation: () -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     HomeScreen(
         modifier = modifier,
         uiState = uiState,
-        onClickSetting = navigateToSetting
+        onClickSetting = navigateToSetting,
+        navigateToCreation = navigateToCreation
     )
 
     viewModel.sideEffect.collectInSideEffectWithLifecycle { sideEffect ->
@@ -55,6 +58,7 @@ private fun HomeScreen(
     modifier: Modifier = Modifier,
     uiState: HomeState,
     onClickSetting: () -> Unit,
+    navigateToCreation: () -> Unit,
 ) {
     val context = LocalContext.current
     AppScaffold(
@@ -63,6 +67,9 @@ private fun HomeScreen(
             HomeTopBar(
                 onClickSetting = onClickSetting
             )
+        },
+        floatingActionButton = {
+            HomeFloatingActionButton { navigateToCreation() }
         }
     ) { innerPadding ->
         if (uiState.noteList.isEmpty()) {
@@ -110,6 +117,7 @@ private fun HomeScreen(
 private fun HomeScreenPreview() {
     HomeScreen(
         uiState = HomeState.init(),
-        onClickSetting = { }
+        onClickSetting = { },
+        navigateToCreation = { }
     )
 }
