@@ -23,12 +23,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.maum.note.R
 import com.maum.note.core.designSystem.extension.modifier.circleClickable
-import com.maum.note.core.designSystem.extension.modifier.dropShadow
-import com.maum.note.ui.theme.White
+import com.maum.note.ui.theme.AppTypography
 import com.maum.note.ui.theme.MainText
 import com.maum.note.ui.theme.NoteBackground
 import com.maum.note.ui.theme.SubText
-import com.maum.note.ui.theme.AppTypography
+import com.maum.note.ui.theme.White
 
 @Composable
 fun NoteCard(
@@ -42,10 +41,6 @@ fun NoteCard(
 
     Column(
         modifier = modifier
-            .dropShadow(
-                shape = RoundedCornerShape(8.dp),
-                blur = 4.dp,
-            )
             .clip(RoundedCornerShape(8.dp))
             .background(White)
             .clickable { onClick() }
