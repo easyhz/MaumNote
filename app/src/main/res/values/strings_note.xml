@@ -21,7 +21,7 @@
 
     <string name="note_detail_title">노트 상세</string>
     <string name="note_detail_copy_button">복사하기</string>
-    <string name="note_detail_date">%1s 작성</string>
+    <string name="note_detail_date">%1$s 작성</string>
 
     <string name="note_detail_age">연령</string>
     <string name="note_detail_sentence">설정한 분량</string>
