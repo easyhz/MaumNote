@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.dp
 import com.maum.note.R
 import com.maum.note.core.designSystem.extension.modifier.circleClickable
 import com.maum.note.ui.theme.AppTypography
+import com.maum.note.ui.theme.Placeholder
 
 
 @Composable
@@ -42,20 +43,14 @@ fun HomeTopBar(
                 painter = painterResource(R.drawable.ic_app_icon),
                 contentDescription = null
             )
-            Text(
-                modifier = Modifier.widthIn(max = 200.dp),
-                text = stringResource(R.string.app_name),
-                style = AppTypography.heading3_semiBold,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-            )
         }
         Icon(
             modifier = Modifier.size(32.dp).circleClickable(
                 onClick = onClickSetting
             ),
             painter = painterResource(R.drawable.ic_setting),
-            contentDescription = null
+            contentDescription = null,
+            tint = Placeholder
         )
     }
 }
