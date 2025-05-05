@@ -36,9 +36,9 @@ fun ToneTextField(
         ContentTextField(
             value = value,
             onValueChange = onValueChange,
-            placeholder = stringResource(id = noteType.placeholder),
-            maxCount = 100,
-            caption = stringResource(id = noteType.caption),
+            placeholder = stringResource(id = noteType.tonePlaceholder),
+            maxCount = noteType.maxCount,
+            caption = stringResource(id = noteType.toneCaption),
             keyboardActions = keyboardActions,
             keyboardOptions = keyboardOptions,
         )

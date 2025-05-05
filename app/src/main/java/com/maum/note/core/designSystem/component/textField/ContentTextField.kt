@@ -40,7 +40,7 @@ fun ContentTextField(
 ) {
     Column(
         modifier = modifier,
-        verticalArrangement = Arrangement.spacedBy(4.dp)
+        verticalArrangement = Arrangement.spacedBy(10.dp)
     ) {
         TextField(
             modifier = textFieldModifier,
