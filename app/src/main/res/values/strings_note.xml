@@ -29,12 +29,12 @@
         \n멋진 인사말을 작성해 드릴게요!
     </string>
     <string name="note_type_announcement_content_input_placeholder">
-        오늘 있었던 놀이 상황을 자유롭게 적어주세요!
-        \n생생한 문장을 완성해 드릴게요.
-    </string>
-    <string name="note_type_play_context_input_placeholder">
         공지할 내용을 자유롭게 적어주세요.
         \n정돈된 공지 문장으로 바꿔드릴게요.
+    </string>
+    <string name="note_type_play_context_input_placeholder">
+        오늘 있었던 놀이 상황을 자유롭게 적어주세요!
+        \n생생한 문장을 완성해 드릴게요.
     </string>
 
     <string name="note_type_default_caption">모든 글에 공통으로 적용돼요.</string>
