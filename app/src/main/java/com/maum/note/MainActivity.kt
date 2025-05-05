@@ -6,6 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.maum.note.core.navigation.MaumNoteApp
+import com.maum.note.ui.screen.note.creation.generation.NoteGenerationScreen
 import com.maum.note.ui.theme.MaumNoteTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -17,7 +18,8 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             MaumNoteTheme {
-                MaumNoteApp()
+//                MaumNoteApp()
+                NoteGenerationScreen()
             }
         }
     }

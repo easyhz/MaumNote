@@ -8,10 +8,10 @@ import com.maum.note.core.model.note.NoteType
 import com.maum.note.core.network.gpt.model.note.request.GptRequest
 import com.maum.note.core.network.gpt.model.note.request.etc.InputRequest
 import com.maum.note.core.network.gpt.model.note.response.GptResponse
-import com.maum.note.data.note.model.CreateNoteMapParam
+import com.maum.note.data.note.model.NoteGenerationMapParam
 import com.maum.note.data.note.model.InputRequestMapParam
 import com.maum.note.domain.note.model.request.NoteRequestParam
-import com.maum.note.domain.note.model.response.CreateNoteResponse
+import com.maum.note.domain.note.model.response.NoteGenerationResponse
 import java.time.LocalDateTime
 import javax.inject.Inject
 
@@ -30,7 +30,7 @@ class NoteMapper @Inject constructor(
     )
 
     fun mapToCreateNoteRequest(
-        param: CreateNoteMapParam,
+        param: NoteGenerationMapParam,
     ): GptRequest =
         GptRequest(
             model = resourceHelper.getString(R.string.model),
@@ -39,9 +39,9 @@ class NoteMapper @Inject constructor(
             )
         )
 
-    fun mapToCreateNoteResponse(
+    fun mapToNoteGenerationResponse(
         response: GptResponse
-    ) = CreateNoteResponse(
+    ) = NoteGenerationResponse(
         status = response.status,
         result = response.output.getOrNull(0)?.content?.getOrNull(0)?.text ?: "",
     )

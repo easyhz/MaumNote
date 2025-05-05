@@ -5,11 +5,11 @@ import com.maum.note.core.model.note.NoteType
 import com.maum.note.data.note.datasource.local.NoteLocalDataSource
 import com.maum.note.data.note.datasource.remote.NoteRemoteDataSource
 import com.maum.note.data.note.mapper.NoteMapper
-import com.maum.note.data.note.model.CreateNoteMapParam
+import com.maum.note.data.note.model.NoteGenerationMapParam
 import com.maum.note.data.setting.datasource.tone.local.ToneLocalDataSource
-import com.maum.note.domain.note.model.request.CreateNoteRequestParam
+import com.maum.note.domain.note.model.request.NoteGenerationRequestParam
 import com.maum.note.domain.note.model.request.NoteRequestParam
-import com.maum.note.domain.note.model.response.CreateNoteResponse
+import com.maum.note.domain.note.model.response.NoteGenerationResponse
 import com.maum.note.domain.note.repository.NoteRepository
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
@@ -28,7 +28,7 @@ class NoteRepositoryImpl @Inject constructor(
         )
     }
 
-    override suspend fun generateNote(request: CreateNoteRequestParam): Result<CreateNoteResponse> = coroutineScope {
+    override suspend fun generateNote(request: NoteGenerationRequestParam): Result<NoteGenerationResponse> = coroutineScope {
         val defaultToneDeferred = async { toneLocalDataSource.findByNoteType(NoteType.DEFAULT.name) }
         val typeToneDeferred = async { toneLocalDataSource.findByNoteType(request.noteType) }
 
@@ -37,14 +37,14 @@ class NoteRepositoryImpl @Inject constructor(
 
         return@coroutineScope noteRemoteDataSource.generateNote(
             noteMapper.mapToCreateNoteRequest(
-                param = CreateNoteMapParam(
-                    createNoteRequestParam = request,
+                param = NoteGenerationMapParam(
+                    noteGenerationRequestParam = request,
                     defaultTone = defaultTone?.content ?: "",
                     typeTone = typeTone?.content ?: ""
                 )
             )
         ).map { response ->
-            val result = noteMapper.mapToCreateNoteResponse(response)
+            val result = noteMapper.mapToNoteGenerationResponse(response)
             saveNote(request = request, result = result)
 
             result
@@ -52,8 +52,8 @@ class NoteRepositoryImpl @Inject constructor(
     }
 
     private suspend fun saveNote(
-        request: CreateNoteRequestParam,
-        result: CreateNoteResponse,
+        request: NoteGenerationRequestParam,
+        result: NoteGenerationResponse,
     ) {
         val entity = noteMapper.mapToNoteEntity(
             noteRequestParam = NoteRequestParam(

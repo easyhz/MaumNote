@@ -1,5 +1,6 @@
 package com.maum.note.ui.screen.note.creation.generation
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.ContentTransform
@@ -57,6 +58,7 @@ private fun NoteGenerationScreen(
     modifier: Modifier = Modifier,
     uiState: NoteGenerationState,
 ) {
+    BackHandler { /* 뒤로가기 금지 */ }
     AppScaffold(
         modifier = modifier
     ) {

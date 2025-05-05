@@ -1,5 +1,6 @@
 package com.maum.note.ui.screen.note.creation.generation
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.maum.note.core.common.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -16,12 +17,16 @@ import kotlinx.coroutines.launch
 
 @HiltViewModel
 class NoteGenerationViewModel @Inject constructor(
-
+    private val savedStateHandle: SavedStateHandle,
 ) : BaseViewModel<NoteGenerationState, NoteGenerationSideEffect>(
     initialState = NoteGenerationState.init()
 ) {
     init {
         changeTextIndex()
+    }
+
+    private fun init() {
+        val paramArgs: String? = savedStateHandle["param"]
     }
 
     private fun changeTextIndex() = viewModelScope.launch {
