@@ -6,5 +6,5 @@ import com.maum.note.domain.note.model.response.CreateNoteResponse
 
 interface NoteRepository {
     suspend fun saveNote(request: NoteRequestParam)
-    suspend fun createNote(request: CreateNoteRequestParam): Result<CreateNoteResponse>
+    suspend fun generateNote(request: CreateNoteRequestParam): Result<CreateNoteResponse>
 }

@@ -6,10 +6,10 @@ import com.maum.note.domain.note.model.response.CreateNoteResponse
 import com.maum.note.domain.note.repository.NoteRepository
 import javax.inject.Inject
 
-class CreateNoteUseCase @Inject constructor(
+class GenerateNoteUseCase @Inject constructor(
     private val noteRepository: NoteRepository,
 ) : BaseUseCase<CreateNoteRequestParam, CreateNoteResponse>() {
     override suspend fun invoke(param: CreateNoteRequestParam): Result<CreateNoteResponse> {
-        return noteRepository.createNote(param)
+        return noteRepository.generateNote(param)
     }
 }

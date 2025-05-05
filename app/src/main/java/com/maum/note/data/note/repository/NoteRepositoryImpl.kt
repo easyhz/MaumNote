@@ -28,14 +28,14 @@ class NoteRepositoryImpl @Inject constructor(
         )
     }
 
-    override suspend fun createNote(request: CreateNoteRequestParam): Result<CreateNoteResponse> = coroutineScope {
+    override suspend fun generateNote(request: CreateNoteRequestParam): Result<CreateNoteResponse> = coroutineScope {
         val defaultToneDeferred = async { toneLocalDataSource.findByNoteType(NoteType.DEFAULT.name) }
         val typeToneDeferred = async { toneLocalDataSource.findByNoteType(request.noteType) }
 
         val defaultTone = defaultToneDeferred.await()
         val typeTone = typeToneDeferred.await()
 
-        return@coroutineScope noteRemoteDataSource.createNote(
+        return@coroutineScope noteRemoteDataSource.generateNote(
             noteMapper.mapToCreateNoteRequest(
                 param = CreateNoteMapParam(
                     createNoteRequestParam = request,

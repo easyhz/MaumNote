@@ -5,5 +5,5 @@ import com.maum.note.core.network.gpt.model.note.response.GptResponse
 
 
 interface NoteRemoteDataSource {
-    suspend fun createNote(request: GptRequest): Result<GptResponse>
+    suspend fun generateNote(request: GptRequest): Result<GptResponse>
 }

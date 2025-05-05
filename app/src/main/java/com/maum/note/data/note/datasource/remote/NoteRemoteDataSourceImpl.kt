@@ -9,7 +9,7 @@ import javax.inject.Inject
 class NoteRemoteDataSourceImpl @Inject constructor(
     private val gptApi: GptApi
 ): NoteRemoteDataSource {
-    override suspend fun createNote(request: GptRequest): Result<GptResponse> {
-        return gptApi.requestCreateNote(request)
+    override suspend fun generateNote(request: GptRequest): Result<GptResponse> {
+        return gptApi.requestGenerateNote(request)
     }
 }
