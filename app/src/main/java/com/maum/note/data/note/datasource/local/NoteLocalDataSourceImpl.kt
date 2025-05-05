@@ -15,4 +15,8 @@ class NoteLocalDataSourceImpl @Inject constructor(
     override fun findAllNotesFlow(): Flow<List<NoteEntity>> {
         return noteDao.findAllNotesFlow()
     }
+
+    override suspend fun insertAndGetNote(note: NoteEntity): NoteEntity {
+        return noteDao.insertAndGetNote(note)
+    }
 }

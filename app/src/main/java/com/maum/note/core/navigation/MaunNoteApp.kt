@@ -8,8 +8,9 @@ import androidx.navigation.compose.rememberNavController
 import com.maum.note.core.designSystem.util.transition.SlideDirection
 import com.maum.note.core.designSystem.util.transition.enterSlide
 import com.maum.note.core.designSystem.util.transition.exitSlide
-import com.maum.note.core.navigation.creation.noteCreationGraph
+import com.maum.note.core.navigation.note.creation.noteCreationGraph
 import com.maum.note.core.navigation.home.homeGraph
+import com.maum.note.core.navigation.note.detail.noteDetailGraph
 import com.maum.note.core.navigation.onboarding.onboardingGraph
 import com.maum.note.core.navigation.setting.settingGraph
 import com.maum.note.core.navigation.splash.screen.Splash
@@ -36,5 +37,6 @@ fun MaumNoteApp(
         homeGraph(navController = navController)
         settingGraph(navController = navController)
         noteCreationGraph(navController = navController)
+        noteDetailGraph(navController = navController)
     }
 }

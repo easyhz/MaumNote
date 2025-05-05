@@ -14,6 +14,7 @@ import com.maum.note.core.common.helper.serializable.SerializableHelper
 import com.maum.note.core.common.util.url.urlDecode
 import com.maum.note.core.model.error.ErrorMessage
 import com.maum.note.core.model.note.AgeType
+import com.maum.note.core.model.note.Note
 import com.maum.note.core.model.note.generation.GenerationNote
 import com.maum.note.domain.note.model.request.NoteGenerationRequestParam
 import com.maum.note.domain.note.usecase.GenerateNoteUseCase
@@ -57,10 +58,7 @@ class NoteGenerationViewModel @Inject constructor(
             inputContent = generationNote.inputContent.urlDecode(),
         )
         setState { copy(generationNote = note) }
-        navigateUp(
-            error = AppError.NetworkConnectionError
-        )
-//        generateNote()
+        generateNote()
     }
 
     private fun changeTextIndex() = viewModelScope.launch {
@@ -82,8 +80,8 @@ class NoteGenerationViewModel @Inject constructor(
         val result = generateNoteUseCase(params)
 
         withContext(mainDispatcher) {
-            result.onSuccess { note ->
-                // TODO note 결과 화면으로 이동
+            result.onSuccess { response ->
+                navigateToNoteDetail(note = response.toNote())
             }.onFailure { e ->
                 logger.e("NoteGenerationViewModel", "generateNote", e)
                 navigateUp(e)
@@ -100,7 +98,10 @@ class NoteGenerationViewModel @Inject constructor(
             sentenceCount = generationNote.sentenceCountType,
             inputContent = generationNote.inputContent
         )
+    }
 
+    private fun navigateToNoteDetail(note: Note) {
+        postSideEffect { NoteGenerationSideEffect.NavigateToNext(note = note) }
     }
 
 

@@ -8,7 +8,6 @@ import com.maum.note.ui.screen.home.contract.HomeState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 /**
@@ -23,14 +22,12 @@ class HomeViewModel @Inject constructor(
     initialState = HomeState.init()
 ) {
     init {
-
+        findAllNotes()
     }
 
     private fun findAllNotes() {
         findAllNotesUseCase.invoke().onEach {
             setState { copy(noteList = it.map { it.toNote() }) }
         }.launchIn(viewModelScope)
-        viewModelScope.launch {
-        }
     }
 }

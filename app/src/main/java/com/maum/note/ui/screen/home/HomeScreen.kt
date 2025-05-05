@@ -22,6 +22,7 @@ import com.maum.note.core.designSystem.component.card.NoteCard
 import com.maum.note.core.designSystem.component.empty.EmptyView
 import com.maum.note.core.designSystem.component.scaffold.AppScaffold
 import com.maum.note.core.designSystem.component.topbar.HomeTopBar
+import com.maum.note.core.model.note.Note
 import com.maum.note.ui.screen.home.contract.HomeState
 
 /**
@@ -35,6 +36,7 @@ fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel(),
     navigateToSetting: () -> Unit,
     navigateToCreation: () -> Unit,
+    navigateToDetail: (Note) -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -42,7 +44,8 @@ fun HomeScreen(
         modifier = modifier,
         uiState = uiState,
         onClickSetting = navigateToSetting,
-        navigateToCreation = navigateToCreation
+        navigateToCreation = navigateToCreation,
+        navigateToDetail = navigateToDetail
     )
 
     viewModel.sideEffect.collectInSideEffectWithLifecycle { sideEffect ->
@@ -56,6 +59,7 @@ private fun HomeScreen(
     uiState: HomeState,
     onClickSetting: () -> Unit,
     navigateToCreation: () -> Unit,
+    navigateToDetail: (Note) -> Unit,
 ) {
 
     AppScaffold(
@@ -90,7 +94,7 @@ private fun HomeScreen(
                     content = it.result,
                     date = it.createdAt.toLocalDate().toString(),
                     onClick = {
-
+                        navigateToDetail(it)
                     },
                     onClickCopy = {
 
@@ -107,6 +111,7 @@ private fun HomeScreenPreview() {
     HomeScreen(
         uiState = HomeState.init(),
         onClickSetting = { },
-        navigateToCreation = { }
+        navigateToCreation = { },
+        navigateToDetail = {  }
     )
 }

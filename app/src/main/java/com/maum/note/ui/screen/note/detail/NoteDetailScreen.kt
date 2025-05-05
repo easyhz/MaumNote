@@ -36,14 +36,15 @@ import com.maum.note.ui.screen.note.detail.contract.NoteDetailState
 @Composable
 fun NoteDetailScreen(
     modifier: Modifier = Modifier,
-    viewModel: NoteDetailViewModel = hiltViewModel()
+    viewModel: NoteDetailViewModel = hiltViewModel(),
+    navigateUp: () -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     NoteDetailScreen(
         modifier = modifier,
         uiState = uiState,
-        navigateUp = { },
+        navigateUp = navigateUp,
         onClickCopyButton = { }
     )
 
@@ -94,7 +95,7 @@ private fun NoteDetailScreen(
         ) {
             item {
                 Text(
-                    text = stringResource(R.string.note_detail_date, uiState.date),
+                    text = stringResource(R.string.note_detail_date, uiState.date.toString()),
                 )
             }
             items(uiState.detailContent) { note ->

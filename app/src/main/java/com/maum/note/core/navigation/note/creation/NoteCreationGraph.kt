@@ -1,15 +1,18 @@
-package com.maum.note.core.navigation.creation
+package com.maum.note.core.navigation.note.creation
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
+import androidx.navigation.navOptions
 import com.maum.note.core.model.error.ErrorMessage
 import com.maum.note.core.model.note.NoteType
 import com.maum.note.core.model.note.generation.GenerationNote
-import com.maum.note.core.navigation.creation.screen.NoteCreation
-import com.maum.note.core.navigation.creation.screen.toArgs
+import com.maum.note.core.navigation.home.screen.Home
+import com.maum.note.core.navigation.note.creation.screen.NoteCreation
+import com.maum.note.core.navigation.note.creation.screen.toArgs
+import com.maum.note.core.navigation.note.detail.navigateToNoteDetail
 import com.maum.note.ui.screen.note.creation.content.NoteContentScreen
 import com.maum.note.ui.screen.note.creation.generation.NoteGenerationScreen
 import com.maum.note.ui.screen.note.creation.select.NoteTypeSelectionScreen
@@ -49,6 +52,15 @@ fun NavGraphBuilder.noteCreationGraph(
                         value = errorMessage
                     )
                     navController.navigateUp()
+                },
+                navigateToNext = {
+                    val navOptions = navOptions {
+                        popUpTo(Home::class.java.name) { inclusive = false }
+                    }
+                    navController.navigateToNoteDetail(
+                        note = it,
+                        navOptions = navOptions
+                    )
                 },
             )
         }

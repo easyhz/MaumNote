@@ -28,6 +28,7 @@ import com.maum.note.core.common.util.collect.collectInSideEffectWithLifecycle
 import com.maum.note.core.designSystem.component.loading.LoadingIndicator
 import com.maum.note.core.designSystem.component.scaffold.AppScaffold
 import com.maum.note.core.model.error.ErrorMessage
+import com.maum.note.core.model.note.Note
 import com.maum.note.ui.screen.note.creation.generation.contract.NoteGenerationSideEffect
 import com.maum.note.ui.screen.note.creation.generation.contract.NoteGenerationState
 import com.maum.note.ui.theme.AppTypography
@@ -42,7 +43,8 @@ import com.maum.note.ui.theme.Primary
 fun NoteGenerationScreen(
     modifier: Modifier = Modifier,
     viewModel: NoteGenerationViewModel = hiltViewModel(),
-    navigateUp: (errorMessage: ErrorMessage?) -> Unit
+    navigateUp: (errorMessage: ErrorMessage?) -> Unit,
+    navigateToNext: (Note) -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -54,6 +56,7 @@ fun NoteGenerationScreen(
     viewModel.sideEffect.collectInSideEffectWithLifecycle { sideEffect ->
         when(sideEffect) {
             is NoteGenerationSideEffect.NavigateUp -> navigateUp(sideEffect.errorMessage)
+            is NoteGenerationSideEffect.NavigateToNext -> navigateToNext(sideEffect.note)
         }
     }
 }

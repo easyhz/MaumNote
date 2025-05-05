@@ -14,7 +14,7 @@ class DateTimeFormatter {
     }
 
     fun convertStringToDateTime(dateTimeString: String): LocalDateTime {
-        return LocalDateTime.parse(dateTimeString, formatter)
+        return LocalDateTime.parse(dateTimeString, DateTimeFormatter.ISO_LOCAL_DATE_TIME)
     }
 
     fun formatTimestampToDateTime(timestamp: Timestamp): LocalDateTime {

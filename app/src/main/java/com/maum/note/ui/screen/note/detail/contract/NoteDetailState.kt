@@ -12,13 +12,13 @@ import java.time.LocalDateTime
 data class NoteDetailState(
     val isLoading: Boolean,
     val detailContent: List<NoteDetailType>,
-    val date: String,
+    val date: LocalDateTime,
 ) : UiState() {
     companion object {
         fun init(): NoteDetailState = NoteDetailState(
             isLoading = true,
             detailContent = NoteDetailType.empty,
-            date = LocalDateTime.now().toString(),
+            date = LocalDateTime.now(),
         )
     }
 }

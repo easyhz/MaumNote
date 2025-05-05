@@ -19,7 +19,7 @@ import androidx.room.PrimaryKey
 )
 data class NoteEntity(
     @PrimaryKey(autoGenerate = true)
-    val id: Int = 0,
+    val id: Long = 0,
     val noteType: String, // NoteType
     val age: String, // AgeType
     val sentenceCount: String, // SentenceType

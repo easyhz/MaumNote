@@ -6,4 +6,6 @@ import kotlinx.coroutines.flow.Flow
 interface NoteLocalDataSource {
     suspend fun saveNote(data: NoteEntity)
     fun findAllNotesFlow(): Flow<List<NoteEntity>>
+
+    suspend fun insertAndGetNote(note: NoteEntity): NoteEntity
 }

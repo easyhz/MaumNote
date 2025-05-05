@@ -1,4 +1,4 @@
-package com.maum.note.core.navigation.creation.screen
+package com.maum.note.core.navigation.note.creation.screen
 
 import android.os.Parcelable
 import com.maum.note.core.common.util.url.urlEncode

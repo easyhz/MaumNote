@@ -1,6 +1,7 @@
 package com.maum.note.data.note.repository
 
 import com.maum.note.core.common.helper.log.Logger
+import com.maum.note.core.database.note.entity.NoteEntity
 import com.maum.note.core.model.note.NoteType
 import com.maum.note.data.note.datasource.local.NoteLocalDataSource
 import com.maum.note.data.note.datasource.remote.NoteRemoteDataSource
@@ -33,7 +34,7 @@ class NoteRepositoryImpl @Inject constructor(
         )
     }
 
-    override suspend fun generateNote(param: NoteGenerationRequestParam): Result<NoteGenerationResponse> =
+    override suspend fun generateNote(param: NoteGenerationRequestParam): Result<NoteResponse> =
         coroutineScope {
             val defaultToneDeferred =
                 async { toneLocalDataSource.findByNoteType(NoteType.DEFAULT.name) }
@@ -59,9 +60,8 @@ class NoteRepositoryImpl @Inject constructor(
                 )
             ).map { response ->
                 val result = noteMapper.mapToNoteGenerationResponse(response)
-                saveNote(request = request.copy(ageType = ageType), result = result)
-
-                result
+                val noteEntity = saveNote(request = request.copy(ageType = ageType), result = result)
+                noteMapper.mapToNoteResponse(noteEntity)
             }
         }
 
@@ -77,7 +77,7 @@ class NoteRepositoryImpl @Inject constructor(
     private suspend fun saveNote(
         request: NoteGenerationRequestParam,
         result: NoteGenerationResponse,
-    ) {
+    ): NoteEntity {
         val entity = noteMapper.mapToNoteEntity(
             noteRequestParam = NoteRequestParam(
                 noteType = request.noteType,
@@ -88,9 +88,11 @@ class NoteRepositoryImpl @Inject constructor(
             )
         )
         try {
-            noteLocalDataSource.saveNote(entity)
+            return noteLocalDataSource.insertAndGetNote(entity)
         } catch (e: Exception) {
             logger.e("NoteRepositoryImpl", "Error saving note to local database", e)
         }
+
+        return entity
     }
 }
