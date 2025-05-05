@@ -22,7 +22,7 @@ val White = Color(0xFFFFFFFF)
 val NoteBackground = Color(0xFFF3F8FF)
 
 @Stable
-val Placeholder = Color(0xFF909090)
+val Placeholder = Color(0xFFB7B7B7)
 
 @Stable
 val PrimaryBackground = Color(0xFFEDF6FF)
