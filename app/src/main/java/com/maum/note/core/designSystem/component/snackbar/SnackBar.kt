@@ -1,6 +1,7 @@
 package com.maum.note.core.designSystem.component.snackbar
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -24,9 +25,10 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.maum.note.core.designSystem.extension.modifier.noRippleClickable
+import com.maum.note.ui.theme.AppTypography
 import com.maum.note.ui.theme.MainBackground
 import com.maum.note.ui.theme.MainText
-import com.maum.note.ui.theme.AppTypography
+import com.maum.note.ui.theme.PrimaryBackground
 
 @Composable
 internal fun AppSnackBar(
@@ -91,18 +93,22 @@ private fun AppSnackBar(
 ) {
     Surface(
         modifier = Modifier.fillMaxWidth(),
-        color = MainText,
-        shape = RoundedCornerShape(size = 8.dp),
+        color = PrimaryBackground,
+        shape = RoundedCornerShape(size = 16.dp),
+        shadowElevation = 4.dp,
     ) {
-        Row(verticalAlignment = Alignment.CenterVertically) {
+        Row(
+            modifier = Modifier.padding(horizontal = 24.dp, vertical = 18.dp),
+            horizontalArrangement = Arrangement.spacedBy(4.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
             Text(
                 modifier = Modifier
-                    .weight(1f)
-                    .padding(start = 20.dp, top = 12.dp, bottom = 12.dp),
+                    .weight(1f),
                 text = message,
                 overflow = TextOverflow.Ellipsis,
                 maxLines = 1,
-                color = MainBackground,
+                color = MainText,
                 style = AppTypography.body1
             )
             actionComposable?.invoke()

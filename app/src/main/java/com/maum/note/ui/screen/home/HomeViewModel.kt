@@ -1,7 +1,10 @@
 package com.maum.note.ui.screen.home
 
 import androidx.lifecycle.viewModelScope
+import com.maum.note.R
 import com.maum.note.core.common.base.BaseViewModel
+import com.maum.note.core.common.helper.resource.ResourceHelper
+import com.maum.note.core.model.note.Note
 import com.maum.note.domain.note.usecase.FindAllNotesUseCase
 import com.maum.note.ui.screen.home.contract.HomeSideEffect
 import com.maum.note.ui.screen.home.contract.HomeState
@@ -17,7 +20,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val findAllNotesUseCase: FindAllNotesUseCase
+    private val findAllNotesUseCase: FindAllNotesUseCase,
+    private val resourceHelper: ResourceHelper,
 ) : BaseViewModel<HomeState, HomeSideEffect>(
     initialState = HomeState.init()
 ) {
@@ -27,7 +31,15 @@ class HomeViewModel @Inject constructor(
 
     private fun findAllNotes() {
         findAllNotesUseCase.invoke().onEach {
-            setState { copy(noteList = it.map { it.toNote() }) }
+            setState { copy(noteList = it.map { it.toNote() }, isLoading = false) }
         }.launchIn(viewModelScope)
+    }
+
+    fun onClickCopyButton(note: Note) {
+        postSideEffect { HomeSideEffect.CopyToClipboard(note.result) }
+        showSnackBar(
+            resourceHelper = resourceHelper,
+            value = R.string.note_copy_success
+        ) { HomeSideEffect.ShowSnackBar(it) }
     }
 }

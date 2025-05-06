@@ -47,13 +47,15 @@ fun MainButton(
     val textColor = remember(enabled, buttonColor.contentColor) {
         if (enabled) buttonColor.contentColor else buttonColor.disabledContentColor
     }
-    val padding by getPadding(isImeVisible = isImeVisible)
+    val horizontalPadding by getPadding(isImeVisible = isImeVisible)
+    val bottomPadding by getPadding(defaultPadding = 12.dp, isImeVisible = isImeVisible)
     val cornerRadius by getCornerRadius(isImeVisible = isImeVisible)
 
     Box(
         modifier = modifier
             .fillMaxWidth()
-            .padding(padding)
+            .padding(horizontal = horizontalPadding)
+            .padding(bottom = bottomPadding)
             .imePadding()
             .height(height)
             .then(

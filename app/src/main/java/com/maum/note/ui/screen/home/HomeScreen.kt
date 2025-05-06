@@ -18,13 +18,16 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.maum.note.core.common.util.collect.collectInSideEffectWithLifecycle
 import com.maum.note.core.designSystem.component.button.HomeFloatingActionButton
 import com.maum.note.core.designSystem.component.card.NoteCard
 import com.maum.note.core.designSystem.component.empty.EmptyView
 import com.maum.note.core.designSystem.component.scaffold.AppScaffold
 import com.maum.note.core.designSystem.component.topbar.HomeTopBar
 import com.maum.note.core.model.note.Note
+import com.maum.note.ui.screen.home.contract.HomeSideEffect
 import com.maum.note.ui.screen.home.contract.HomeState
+import com.maum.note.ui.theme.LocalSnackBarHostState
 
 /**
  * Date: 2025. 4. 15.
@@ -41,6 +44,7 @@ fun HomeScreen(
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val clipboardManager = LocalClipboardManager.current
+    val snackBarHost = LocalSnackBarHostState.current
 
     HomeScreen(
         modifier = modifier,
@@ -48,10 +52,21 @@ fun HomeScreen(
         onClickSetting = navigateToSetting,
         navigateToCreation = navigateToCreation,
         navigateToDetail = navigateToDetail,
-        onClickCopy = {
-            clipboardManager.setText(AnnotatedString(it.result))
-        }
+        onClickCopy = viewModel::onClickCopyButton
     )
+
+    viewModel.sideEffect.collectInSideEffectWithLifecycle { sideEffect ->
+        when (sideEffect) {
+            is HomeSideEffect.ShowSnackBar -> {
+                snackBarHost.showSnackbar(
+                    message = sideEffect.message,
+                )
+            }
+            is HomeSideEffect.CopyToClipboard -> {
+                clipboardManager.setText(AnnotatedString(sideEffect.result))
+            }
+        }
+    }
 }
 
 @Composable
@@ -75,7 +90,7 @@ private fun HomeScreen(
             HomeFloatingActionButton { navigateToCreation() }
         }
     ) { innerPadding ->
-        if (uiState.noteList.isEmpty()) {
+        if (!uiState.isLoading && uiState.noteList.isEmpty()) {
             EmptyView(
                 modifier = Modifier
                     .fillMaxWidth()

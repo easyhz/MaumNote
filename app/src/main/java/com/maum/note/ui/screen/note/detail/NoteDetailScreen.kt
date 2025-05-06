@@ -19,6 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.maum.note.R
+import com.maum.note.core.common.util.collect.collectInSideEffectWithLifecycle
 import com.maum.note.core.designSystem.component.button.MainButton
 import com.maum.note.core.designSystem.component.scaffold.AppScaffold
 import com.maum.note.core.designSystem.component.section.DetailSection
@@ -27,8 +28,10 @@ import com.maum.note.core.designSystem.component.topbar.TopBarIcon
 import com.maum.note.core.designSystem.component.topbar.TopBarText
 import com.maum.note.core.model.note.NoteDetailType
 import com.maum.note.core.model.note.NoteType
+import com.maum.note.ui.screen.note.detail.contract.NoteDetailSideEffect
 import com.maum.note.ui.screen.note.detail.contract.NoteDetailState
 import com.maum.note.ui.theme.AppTypography
+import com.maum.note.ui.theme.LocalSnackBarHostState
 
 /**
  * Date: 2025. 4. 19.
@@ -43,17 +46,29 @@ fun NoteDetailScreen(
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val clipboardManager = LocalClipboardManager.current
+    val snackBarHost = LocalSnackBarHostState.current
 
     NoteDetailScreen(
         modifier = modifier,
         uiState = uiState,
         navigateUp = navigateUp,
-        onClickCopyButton = {
-            uiState.detailContent.find { it is NoteDetailType.Type}?.let {
-                clipboardManager.setText(AnnotatedString(it.content))
+        onClickCopyButton = viewModel::onClickCopyButton
+    )
+
+    viewModel.sideEffect.collectInSideEffectWithLifecycle { sideEffect ->
+        when (sideEffect) {
+            is NoteDetailSideEffect.NavigateUp -> navigateUp()
+            is NoteDetailSideEffect.CopyToClipboard -> {
+                clipboardManager.setText(AnnotatedString(sideEffect.text))
+            }
+            is NoteDetailSideEffect.ShowSnackBar -> {
+                snackBarHost.showSnackbar(
+                    message = sideEffect.value
+                )
             }
         }
-    )
+
+    }
 }
 
 @Composable

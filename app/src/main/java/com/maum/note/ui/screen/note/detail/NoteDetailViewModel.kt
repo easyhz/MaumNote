@@ -1,6 +1,7 @@
 package com.maum.note.ui.screen.note.detail
 
 import androidx.lifecycle.SavedStateHandle
+import com.maum.note.R
 import com.maum.note.core.common.base.BaseViewModel
 import com.maum.note.core.common.helper.resource.ResourceHelper
 import com.maum.note.core.common.helper.serializable.SerializableHelper
@@ -53,7 +54,16 @@ class NoteDetailViewModel @Inject constructor(
     }
 
     private fun navigateUp() {
+        postSideEffect { NoteDetailSideEffect.NavigateUp }
+    }
 
+    fun onClickCopyButton() {
+        val noteDetailType = currentState.detailContent.find { it is NoteDetailType.Type} ?: return
+        postSideEffect { NoteDetailSideEffect.CopyToClipboard(noteDetailType.content) }
+        showSnackBar(
+            resourceHelper = resourceHelper,
+            value = R.string.note_copy_success
+        ) { NoteDetailSideEffect.ShowSnackBar(it) }
     }
 
 }
