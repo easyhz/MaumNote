@@ -5,6 +5,7 @@ import androidx.room.Room
 import com.maum.note.core.database.AppDatabase
 import com.maum.note.core.database.note.dao.NoteDao
 import com.maum.note.core.database.tone.dao.ToneDao
+import com.maum.note.core.database.util.migration.MIGRATION_1_2
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -24,7 +25,7 @@ object DatabaseModule {
             context,
             AppDatabase::class.java,
             "app_database.db"
-        ).build()
+        ).addMigrations(MIGRATION_1_2).build()
     }
 
     @Provides
