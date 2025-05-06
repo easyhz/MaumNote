@@ -49,7 +49,9 @@ fun NoteDetailScreen(
         uiState = uiState,
         navigateUp = navigateUp,
         onClickCopyButton = {
-            clipboardManager.setText(AnnotatedString(uiState.detailContent[0].content))
+            uiState.detailContent.find { it is NoteDetailType.Type}?.let {
+                clipboardManager.setText(AnnotatedString(it.content))
+            }
         }
     )
 }
