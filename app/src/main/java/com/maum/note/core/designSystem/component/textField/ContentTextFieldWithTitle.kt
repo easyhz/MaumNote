@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -54,12 +55,14 @@ fun ContentTextFieldWithTitle(
             )
 
             hint?.let {
-                Text(
-                    text = it,
-                    style = AppTypography.body2_regular.copy(
-                        color = SubText,
-                    ),
-                )
+                SelectionContainer {
+                    Text(
+                        text = it,
+                        style = AppTypography.body2_regular.copy(
+                            color = SubText,
+                        ),
+                    )
+                }
             }
         }
     }
