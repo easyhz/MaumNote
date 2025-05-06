@@ -1,5 +1,7 @@
 package com.maum.note.ui.screen.setting.setting
 
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
@@ -10,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -43,6 +46,7 @@ fun SettingScreen(
     navigateToAgeSetting: () -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val context = LocalContext.current
 
     SettingScreen(
         modifier = modifier,
@@ -58,6 +62,10 @@ fun SettingScreen(
             }
             SettingSideEffect.NavigateToAgeSetting -> {
                 navigateToAgeSetting()
+            }
+            is SettingSideEffect.NavigateToUrl -> {
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(sideEffect.url))
+                context.startActivity(intent)
             }
         }
     }
