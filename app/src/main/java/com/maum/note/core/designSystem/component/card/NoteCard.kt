@@ -75,7 +75,9 @@ fun NoteCard(
                 ),
             )
             Icon(
-                modifier = Modifier.circleClickable { onClickCopy() },
+                modifier = Modifier.circleClickable(
+                    radius = 16.dp
+                ) { onClickCopy() },
                 painter = painterResource(id = R.drawable.ic_copy),
                 contentDescription = null,
                 tint = SubText,
