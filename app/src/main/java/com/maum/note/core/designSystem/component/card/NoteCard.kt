@@ -1,7 +1,6 @@
 package com.maum.note.core.designSystem.component.card
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -23,6 +22,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.maum.note.R
 import com.maum.note.core.designSystem.extension.modifier.circleClickable
+import com.maum.note.core.designSystem.extension.modifier.singleClickable
 import com.maum.note.ui.theme.AppTypography
 import com.maum.note.ui.theme.MainText
 import com.maum.note.ui.theme.NoteBackground
@@ -43,7 +43,7 @@ fun NoteCard(
         modifier = modifier
             .clip(RoundedCornerShape(8.dp))
             .background(White)
-            .clickable { onClick() }
+            .singleClickable { onClick() }
             .padding(4.dp)
     ) {
         Box(

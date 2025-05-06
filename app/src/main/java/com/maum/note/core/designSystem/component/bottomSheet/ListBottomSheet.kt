@@ -1,6 +1,5 @@
 package com.maum.note.core.designSystem.component.bottomSheet
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -14,6 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.unit.dp
+import com.maum.note.core.designSystem.extension.modifier.singleClickable
 import com.maum.note.ui.theme.AppTypography
 import com.maum.note.ui.theme.MainText
 
@@ -28,7 +28,7 @@ fun ListBottomSheetItem(
         modifier = modifier
             .height(48.dp)
             .fillMaxWidth()
-            .clickable { onClick() }
+            .singleClickable { onClick() }
             .padding(horizontal = 16.dp),
         horizontalArrangement = Arrangement.spacedBy(24.dp),
         verticalAlignment = Alignment.CenterVertically

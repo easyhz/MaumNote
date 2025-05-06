@@ -1,7 +1,6 @@
 package com.maum.note.core.designSystem.component.setting
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -18,6 +17,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.maum.note.core.designSystem.extension.modifier.singleClickable
 import com.maum.note.core.model.setting.EtcSettingItem
 import com.maum.note.core.model.setting.MajorSettingItem
 import com.maum.note.core.model.setting.SettingItem
@@ -56,7 +56,7 @@ fun SettingItemView(
                     .fillMaxWidth()
                     .heightIn(min = 44.dp)
                     .clip(RoundedCornerShape(8.dp))
-                    .clickable(item.enabledClick) { onClickItem(item) }
+                    .singleClickable(item.enabledClick) { onClickItem(item) }
                     .padding(horizontal = 8.dp),
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
                 verticalAlignment = Alignment.CenterVertically

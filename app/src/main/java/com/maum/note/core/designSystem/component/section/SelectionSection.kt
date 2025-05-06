@@ -1,7 +1,6 @@
 package com.maum.note.core.designSystem.component.section
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -21,6 +20,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.maum.note.R
+import com.maum.note.core.designSystem.extension.modifier.singleClickable
 import com.maum.note.ui.theme.AppTypography
 import com.maum.note.ui.theme.White
 
@@ -46,7 +46,7 @@ fun SelectionSection(
                 .fillMaxWidth()
                 .clip(RoundedCornerShape(8.dp))
                 .background(White)
-                .clickable(enabled = onClick != null) {
+                .singleClickable(enabled = onClick != null) {
                     onClick?.invoke()
                 }.padding(8.dp),
             horizontalArrangement = Arrangement.spacedBy(10.dp),

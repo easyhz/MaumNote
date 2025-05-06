@@ -2,7 +2,6 @@ package com.maum.note.core.designSystem.component.card
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -22,12 +21,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.maum.note.core.designSystem.extension.modifier.dropShadow
+import com.maum.note.core.designSystem.extension.modifier.singleClickable
 import com.maum.note.core.model.note.NoteType
+import com.maum.note.ui.theme.AppTypography
 import com.maum.note.ui.theme.MainBackground
 import com.maum.note.ui.theme.MainText
 import com.maum.note.ui.theme.Primary
 import com.maum.note.ui.theme.PrimaryBackground
-import com.maum.note.ui.theme.AppTypography
 import com.maum.note.ui.theme.White
 
 @Composable
@@ -51,7 +51,7 @@ fun NoteTypeCard(
             )
             .clip(RoundedCornerShape(12.dp))
             .background(backgroundColor)
-            .clickable { onClick() }
+            .singleClickable { onClick() }
             .padding(horizontal = 20.dp),
         contentAlignment = Alignment.CenterStart,
     ) {

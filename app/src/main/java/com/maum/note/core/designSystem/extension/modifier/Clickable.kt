@@ -9,6 +9,7 @@ import androidx.compose.ui.composed
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.maum.note.core.designSystem.util.click.singleClickEvent
 import com.maum.note.ui.theme.SubText
 
 
@@ -17,11 +18,13 @@ inline fun Modifier.noRippleClickable(
     enabled: Boolean = true,
     crossinline onClick: () -> Unit,
 ): Modifier = composed {
-    clickable(
-        indication = null,
-        enabled = enabled,
-        interactionSource = interactionSource ?: remember { MutableInteractionSource() }) {
-        onClick()
+    singleClickEvent { manager ->
+        clickable(
+            indication = null,
+            enabled = enabled,
+            interactionSource = interactionSource ?: remember { MutableInteractionSource() }) {
+            manager.event { onClick() }
+        }
     }
 }
 
@@ -32,10 +35,26 @@ inline fun Modifier.circleClickable(
     color: Color = SubText,
     crossinline onClick: () -> Unit,
 ): Modifier = composed {
-    clickable(
-        indication = ripple(bounded = bounded, radius = radius, color = color),
-        enabled = enabled,
-        interactionSource = remember { MutableInteractionSource() }) {
-        onClick()
+    singleClickEvent { manager ->
+        clickable(
+            indication = ripple(bounded = bounded, radius = radius, color = color),
+            enabled = enabled,
+            interactionSource = remember { MutableInteractionSource() }) {
+            manager.event { onClick() }
+        }
+    }
+}
+
+
+inline fun Modifier.singleClickable(
+    enabled: Boolean = true,
+    crossinline onClick: () -> Unit,
+): Modifier = composed {
+    singleClickEvent { manager ->
+        clickable(
+            enabled = enabled,
+        ) {
+            manager.event { onClick() }
+        }
     }
 }
