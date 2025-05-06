@@ -104,6 +104,7 @@ private fun NoteDetailScreen(
                 DetailSection(
                     title = stringResource(note.title),
                     value = note.content,
+                    enabled = note.isCopyable,
                 )
             }
         }
