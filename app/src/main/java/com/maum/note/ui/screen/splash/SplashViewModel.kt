@@ -13,6 +13,7 @@ import com.maum.note.core.designSystem.util.dialog.BasicDialogButton
 import com.maum.note.core.designSystem.util.dialog.DialogAction
 import com.maum.note.core.designSystem.util.dialog.DialogMessage
 import com.maum.note.core.model.user.UserStep
+import com.maum.note.domain.note.usecase.InsertNoteIfFirstLaunchUseCase
 import com.maum.note.domain.user.useacse.CheckUserStepUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -35,6 +36,7 @@ class SplashViewModel @Inject constructor(
     @Dispatcher(AppDispatchers.IO) private val ioDispatcher: CoroutineDispatcher,
     @Dispatcher(AppDispatchers.MAIN) private val mainDispatcher: CoroutineDispatcher,
     private val checkUserStepUseCase: CheckUserStepUseCase,
+    private val insertNoteIfFirstLaunchUseCase: InsertNoteIfFirstLaunchUseCase,
     private val resourceHelper: ResourceHelper,
     private val logger: Logger,
 ) : BaseViewModel<SplashState, SplashSideEffect>(
@@ -43,6 +45,7 @@ class SplashViewModel @Inject constructor(
     private val tag = "SplashViewModel"
 
     init {
+        insertNoteIfFirstLaunch()
         checkAppStep()
     }
 
@@ -56,6 +59,12 @@ class SplashViewModel @Inject constructor(
                 logger.e(tag, "checkAppStep: ${e.message}")
                 handleError(e)
             }
+        }
+    }
+
+    private fun insertNoteIfFirstLaunch() = viewModelScope.launch(ioDispatcher) {
+        insertNoteIfFirstLaunchUseCase.invoke(Unit).onFailure { e ->
+            logger.e(tag, "insertNoteIfFirstLaunch: ${e.message}")
         }
     }
 
