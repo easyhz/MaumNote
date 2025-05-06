@@ -129,7 +129,8 @@ class NoteContentViewModel @Inject constructor(
     }
 
     fun onGloballyPositioned(view: View) {
-        val cursorRect = currentState.layoutResult?.getCursorRect(currentState.inputText.selection.end)
+        val cursorRect =
+            currentState.layoutResult?.getCursorRect(currentState.inputText.selection.end)
         if (cursorRect != null && currentState.cursorOffset.y != cursorRect.topLeft.y) {
             setState { copy(cursorOffset = cursorRect.topLeft) }
         }
@@ -141,12 +142,12 @@ class NoteContentViewModel @Inject constructor(
         setState { copy(absoluteCursorY = absoluteCursorPos.y.toInt()) }
     }
 
-   fun setLayoutResult(textLayoutResult: TextLayoutResult) {
-       setState { copy(layoutResult = textLayoutResult) }
+    fun setLayoutResult(textLayoutResult: TextLayoutResult) {
+        setState { copy(layoutResult = textLayoutResult) }
     }
 
-     fun onChangeFocus(hasFocus: Boolean) {
-         setState { copy(isFocused = hasFocus, isMoved = !hasFocus) }
+    fun onChangeFocus(hasFocus: Boolean) {
+        setState { copy(isFocused = hasFocus, isMoved = !hasFocus) }
     }
 
 }
