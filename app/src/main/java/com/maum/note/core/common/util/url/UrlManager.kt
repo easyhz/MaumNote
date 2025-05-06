@@ -1,23 +1,16 @@
 package com.maum.note.core.common.util.url
 
-import java.net.URLDecoder
-import java.net.URLEncoder
-import java.nio.charset.StandardCharsets
+import android.net.Uri
 
-internal fun String.urlEncode(): String {
+
+fun String.urlEncode(): String {
     if(this.isBlank()) return this
 
-    return URLEncoder.encode(
-        this,
-        StandardCharsets.UTF_8.toString()
-    )
+    return Uri.encode(this, null)
 }
 
-internal fun String.urlDecode(): String {
+fun String.urlDecode(): String {
     if(this.isBlank()) return this
 
-    return URLDecoder.decode(
-        this,
-        StandardCharsets.UTF_8.toString()
-    )
+    return Uri.decode(this)
 }
