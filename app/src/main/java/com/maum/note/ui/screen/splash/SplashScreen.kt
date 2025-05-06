@@ -1,5 +1,8 @@
 package com.maum.note.ui.screen.splash
 
+import android.app.Activity
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -11,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -18,6 +22,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.maum.note.R
 import com.maum.note.core.common.util.collect.collectInSideEffectWithLifecycle
+import com.maum.note.core.designSystem.component.dialog.BasicDialog
 import com.maum.note.ui.screen.splash.contract.SplashSideEffect
 import com.maum.note.ui.screen.splash.contract.SplashState
 import com.maum.note.ui.theme.AppTypography
@@ -37,6 +42,7 @@ fun SplashScreen(
     navigateToHome: () -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val context = LocalContext.current
 
     SplashScreen(
         modifier = modifier,
@@ -47,6 +53,13 @@ fun SplashScreen(
         when(sideEffect) {
             is SplashSideEffect.NavigateToOnboarding -> navigateToOnboarding()
             is SplashSideEffect.NavigateToHome -> navigateToHome()
+            is SplashSideEffect.NavigateToUrl -> {
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(sideEffect.url))
+                context.startActivity(intent)
+            }
+            is SplashSideEffect.NavigateUp -> {
+                (context as Activity).finish()
+            }
         }
     }
 }
@@ -79,6 +92,15 @@ private fun SplashScreen(
             style = AppTypography.body2_regular.copy(
                 color = SubText
             )
+        )
+    }
+
+    uiState.dialogMessage?.let { dialog ->
+        BasicDialog(
+            title = dialog.title,
+            content = dialog.message,
+            positiveButton = dialog.positiveButton,
+            negativeButton = dialog.negativeButton
         )
     }
 }
