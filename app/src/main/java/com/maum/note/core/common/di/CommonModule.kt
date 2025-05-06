@@ -3,6 +3,8 @@ package com.maum.note.core.common.di
 import com.maum.note.core.common.error.ErrorHandler
 import com.maum.note.core.common.helper.resource.ResourceHelper
 import com.maum.note.core.common.helper.serializable.LocalDateTimeAdapter
+import com.maum.note.core.common.util.validation.ValidationInput
+import com.maum.note.core.common.util.version.Version
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module
@@ -26,4 +28,15 @@ object CommonModule {
         resourceHelper: ResourceHelper,
     ): ErrorHandler =
         ErrorHandler(resourceHelper = resourceHelper)
+
+
+    @Provides
+    fun provideVersion(): Version {
+        return Version()
+    }
+
+    @Provides
+    fun provideValidationInput(): ValidationInput {
+        return ValidationInput()
+    }
 }
