@@ -2,9 +2,14 @@ package com.maum.note.ui.screen.setting.tone
 
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.lifecycle.viewModelScope
+import com.maum.note.R
 import com.maum.note.core.common.base.BaseViewModel
 import com.maum.note.core.common.di.dispatcher.AppDispatchers
 import com.maum.note.core.common.di.dispatcher.Dispatcher
+import com.maum.note.core.common.helper.resource.ResourceHelper
+import com.maum.note.core.common.util.validation.ValidationInput
+import com.maum.note.core.designSystem.util.dialog.BasicDialogButton
+import com.maum.note.core.designSystem.util.dialog.DialogMessage
 import com.maum.note.core.model.note.NoteType
 import com.maum.note.domain.setting.model.tone.request.UpdateToneRequestParam
 import com.maum.note.domain.setting.usecase.tone.GetAllSelectedTonesUseCase
@@ -13,6 +18,9 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import com.maum.note.ui.screen.setting.tone.contract.ToneSettingSideEffect
 import com.maum.note.ui.screen.setting.tone.contract.ToneSettingState
+import com.maum.note.ui.theme.AppTypography
+import com.maum.note.ui.theme.MainBackground
+import com.maum.note.ui.theme.Primary
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -28,6 +36,8 @@ class ToneSettingViewModel @Inject constructor(
     @Dispatcher(AppDispatchers.MAIN) private val mainDispatcher: CoroutineDispatcher,
     private val getAllSelectedTonesUseCase: GetAllSelectedTonesUseCase,
     private val updateAllToneUseCase: UpdateAllToneUseCase,
+    private val validationInput: ValidationInput,
+    private val resourceHelper: ResourceHelper,
 ) : BaseViewModel<ToneSettingState, ToneSettingSideEffect>(
     initialState = ToneSettingState.init()
 ) {
@@ -48,6 +58,10 @@ class ToneSettingViewModel @Inject constructor(
     }
 
     fun onClickSave() {
+        checkValidInput()?.let {
+            handleOverTextLength(it)
+            return
+        }
         updateAllTone()
     }
 
@@ -80,7 +94,6 @@ class ToneSettingViewModel @Inject constructor(
             }.onFailure {
                 withContext(mainDispatcher) {
                     setState { copy(isLoading = false) }
-                    // TODO SNACKBAR
                 }
             }
         }
@@ -93,5 +106,45 @@ class ToneSettingViewModel @Inject constructor(
                 content = textFieldValue.text
             )
         }
+    }
+
+    private fun checkValidInput(): NoteType? {
+        currentState.contents.entries.forEach { (noteType, text) ->
+            val maxCount = noteType.maxCount
+            if (!validationInput.isValidContentInput(text = text.text, maxCount = maxCount)) {
+                return noteType
+            }
+        }
+        return null
+    }
+
+    private fun handleOverTextLength(noteType: NoteType) {
+        setDialog(
+            message = DialogMessage(
+                title = resourceHelper.getString(R.string.note_creation_content_over_text_length_title),
+                message = resourceHelper.getString(noteType.title),
+                positiveButton = getDefaultPositiveButton(
+                    text = resourceHelper.getString(R.string.maintenance_dialog_button),
+                    onClick = ::hideDialog
+                )
+            )
+        )
+    }
+
+    private fun getDefaultPositiveButton(text: String, onClick: () -> Unit): BasicDialogButton {
+        return BasicDialogButton(
+            text = text,
+            style = AppTypography.heading5_semiBold.copy(color = MainBackground),
+            backgroundColor = Primary,
+            onClick = onClick
+        )
+    }
+
+    private fun setDialog(message: DialogMessage?) {
+        setState { copy(dialogMessage = message) }
+    }
+
+    private fun hideDialog() {
+        setDialog(null)
     }
 }

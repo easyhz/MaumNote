@@ -21,7 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.maum.note.R
-import com.maum.note.core.common.util.collect.collectInSideEffectWithLifecycle
+import com.maum.note.core.designSystem.component.dialog.BasicDialog
 import com.maum.note.core.designSystem.component.scaffold.AppScaffold
 import com.maum.note.core.designSystem.component.topbar.TopBar
 import com.maum.note.core.designSystem.component.topbar.TopBarIcon
@@ -61,9 +61,6 @@ fun ToneSettingScreen(
         onClickSave = viewModel::onClickSave
     )
 
-    viewModel.sideEffect.collectInSideEffectWithLifecycle { sideEffect ->
-        TODO("Not yet implemented")
-    }
 }
 
 @Composable
@@ -124,6 +121,15 @@ private fun ToneSettingScreen(
                     },
                 )
             }
+        }
+
+        uiState.dialogMessage?.let { dialog ->
+            BasicDialog(
+                title = dialog.title,
+                content = dialog.message,
+                positiveButton = dialog.positiveButton,
+                negativeButton = dialog.negativeButton
+            )
         }
     }
 }
