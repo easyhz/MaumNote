@@ -5,13 +5,14 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
+import androidx.navigation.navDeepLink
 import androidx.navigation.navOptions
+import com.maum.note.core.common.util.url.urlEncode
 import com.maum.note.core.model.error.ErrorMessage
 import com.maum.note.core.model.note.NoteType
 import com.maum.note.core.model.note.generation.GenerationNote
 import com.maum.note.core.navigation.home.screen.Home
 import com.maum.note.core.navigation.note.creation.screen.NoteCreation
-import com.maum.note.core.navigation.note.creation.screen.toArgs
 import com.maum.note.core.navigation.note.detail.navigateToNoteDetail
 import com.maum.note.ui.screen.note.creation.content.NoteContentScreen
 import com.maum.note.ui.screen.note.creation.generation.NoteGenerationScreen
@@ -43,7 +44,12 @@ fun NavGraphBuilder.noteCreationGraph(
         }
 
         composable<NoteCreation.NoteGeneration>(
-            typeMap = NoteCreation.NoteGeneration.typeMap,
+            deepLinks = listOf(
+                navDeepLink {
+                    uriPattern =
+                        "maum-note://note/creation/generation?noteType={noteType}&sentenceCountType={sentenceCountType}&inputContent={inputContent}"
+                }
+            )
         ) {
             NoteGenerationScreen(
                 navigateUp = { errorMessage ->
@@ -81,7 +87,11 @@ fun NavController.navigateToNoteGeneration(
     navOptions: NavOptions? = null
 ) {
     navigate(
-        route = NoteCreation.NoteGeneration(generationNoteArgs = generationNote.toArgs()),
+        route = NoteCreation.NoteGeneration(
+            noteType = generationNote.noteType,
+            sentenceCountType = generationNote.sentenceCountType,
+            inputContent = generationNote.inputContent.urlEncode()
+        ),
         navOptions = navOptions
     )
 }

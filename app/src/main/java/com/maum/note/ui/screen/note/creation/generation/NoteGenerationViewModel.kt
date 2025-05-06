@@ -10,7 +10,6 @@ import com.maum.note.core.common.error.AppError
 import com.maum.note.core.common.error.ErrorHandler
 import com.maum.note.core.common.helper.log.Logger
 import com.maum.note.core.common.helper.resource.ResourceHelper
-import com.maum.note.core.common.helper.serializable.SerializableHelper
 import com.maum.note.core.common.util.url.urlDecode
 import com.maum.note.core.model.error.ErrorMessage
 import com.maum.note.core.model.note.AgeType
@@ -38,7 +37,6 @@ class NoteGenerationViewModel @Inject constructor(
     @Dispatcher(AppDispatchers.MAIN) private val mainDispatcher: CoroutineDispatcher,
     private val savedStateHandle: SavedStateHandle,
     private val logger: Logger,
-    private val serializableHelper: SerializableHelper,
     private val generateNoteUseCase: GenerateNoteUseCase,
     private val errorHandler: ErrorHandler,
     private val resourceHelper: ResourceHelper,
@@ -51,11 +49,17 @@ class NoteGenerationViewModel @Inject constructor(
     }
 
     private fun init() {
-        val paramArgs: String? = savedStateHandle["generationNoteArgs"]
-        val generationNote = serializableHelper.deserialize(paramArgs, GenerationNote::class.java)
-            ?: return navigateUp()
-        val note = generationNote.copy(
-            inputContent = generationNote.inputContent.urlDecode(),
+        val noteType: String? = savedStateHandle["noteType"]
+        val sentenceCountType: String? = savedStateHandle["sentenceCountType"]
+        val inputContent: String? = savedStateHandle["inputContent"]
+        if (noteType.isNullOrBlank() || sentenceCountType.isNullOrBlank()) {
+            navigateUp()
+            return
+        }
+        val note = GenerationNote(
+            noteType = noteType,
+            sentenceCountType = sentenceCountType,
+            inputContent = inputContent?.urlDecode() ?: "",
         )
         setState { copy(generationNote = note) }
         generateNote()

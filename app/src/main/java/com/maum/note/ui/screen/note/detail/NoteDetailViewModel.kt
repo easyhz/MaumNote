@@ -4,14 +4,17 @@ import androidx.lifecycle.SavedStateHandle
 import com.maum.note.R
 import com.maum.note.core.common.base.BaseViewModel
 import com.maum.note.core.common.helper.resource.ResourceHelper
-import com.maum.note.core.common.helper.serializable.SerializableHelper
 import com.maum.note.core.common.util.url.urlDecode
+import com.maum.note.core.model.note.AgeType
 import com.maum.note.core.model.note.Note
 import com.maum.note.core.model.note.NoteDetailType
-import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
+import com.maum.note.core.model.note.NoteType
+import com.maum.note.core.model.note.SentenceType
 import com.maum.note.ui.screen.note.detail.contract.NoteDetailSideEffect
 import com.maum.note.ui.screen.note.detail.contract.NoteDetailState
+import dagger.hilt.android.lifecycle.HiltViewModel
+import java.time.LocalDateTime
+import javax.inject.Inject
 
 /**
  * Date: 2025. 4. 19.
@@ -21,7 +24,6 @@ import com.maum.note.ui.screen.note.detail.contract.NoteDetailState
 @HiltViewModel
 class NoteDetailViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle,
-    private val serializableHelper: SerializableHelper,
     private val resourceHelper: ResourceHelper,
 ) : BaseViewModel<NoteDetailState, NoteDetailSideEffect>(
     initialState = NoteDetailState.init()
@@ -32,13 +34,27 @@ class NoteDetailViewModel @Inject constructor(
     }
 
     private fun init() {
-        val noteDetailArgs: String? = savedStateHandle["noteDetailArgs"]
-        val noteDetail = serializableHelper.deserialize(noteDetailArgs, Note::class.java)
-            ?: return navigateUp()
+        val id: Long? = savedStateHandle["id"]
+        val noteType: String? = savedStateHandle["noteType"]
+        val ageType: String? = savedStateHandle["ageType"]
+        val sentenceCountType: String? = savedStateHandle["sentenceCountType"]
+        val inputContent: String? = savedStateHandle["inputContent"]
+        val result: String? = savedStateHandle["result"]
+        val createdAt: String? = savedStateHandle["createdAt"]
 
-        val note = noteDetail.copy(
-            inputContent = noteDetail.inputContent.urlDecode(),
-            result = noteDetail.result.urlDecode()
+        if (id == null || noteType.isNullOrBlank() || ageType.isNullOrBlank() ||
+            sentenceCountType.isNullOrBlank() || createdAt.isNullOrBlank()
+        ) {
+            return navigateUp()
+        }
+        val note = Note(
+            id = id,
+            noteType = NoteType.getByValue(noteType)!!,
+            ageType = AgeType.getByValue(ageType)!!,
+            sentenceCountType = SentenceType.getByValue(sentenceCountType)!!,
+            inputContent = inputContent?.urlDecode() ?: "",
+            result = result?.urlDecode() ?: "",
+            createdAt = LocalDateTime.parse(createdAt)
         )
         setState { copy(detailContent = convertNoteDetail(note), date = note.createdAt) }
     }
