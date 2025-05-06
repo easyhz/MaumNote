@@ -8,7 +8,6 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import com.maum.note.core.designSystem.util.transition.SlideDirection
-import com.maum.note.core.designSystem.util.transition.enterSlide
 import com.maum.note.core.designSystem.util.transition.exitSlide
 import com.maum.note.core.navigation.note.creation.navigateToNoteCreation
 import com.maum.note.core.navigation.home.screen.Home
