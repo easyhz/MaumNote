@@ -10,7 +10,6 @@ import com.maum.note.core.common.base.BaseViewModel
 import com.maum.note.core.common.helper.resource.ResourceHelper
 import com.maum.note.core.common.util.validation.ValidationInput
 import com.maum.note.core.designSystem.util.dialog.BasicDialogButton
-import com.maum.note.core.designSystem.util.dialog.DialogAction
 import com.maum.note.core.designSystem.util.dialog.DialogMessage
 import com.maum.note.core.model.error.ErrorMessage
 import com.maum.note.core.model.note.NoteType
