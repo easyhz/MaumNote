@@ -1,27 +1,39 @@
 package com.maum.note.ui.screen.note.creation.content
 
+import android.view.View
 import androidx.activity.compose.BackHandler
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
+import androidx.compose.foundation.ScrollState
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyListState
-import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.SheetState
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.focus.onFocusEvent
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.key.Key
+import androidx.compose.ui.input.key.key
+import androidx.compose.ui.input.key.onKeyEvent
+import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextLayoutResult
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -46,7 +58,9 @@ import com.maum.note.core.model.note.generation.GenerationNote
 import com.maum.note.ui.screen.note.creation.content.contract.NoteContentSideEffect
 import com.maum.note.ui.screen.note.creation.content.contract.NoteContentState
 import com.maum.note.ui.theme.AppTypography
+import com.maum.note.ui.theme.MainBackground
 import com.maum.note.ui.theme.Primary
+
 
 /**
  * Date: 2025. 5. 5.
@@ -63,7 +77,7 @@ fun NoteContentScreen(
     navigateToNext: (GenerationNote) -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    val scrollState = rememberLazyListState()
+    val scrollState = rememberScrollState()
     val focusManager = LocalFocusManager.current
 
     LaunchedEffect(errorMessage) {
@@ -80,7 +94,10 @@ fun NoteContentScreen(
         onClickNext = viewModel::onClickNext,
         onDismissRequestSentenceBottomSheet = viewModel::onDismissRequestSentenceBottomSheet,
         onClickSentenceBottomSheetItem = viewModel::onClickSentenceBottomSheetItem,
-        clearFocus = focusManager::clearFocus
+        clearFocus = focusManager::clearFocus,
+        onGloballyPosition = viewModel::onGloballyPositioned,
+        changeFocus = viewModel::onChangeFocus,
+        setTextLayoutResult = viewModel::setLayoutResult,
     )
 
     uiState.errorMessage?.let { error ->
@@ -114,7 +131,7 @@ fun NoteContentScreen(
 private fun NoteContentScreen(
     modifier: Modifier = Modifier,
     uiState: NoteContentState,
-    scrollState: LazyListState = rememberLazyListState(),
+    scrollState: ScrollState = rememberScrollState(),
     sheetState: SheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true),
     navigateUp: () -> Unit,
     onValueChange: (TextFieldValue) -> Unit,
@@ -123,7 +140,28 @@ private fun NoteContentScreen(
     onDismissRequestSentenceBottomSheet: () -> Unit = { onClickSentenceCount() },
     onClickSentenceBottomSheetItem: (SentenceType) -> Unit,
     clearFocus: () -> Unit,
+    onGloballyPosition: (View) -> Unit = { },
+    changeFocus: (Boolean) -> Unit = { },
+    setTextLayoutResult: (TextLayoutResult) -> Unit = { },
 ) {
+    val focusRequester = remember { FocusRequester() }
+    val halfHeight = LocalConfiguration.current.screenHeightDp / 2
+    val view = LocalView.current
+    val density = LocalDensity.current
+    val paddingHeight = remember(density) { with(density) { 100.dp.toPx().toInt() } }
+
+    LaunchedEffect(key1 = uiState.absoluteCursorY, key2 = uiState.isFocused) {
+        val targetScroll = uiState.absoluteCursorY - halfHeight - paddingHeight
+
+        val shouldAnimateScroll = !uiState.isMoved &&
+                (uiState.isFocused || scrollState.maxValue >= halfHeight) &&
+                scrollState.value != targetScroll
+
+        if (shouldAnimateScroll) {
+            scrollState.animateScrollTo(targetScroll)
+        }
+    }
+
     BackHandler {
         clearFocus()
         navigateUp()
@@ -132,6 +170,7 @@ private fun NoteContentScreen(
         modifier = modifier.noRippleClickable { clearFocus() },
         topBar = {
             TopBar(
+                modifier = Modifier.background(MainBackground),
                 leftContent = {
                     TopBarIcon(
                         modifier = it,
@@ -153,58 +192,74 @@ private fun NoteContentScreen(
                     }
                 },
                 rightContent = {
-                    AnimatedVisibility(
+                    TopBarText(
                         modifier = it,
-                        visible = uiState.isShowNext,
-                        enter = fadeIn(),
-                        exit = fadeOut(),
-                    ) {
-                        TopBarText(
-                            text = stringResource(id = R.string.note_content_create),
-                            alignment = Alignment.CenterEnd,
-                            color = Primary,
-                            onClick = onClickNext
-                        )
-                    }
+                        text = stringResource(id = R.string.note_content_create),
+                        alignment = Alignment.CenterEnd,
+                        color = Primary,
+                        onClick = onClickNext
+                    )
                 },
             )
         },
     ) { innerPadding ->
-        LazyColumn(
-            modifier = Modifier.padding(innerPadding),
-            state = scrollState,
-            contentPadding = PaddingValues(horizontal = 20.dp, vertical = 12.dp),
+        Column(
+            modifier = Modifier
+                .verticalScroll(scrollState)
+                .padding(innerPadding)
+                .padding(horizontal = 20.dp, vertical = 12.dp)
+                .padding(bottom = 30.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            item {
-                SelectionSection(
-                    title = stringResource(R.string.note_content_sentence_count),
-                    value = stringResource(uiState.selectedSentenceType.title),
-                    onClick = onClickSentenceCount
-                )
-            }
+            SelectionSection(
+                title = stringResource(R.string.note_content_sentence_count),
+                value = stringResource(uiState.selectedSentenceType.title),
+                onClick = onClickSentenceCount
+            )
 
-            item {
-                ContentTextFieldWithTitle(
-                    title = stringResource(R.string.note_content_input),
-                    value = uiState.inputText,
-                    onValueChange = onValueChange,
-                    placeholder = uiState.noteType?.inputPlaceholder?.let { stringResource(it) }
-                        ?: "",
-                    maxCount = uiState.maxCount,
-                    caption = if (uiState.noteType == NoteType.ANNOUNCEMENT_CONTENT) null else stringResource(
-                        R.string.note_type_common_hint
-                    ),
-                    hint = uiState.noteType?.hint?.let { stringResource(it) },
-                )
-            }
+            ContentTextFieldWithTitle(
+                modifier = Modifier.imePadding(),
+                textFieldModifier = Modifier
+                    .focusRequester(focusRequester)
+                    .onGloballyPositioned { _ ->
+                        onGloballyPosition(view)
+                    }
+                    .onFocusEvent {
+                        changeFocus(it.hasFocus)
+                    }.onKeyEvent {
+                        it.key == Key.Enter
+                    },
+                title = stringResource(R.string.note_content_input),
+                value = uiState.inputText,
+                onValueChange = onValueChange,
+                placeholder = uiState.noteType?.inputPlaceholder?.let { stringResource(it) }
+                    ?: "",
+                maxCount = uiState.maxCount,
+                caption = if (uiState.noteType == NoteType.ANNOUNCEMENT_CONTENT) null else stringResource(
+                    R.string.note_type_common_hint
+                ),
+                hint = uiState.noteType?.hint?.let { stringResource(it) },
+                onTextLayout = { result ->
+                    setTextLayoutResult(result)
+                }
+            )
         }
+
         if (uiState.isShowSentenceCountBottomSheet) {
             SentenceCountBottomSheet(
                 modifier = Modifier,
                 sheetState = sheetState,
                 onDismissRequest = onDismissRequestSentenceBottomSheet,
                 onClick = onClickSentenceBottomSheetItem,
+            )
+        }
+
+        uiState.dialogMessage?.let { dialog ->
+            BasicDialog(
+                title = dialog.title,
+                content = dialog.message,
+                positiveButton = dialog.positiveButton,
+                negativeButton = dialog.negativeButton
             )
         }
     }

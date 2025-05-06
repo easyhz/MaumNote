@@ -7,6 +7,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.TextLayoutResult
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -16,6 +17,7 @@ import com.maum.note.ui.theme.SubText
 @Composable
 fun ContentTextFieldWithTitle(
     modifier: Modifier = Modifier,
+    textFieldModifier: Modifier = Modifier,
     title: String,
     value: TextFieldValue,
     onValueChange: (TextFieldValue) -> Unit,
@@ -23,6 +25,7 @@ fun ContentTextFieldWithTitle(
     maxCount: Int? = null,
     caption: String? = null,
     hint: String? = null,
+    onTextLayout: (TextLayoutResult) -> Unit = {},
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     keyboardActions: KeyboardActions = KeyboardActions.Default,
 ) {
@@ -39,11 +42,13 @@ fun ContentTextFieldWithTitle(
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             ContentTextField(
+                textFieldModifier = textFieldModifier,
                 value = value,
                 onValueChange = onValueChange,
                 placeholder = placeholder,
                 maxCount = maxCount,
                 caption = caption,
+                onTextLayout = onTextLayout,
                 keyboardActions = keyboardActions,
                 keyboardOptions = keyboardOptions,
             )
