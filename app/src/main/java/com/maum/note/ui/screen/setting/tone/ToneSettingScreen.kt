@@ -13,6 +13,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.key.Key
+import androidx.compose.ui.input.key.key
+import androidx.compose.ui.input.key.onKeyEvent
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -25,12 +28,12 @@ import com.maum.note.R
 import com.maum.note.core.common.util.collect.collectInSideEffectWithLifecycle
 import com.maum.note.core.designSystem.component.dialog.BasicDialog
 import com.maum.note.core.designSystem.component.scaffold.AppScaffold
+import com.maum.note.core.designSystem.component.textField.ContentTextFieldWithTitle
 import com.maum.note.core.designSystem.component.topbar.TopBar
 import com.maum.note.core.designSystem.component.topbar.TopBarIcon
 import com.maum.note.core.designSystem.component.topbar.TopBarText
 import com.maum.note.core.designSystem.extension.modifier.noRippleClickable
 import com.maum.note.core.model.note.NoteType
-import com.maum.note.ui.screen.setting.tone.component.ToneTextField
 import com.maum.note.ui.screen.setting.tone.contract.ToneSettingSideEffect
 import com.maum.note.ui.screen.setting.tone.contract.ToneSettingState
 import com.maum.note.ui.theme.AppTypography
@@ -123,14 +126,21 @@ private fun ToneSettingScreen(
             contentPadding = PaddingValues(start = 20.dp, end = 20.dp, top = 12.dp, bottom = 92.dp),
             verticalArrangement = Arrangement.spacedBy(20.dp),
         ) {
-            items(NoteType.entries) { type ->
-                ToneTextField(
+            items(NoteType.entries) { noteType ->
+                ContentTextFieldWithTitle(
                     modifier = Modifier.padding(bottom = 20.dp),
-                    noteType = type,
-                    value = uiState.contents[type] ?: TextFieldValue(""),
+                    textFieldModifier = Modifier
+                        .onKeyEvent {
+                            it.key == Key.Enter
+                        },
+                    title = stringResource(noteType.title),
+                    value = uiState.contents[noteType] ?: TextFieldValue(""),
                     onValueChange = { value ->
-                        onValueChange(type, value)
+                        onValueChange(noteType, value)
                     },
+                    placeholder = stringResource(noteType.tonePlaceholder),
+                    maxCount = noteType.maxCount,
+                    caption = stringResource(id = noteType.toneCaption),
                 )
             }
         }
