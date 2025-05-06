@@ -14,6 +14,7 @@ data class NoteResponse(
     val inputContent: String,
     val result: String,
     val createdAt: LocalDateTime,
+    val studentId: Long? = null,
 ) {
     fun toNote() = Note(
         id = id,

@@ -5,6 +5,7 @@ import com.maum.note.core.common.helper.resource.ResourceHelper
 import com.maum.note.core.common.util.date.DateTimeFormatter
 import com.maum.note.core.common.util.gpt.GptRole
 import com.maum.note.core.database.note.entity.NoteEntity
+import com.maum.note.core.database.note.entity.NoteWithStudent
 import com.maum.note.core.model.note.NoteType
 import com.maum.note.core.network.gpt.model.note.request.GptRequest
 import com.maum.note.core.network.gpt.model.note.request.etc.InputRequest
@@ -50,15 +51,15 @@ class NoteMapper @Inject constructor(
     )
 
     fun mapToNoteResponse(
-        noteEntity: NoteEntity
+        noteWithStudent: NoteWithStudent
     ) = NoteResponse(
-        id = noteEntity.id,
-        noteType = noteEntity.noteType,
-        ageType = noteEntity.age,
-        sentenceCountType = noteEntity.sentenceCount,
-        inputContent = noteEntity.inputContent,
-        result = noteEntity.result,
-        createdAt = dateTimeFormatter.convertStringToDateTime(noteEntity.createdAt),
+        id = noteWithStudent.note.id,
+        noteType = noteWithStudent.note.noteType,
+        ageType = noteWithStudent.note.age,
+        sentenceCountType = noteWithStudent.note.sentenceCount,
+        inputContent = noteWithStudent.note.inputContent,
+        result = noteWithStudent.note.result,
+        createdAt = dateTimeFormatter.convertStringToDateTime(noteWithStudent.note.createdAt),
     )
 
     private fun createGptInputRequests(

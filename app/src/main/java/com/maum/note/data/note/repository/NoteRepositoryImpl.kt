@@ -1,7 +1,7 @@
 package com.maum.note.data.note.repository
 
 import com.maum.note.core.common.helper.log.Logger
-import com.maum.note.core.database.note.entity.NoteEntity
+import com.maum.note.core.database.note.entity.NoteWithStudent
 import com.maum.note.core.model.note.NoteType
 import com.maum.note.data.note.datasource.local.NoteLocalDataSource
 import com.maum.note.data.note.datasource.remote.NoteRemoteDataSource
@@ -77,8 +77,8 @@ class NoteRepositoryImpl @Inject constructor(
     private suspend fun saveNote(
         request: NoteGenerationRequestParam,
         result: NoteGenerationResponse,
-    ): NoteEntity {
-        val entity = noteMapper.mapToNoteEntity(
+    ): NoteWithStudent {
+        val note = noteMapper.mapToNoteEntity(
             noteRequestParam = NoteRequestParam(
                 noteType = request.noteType,
                 age = request.ageType,
@@ -86,6 +86,10 @@ class NoteRepositoryImpl @Inject constructor(
                 inputContent = request.inputContent,
                 result = result.result
             )
+        )
+        val entity = NoteWithStudent(
+            note = note,
+            student = null
         )
         try {
             return noteLocalDataSource.insertAndGetNote(entity)

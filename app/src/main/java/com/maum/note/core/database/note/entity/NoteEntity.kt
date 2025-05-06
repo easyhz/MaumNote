@@ -27,5 +27,6 @@ data class NoteEntity(
     val result: String,
     val createdAt: String, // LocalDateTime
     val updatedAt: String, // LocalDateTime
+    val studentId: Long? = null,
     val isDeleted: Boolean,
 )

@@ -8,6 +8,7 @@ import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Upsert
 import com.maum.note.core.database.note.entity.NoteEntity
+import com.maum.note.core.database.note.entity.NoteWithStudent
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -24,7 +25,7 @@ interface NoteDao {
         ORDER BY createdAt DESC
     """
     )
-    fun findAllNotesPagingSource(): PagingSource<Int, NoteEntity>
+    fun findAllNotesPagingSource(): PagingSource<Int, NoteWithStudent>
 
     @Query(
         """
@@ -34,17 +35,17 @@ interface NoteDao {
         ORDER BY createdAt DESC
     """
     )
-    fun findAllNotesFlow(): Flow<List<NoteEntity>>
+    fun findAllNotesFlow(): Flow<List<NoteWithStudent>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertNote(note: NoteEntity): Long
 
     @Query("SELECT * FROM NOTE WHERE id = :id")
-    suspend fun findNoteById(id: Long): NoteEntity
+    suspend fun findNoteById(id: Long): NoteWithStudent
 
     @Transaction
-    suspend fun insertAndGetNote(note: NoteEntity): NoteEntity {
-        val id = insertNote(note)
+    suspend fun insertAndGetNote(noteWithStudent: NoteWithStudent): NoteWithStudent {
+        val id = insertNote(noteWithStudent.note)
         return findNoteById(id)
     }
 
