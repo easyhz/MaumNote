@@ -19,7 +19,9 @@ import javax.inject.Inject
 import com.maum.note.ui.screen.setting.tone.contract.ToneSettingSideEffect
 import com.maum.note.ui.screen.setting.tone.contract.ToneSettingState
 import com.maum.note.ui.theme.AppTypography
+import com.maum.note.ui.theme.ButtonShapeColor
 import com.maum.note.ui.theme.MainBackground
+import com.maum.note.ui.theme.MainText
 import com.maum.note.ui.theme.Primary
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
@@ -65,6 +67,14 @@ class ToneSettingViewModel @Inject constructor(
         updateAllTone()
     }
 
+    fun onClickNavigateUp() {
+        if (isChanged()) {
+            handleChangedDialog()
+            return
+        }
+        navigateUp()
+    }
+
     private fun getAllSelectedTones() {
         viewModelScope.launch(ioDispatcher) {
             getAllSelectedTonesUseCase.invoke(Unit).onSuccess { tones ->
@@ -74,7 +84,7 @@ class ToneSettingViewModel @Inject constructor(
                     }
                 }.toMap()
                 withContext(mainDispatcher) {
-                    setState { copy(contents = contents) }
+                    setState { copy(contents = contents, originalContents = contents) }
                 }
             }.onFailure {
                 withContext(mainDispatcher) {
@@ -146,5 +156,36 @@ class ToneSettingViewModel @Inject constructor(
 
     private fun hideDialog() {
         setDialog(null)
+    }
+
+    private fun navigateUp() {
+        postSideEffect { ToneSettingSideEffect.NavigateUp }
+    }
+
+    private fun isChanged(): Boolean {
+        return currentState.contents.entries.any { (noteType, text) ->
+            val originalText = currentState.originalContents[noteType]?.text
+            originalText != text.text
+        }
+    }
+
+    private fun handleChangedDialog() {
+        setDialog(
+            message = DialogMessage(
+                title = resourceHelper.getString(R.string.setting_note_tone_do_not_save_title),
+                message = resourceHelper.getString(R.string.setting_note_tone_do_not_save_message),
+                positiveButton = getDefaultPositiveButton(
+                    text = resourceHelper.getString(R.string.setting_note_tone_positive_button),
+                    onClick = ::navigateUp
+                ),
+                negativeButton = getDefaultPositiveButton(
+                    text = resourceHelper.getString(R.string.setting_note_tone_negative_button),
+                    onClick = ::hideDialog
+                ).copy(
+                    backgroundColor = ButtonShapeColor,
+                    style = AppTypography.heading5_semiBold.copy(color = MainText)
+                )
+            )
+        )
     }
 }

@@ -12,12 +12,14 @@ import com.maum.note.core.model.note.NoteType
 
 data class ToneSettingState(
     val isLoading: Boolean,
+    val originalContents: Map<NoteType, TextFieldValue>,
     val contents: Map<NoteType, TextFieldValue>,
     val dialogMessage: DialogMessage?,
     ) : UiState() {
     companion object {
         fun init(): ToneSettingState = ToneSettingState(
             isLoading = true,
+            originalContents = NoteType.entries.associateWith { TextFieldValue("") },
             contents = NoteType.entries.associateWith { TextFieldValue("") },
             dialogMessage = null,
         )

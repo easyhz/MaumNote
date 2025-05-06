@@ -1,5 +1,6 @@
 package com.maum.note.ui.screen.setting.tone
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
@@ -21,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.maum.note.R
+import com.maum.note.core.common.util.collect.collectInSideEffectWithLifecycle
 import com.maum.note.core.designSystem.component.dialog.BasicDialog
 import com.maum.note.core.designSystem.component.scaffold.AppScaffold
 import com.maum.note.core.designSystem.component.topbar.TopBar
@@ -29,6 +31,7 @@ import com.maum.note.core.designSystem.component.topbar.TopBarText
 import com.maum.note.core.designSystem.extension.modifier.noRippleClickable
 import com.maum.note.core.model.note.NoteType
 import com.maum.note.ui.screen.setting.tone.component.ToneTextField
+import com.maum.note.ui.screen.setting.tone.contract.ToneSettingSideEffect
 import com.maum.note.ui.screen.setting.tone.contract.ToneSettingState
 import com.maum.note.ui.theme.AppTypography
 import com.maum.note.ui.theme.MainText
@@ -53,7 +56,7 @@ fun ToneSettingScreen(
         modifier = modifier,
         uiState = uiState,
         scrollState = scrollState,
-        navigateUp = navigateUp,
+        navigateUp = viewModel::onClickNavigateUp,
         onValueChange = { type, value ->
             viewModel.onContentValueChange(noteType = type, newValue = value)
         },
@@ -61,6 +64,12 @@ fun ToneSettingScreen(
         onClickSave = viewModel::onClickSave
     )
 
+    viewModel.sideEffect.collectInSideEffectWithLifecycle { sideEffect ->
+        when (sideEffect) {
+            is ToneSettingSideEffect.NavigateUp -> navigateUp()
+        }
+
+    }
 }
 
 @Composable
@@ -73,6 +82,9 @@ private fun ToneSettingScreen(
     clearFocus: () -> Unit,
     onClickSave: () -> Unit,
 ) {
+    BackHandler(
+        onBack = navigateUp,
+    )
     AppScaffold(
         modifier = modifier.noRippleClickable { clearFocus() },
         topBar = {
