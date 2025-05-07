@@ -11,4 +11,10 @@
     <string name="error_dialog_message">알 수 없는 오류가 발생했습니다.</string>
     <string name="error_dialog_button">다시 불러오기</string>
 
+    <string name="time_just_now">방금 전</string>
+    <string name="time_minutes_ago">%1$d분 전</string>
+    <string name="time_hours_ago">%1$d시간 전</string>
+    <string name="time_yesterday">어제</string>
+    <string name="time_date">%1$s</string>
+
 </resources>
