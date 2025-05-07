@@ -148,4 +148,7 @@ dependencies {
 
     // lottie
     implementation(libs.lottie)
+
+    // clarity
+    implementation(libs.clarity)
 }
