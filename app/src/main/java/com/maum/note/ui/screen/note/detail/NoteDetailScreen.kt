@@ -1,7 +1,9 @@
 package com.maum.note.ui.screen.note.detail
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -126,7 +128,11 @@ private fun NoteDetailScreen(
                     title = stringResource(note.title),
                     value = note.content,
                     enabled = note.isCopyable,
+                    minHeight = note.minHeight.dp,
                 )
+            }
+            item {
+                Box(modifier = Modifier.height(20.dp))
             }
         }
     }

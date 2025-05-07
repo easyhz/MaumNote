@@ -7,10 +7,12 @@ sealed class NoteDetailType(
     @StringRes val title: Int,
     val content: String,
     val isCopyable: Boolean = true,
+    val minHeight: Int = 0,
 ) {
     data class Type(val noteType: NoteType, val value: String): NoteDetailType(
         title = noteType.title,
         content = value,
+        minHeight = 200,
     )
     data class Age(
         val value: String
@@ -31,6 +33,7 @@ sealed class NoteDetailType(
     ): NoteDetailType(
         title = R.string.note_detail_input,
         content = value,
+        minHeight = 150
     )
 
     companion object {
