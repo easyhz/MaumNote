@@ -105,6 +105,7 @@ private fun OnboardingToneScreen(
         bottomBar = {
             MainButton(
                 text = stringResource(R.string.onboarding_start_button),
+                enabled = uiState.enabledButton,
                 isImeVisible = uiState.isImeVisible,
                 onClick = onClickNext,
             )

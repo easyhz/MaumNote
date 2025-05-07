@@ -40,7 +40,7 @@ class OnboardingToneViewModel @Inject constructor(
 ) {
 
     fun onContentValueChange(value: TextFieldValue) {
-        setState { copy(content = value) }
+        setState { copy(content = value, enabledButton = isValidContentInput(value.text)) }
     }
 
     fun onImeVisibilityChanged(isVisible: Boolean) {
@@ -48,10 +48,6 @@ class OnboardingToneViewModel @Inject constructor(
     }
 
     fun onClickNext() {
-        if (!isValidContentInput()) {
-            handleOverTextLength()
-            return
-        }
         viewModelScope.launch(ioDispatcher) {
             val param = getUpdateToneRequestParam()
             updateToneUseCase.invoke(param).onSuccess {
@@ -73,8 +69,7 @@ class OnboardingToneViewModel @Inject constructor(
         postSideEffect { OnboardingToneSideEffect.NavigateToNext }
     }
 
-    private fun isValidContentInput(): Boolean {
-        val text = currentState.content.text
+    private fun isValidContentInput(text: String): Boolean {
         val maxCount = currentState.maxCount
         return validationInput.isValidContentInput(text = text, maxCount = maxCount)
     }
