@@ -5,12 +5,20 @@ import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.util.Date
+import javax.inject.Inject
 
-class DateTimeFormatter {
-    private val formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm")
+class AppDateTimeFormatter @Inject constructor(
 
-    fun convertDateTimeToString(dateTime: LocalDateTime): String {
-        return dateTime.format(formatter)
+) {
+    private val dateFormatter = DateTimeFormatter.ofPattern("yyyy.MM.dd")
+    private val timeFormatter = DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm")
+
+    fun convertDateTimeToStringDate(date: LocalDateTime): String {
+        return date.format(dateFormatter)
+    }
+
+    fun convertDateTimeToStringTime(dateTime: LocalDateTime): String {
+        return dateTime.format(timeFormatter)
     }
 
     fun convertStringToDateTime(dateTimeString: String): LocalDateTime {

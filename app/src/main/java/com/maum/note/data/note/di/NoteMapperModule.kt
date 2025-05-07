@@ -1,7 +1,7 @@
 package com.maum.note.data.note.di
 
 import com.maum.note.core.common.helper.resource.ResourceHelper
-import com.maum.note.core.common.util.date.DateTimeFormatter
+import com.maum.note.core.common.util.date.AppDateTimeFormatter
 import com.maum.note.data.note.mapper.NoteMapper
 import dagger.Module
 import dagger.Provides
@@ -15,10 +15,11 @@ object NoteMapperModule {
     @Provides
     fun provideNoteMapper(
         resourceHelper: ResourceHelper,
+        appDateTimeFormatter: AppDateTimeFormatter,
     ): NoteMapper {
         return NoteMapper(
             resourceHelper = resourceHelper,
-            dateTimeFormatter = DateTimeFormatter()
+            appDateTimeFormatter = appDateTimeFormatter
         )
     }
 }

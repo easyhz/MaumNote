@@ -2,7 +2,7 @@ package com.maum.note.data.note.mapper
 
 import com.maum.note.R
 import com.maum.note.core.common.helper.resource.ResourceHelper
-import com.maum.note.core.common.util.date.DateTimeFormatter
+import com.maum.note.core.common.util.date.AppDateTimeFormatter
 import com.maum.note.core.common.util.gpt.GptRole
 import com.maum.note.core.database.note.entity.NoteEntity
 import com.maum.note.core.database.note.entity.NoteWithStudent
@@ -20,7 +20,7 @@ import javax.inject.Inject
 
 class NoteMapper @Inject constructor(
     private val resourceHelper: ResourceHelper,
-    private val dateTimeFormatter: DateTimeFormatter
+    private val appDateTimeFormatter: AppDateTimeFormatter
 ) {
     fun mapToNoteEntity(noteRequestParam: NoteRequestParam): NoteEntity = NoteEntity(
         noteType = noteRequestParam.noteType,
@@ -59,7 +59,7 @@ class NoteMapper @Inject constructor(
         sentenceCountType = noteWithStudent.note.sentenceCount,
         inputContent = noteWithStudent.note.inputContent,
         result = noteWithStudent.note.result,
-        createdAt = dateTimeFormatter.convertStringToDateTime(noteWithStudent.note.createdAt),
+        createdAt = appDateTimeFormatter.convertStringToDateTime(noteWithStudent.note.createdAt),
     )
 
     private fun createGptInputRequests(
