@@ -61,7 +61,7 @@ fun MainButton(
             .then(
                 if (isImeVisible == null) {
                     Modifier.dropShadow(
-                        shape = RoundedCornerShape(8.dp),
+                        shape = RoundedCornerShape(12.dp),
                         color = Color.Black.copy(0.25f),
                         offsetY = 6.dp,
                         blur = 12.dp
@@ -100,7 +100,7 @@ fun getPadding(
 @Composable
 private fun getCornerRadius(
     isImeVisible: Boolean?,
-    defaultPadding: Dp = 8.dp,
+    defaultPadding: Dp = 12.dp,
     changedPadding: Dp = 0.dp
 ): State<Dp> {
     return animateDpAsState(
