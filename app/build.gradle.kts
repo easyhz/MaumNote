@@ -37,6 +37,7 @@ android {
         debug {
             buildConfigField("String", "GPT_API_URL", localProperties["gpt.api.url.dev"].toString())
             buildConfigField("String", "GPT_API_KEY", localProperties["gpt.api.key.dev"].toString())
+            buildConfigField("String", "CLARITY_PROJECT_ID", localProperties["clarity.project.id.dev"].toString())
         }
         release {
             isMinifyEnabled = false
@@ -46,6 +47,7 @@ android {
             )
             buildConfigField("String", "GPT_API_URL", localProperties["gpt.api.url.prod"].toString())
             buildConfigField("String", "GPT_API_KEY", localProperties["gpt.api.key.prod"].toString())
+            buildConfigField("String", "CLARITY_PROJECT_ID", localProperties["clarity.project.id.prod"].toString())
         }
     }
 
