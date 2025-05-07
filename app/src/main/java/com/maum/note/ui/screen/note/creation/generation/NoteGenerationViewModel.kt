@@ -81,15 +81,11 @@ class NoteGenerationViewModel @Inject constructor(
             return@launch
         }
 
-        val result = generateNoteUseCase(params)
-
-        withContext(mainDispatcher) {
-            result.onSuccess { response ->
-                navigateToNoteDetail(note = response.toNote())
-            }.onFailure { e ->
-                logger.e("NoteGenerationViewModel", "generateNote", e)
-                navigateUp(e)
-            }
+        generateNoteUseCase(params).onSuccess { response ->
+            navigateToNoteDetail(note = response.toNote())
+        }.onFailure { e ->
+            logger.e("NoteGenerationViewModel", "generateNote", e)
+            navigateUp(e)
         }
     }
 
