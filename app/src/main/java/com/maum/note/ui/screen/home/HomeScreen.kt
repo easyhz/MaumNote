@@ -108,7 +108,7 @@ private fun HomeScreen(
             columns = GridCells.Fixed(2),
             horizontalArrangement = Arrangement.spacedBy(12.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp),
-            contentPadding = PaddingValues(horizontal = 12.dp, vertical = 8.dp)
+            contentPadding = PaddingValues(start = 12.dp, end = 12.dp, top = 8.dp, bottom = 80.dp)
         ) {
             items(uiState.noteList) {
                 NoteCard(
