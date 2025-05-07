@@ -20,6 +20,12 @@ fun LocalDateTime.toDisplayTimeAgo(
     }
 }
 
+fun LocalDateTime.toDisplayDate(
+    appDateTimeFormatter: AppDateTimeFormatter,
+): String {
+    return appDateTimeFormatter.convertDateTimeToStringDateTime(this)
+}
+
 private fun LocalDateTime.toTimeAgoType(): TimeType {
     val now = LocalDateTime.now()
     val minutes = ChronoUnit.MINUTES.between(this, now)
