@@ -6,6 +6,8 @@ import com.google.firebase.appcheck.ktx.appCheck
 import com.google.firebase.appcheck.playintegrity.PlayIntegrityAppCheckProviderFactory
 import com.google.firebase.ktx.Firebase
 import com.maum.note.core.common.analytics.AnalyticsManager
+import com.microsoft.clarity.Clarity
+import com.microsoft.clarity.ClarityConfig
 import dagger.hilt.android.HiltAndroidApp
 
 @HiltAndroidApp
@@ -17,5 +19,8 @@ class MaumNoteApplication: Application() {
         Firebase.appCheck.installAppCheckProviderFactory(
             PlayIntegrityAppCheckProviderFactory.getInstance()
         )
+
+        val config = ClarityConfig(BuildConfig.CLARITY_PROJECT_ID)
+        Clarity.initialize(applicationContext, config)
     }
 }
