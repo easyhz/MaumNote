@@ -17,7 +17,7 @@ class AppDateTimeFormatter @Inject constructor(
         return date.format(dateFormatter)
     }
 
-    fun convertDateTimeToStringTime(dateTime: LocalDateTime): String {
+    fun convertDateTimeToStringDateTime(dateTime: LocalDateTime): String {
         return dateTime.format(timeFormatter)
     }
 
