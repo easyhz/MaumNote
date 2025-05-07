@@ -26,6 +26,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.maum.note.R
 import com.maum.note.core.common.util.collect.collectInSideEffectWithLifecycle
 import com.maum.note.core.designSystem.component.button.MainButton
+import com.maum.note.core.designSystem.component.dialog.BasicDialog
 import com.maum.note.core.designSystem.component.scaffold.AppScaffold
 import com.maum.note.core.designSystem.component.text.OnboardingText
 import com.maum.note.core.designSystem.component.textField.ContentTextField
@@ -125,13 +126,22 @@ private fun OnboardingToneScreen(
                 value = uiState.content,
                 onValueChange = onValueChange,
                 placeholder = stringResource(R.string.onboarding_tone_placeholder),
-                maxCount = 100
+                maxCount = uiState.maxCount,
             )
 
             Text(
                 text = stringResource(R.string.onboarding_tone_description),
                 style = AppTypography.body2_regular,
                 color = SubText
+            )
+        }
+
+        uiState.dialogMessage?.let { dialog ->
+            BasicDialog(
+                title = dialog.title,
+                content = dialog.message,
+                positiveButton = dialog.positiveButton,
+                negativeButton = dialog.negativeButton
             )
         }
     }

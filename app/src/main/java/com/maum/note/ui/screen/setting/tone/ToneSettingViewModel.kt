@@ -20,6 +20,7 @@ import com.maum.note.ui.screen.setting.tone.contract.ToneSettingSideEffect
 import com.maum.note.ui.screen.setting.tone.contract.ToneSettingState
 import com.maum.note.ui.theme.AppTypography
 import com.maum.note.ui.theme.ButtonShapeColor
+import com.maum.note.ui.theme.DestructiveRed
 import com.maum.note.ui.theme.MainBackground
 import com.maum.note.ui.theme.MainText
 import com.maum.note.ui.theme.Primary
@@ -177,6 +178,8 @@ class ToneSettingViewModel @Inject constructor(
                 positiveButton = getDefaultPositiveButton(
                     text = resourceHelper.getString(R.string.setting_note_tone_positive_button),
                     onClick = ::navigateUp
+                ).copy(
+                    backgroundColor = DestructiveRed,
                 ),
                 negativeButton = getDefaultPositiveButton(
                     text = resourceHelper.getString(R.string.setting_note_tone_negative_button),
