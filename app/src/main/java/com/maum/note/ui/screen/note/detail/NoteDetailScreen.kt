@@ -20,6 +20,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.maum.note.R
 import com.maum.note.core.common.util.collect.collectInSideEffectWithLifecycle
+import com.maum.note.core.common.util.date.AppDateTimeFormatter
+import com.maum.note.core.common.util.date.toDisplayDate
 import com.maum.note.core.designSystem.component.button.MainButton
 import com.maum.note.core.designSystem.component.scaffold.AppScaffold
 import com.maum.note.core.designSystem.component.section.DetailSection
@@ -31,6 +33,7 @@ import com.maum.note.core.model.note.NoteType
 import com.maum.note.ui.screen.note.detail.contract.NoteDetailSideEffect
 import com.maum.note.ui.screen.note.detail.contract.NoteDetailState
 import com.maum.note.ui.theme.AppTypography
+import com.maum.note.ui.theme.LocalDateTimeFormatter
 import com.maum.note.ui.theme.LocalSnackBarHostState
 
 /**
@@ -75,6 +78,7 @@ fun NoteDetailScreen(
 private fun NoteDetailScreen(
     modifier: Modifier = Modifier,
     uiState: NoteDetailState,
+    appDateTimeFormatter: AppDateTimeFormatter = LocalDateTimeFormatter.current,
     navigateUp: () -> Unit,
     onClickCopyButton: () -> Unit,
 ) {
@@ -113,7 +117,7 @@ private fun NoteDetailScreen(
         ) {
             item {
                 Text(
-                    text = stringResource(R.string.note_detail_date, uiState.date.toString()),
+                    text = stringResource(R.string.note_detail_date, uiState.date.toDisplayDate(appDateTimeFormatter = appDateTimeFormatter)),
                     style = AppTypography.body1,
                 )
             }
@@ -147,6 +151,7 @@ private fun NoteDetailScreenPreview() {
                 inputValue = "Sample Input",
             )
         ),
+        appDateTimeFormatter = AppDateTimeFormatter(),
         navigateUp = { },
         onClickCopyButton = { }
     )
