@@ -31,12 +31,12 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
-        buildConfigField("String", "GPT_API_KEY", localProperties["gpt.api.key"].toString())
     }
 
     buildTypes {
         debug {
             buildConfigField("String", "GPT_API_URL", localProperties["gpt.api.url.dev"].toString())
+            buildConfigField("String", "GPT_API_KEY", localProperties["gpt.api.key.dev"].toString())
         }
         release {
             isMinifyEnabled = false
@@ -45,6 +45,7 @@ android {
                 "proguard-rules.pro"
             )
             buildConfigField("String", "GPT_API_URL", localProperties["gpt.api.url.prod"].toString())
+            buildConfigField("String", "GPT_API_KEY", localProperties["gpt.api.key.prod"].toString())
         }
     }
 
