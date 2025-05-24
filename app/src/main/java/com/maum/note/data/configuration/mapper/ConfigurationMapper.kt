@@ -10,7 +10,10 @@ class ConfigurationMapper {
         return ConfigurationResponse(
             androidVersion = data.androidVersion,
             notionUrl = data.notionUrl,
-            maintenanceNotice = data.maintenanceNotice
+            maintenanceNotice = data.maintenanceNotice,
+            announcementContentPrompt = data.announcementContentPrompt,
+            letterGreetingPrompt = data.letterGreetingPrompt,
+            playContextPrompt = data.playContextPrompt
         )
     }
 }
