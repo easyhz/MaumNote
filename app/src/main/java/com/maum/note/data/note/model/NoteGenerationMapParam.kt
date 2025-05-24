@@ -1,5 +1,6 @@
 package com.maum.note.data.note.model
 
+import com.maum.note.core.firebase.configuration.model.response.ConfigurationResponse
 import com.maum.note.core.model.note.AgeType
 import com.maum.note.core.model.note.NoteType
 import com.maum.note.core.model.note.SentenceType
@@ -9,6 +10,7 @@ data class NoteGenerationMapParam(
     val noteGenerationRequestParam: NoteGenerationRequestParam,
     val defaultTone: String,
     val typeTone: String,
+    val configuration: ConfigurationResponse?
 ) {
     fun toInputRequestMapParam(): InputRequestMapParam {
         return InputRequestMapParam(
@@ -17,7 +19,8 @@ data class NoteGenerationMapParam(
             sentenceType = getEnumOrThrow(noteGenerationRequestParam.sentenceCount, SentenceType::getByValue),
             inputContent = noteGenerationRequestParam.inputContent,
             defaultTone = defaultTone,
-            typeTone = typeTone
+            typeTone = typeTone,
+            configuration = configuration
         )
     }
 
@@ -34,5 +37,6 @@ data class InputRequestMapParam(
     val sentenceType: SentenceType,
     val inputContent: String,
     val defaultTone: String,
-    val typeTone: String
+    val typeTone: String,
+    val configuration: ConfigurationResponse?,
 )

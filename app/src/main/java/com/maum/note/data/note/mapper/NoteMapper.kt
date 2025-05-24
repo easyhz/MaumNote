@@ -6,6 +6,7 @@ import com.maum.note.core.common.util.date.AppDateTimeFormatter
 import com.maum.note.core.common.util.gpt.GptRole
 import com.maum.note.core.database.note.entity.NoteEntity
 import com.maum.note.core.database.note.entity.NoteWithStudent
+import com.maum.note.core.firebase.configuration.model.response.ConfigurationResponse
 import com.maum.note.core.model.note.NoteType
 import com.maum.note.core.network.gpt.model.note.request.GptRequest
 import com.maum.note.core.network.gpt.model.note.request.etc.InputRequest
@@ -67,8 +68,9 @@ class NoteMapper @Inject constructor(
     ): List<InputRequest> {
         val systemPrompt = InputRequest(
             role = GptRole.SYSTEM.alias,
-            content = getSystemPrompt(noteType = param.noteType)
+            content = resolveSystemPrompt(noteType = param.noteType, configuration = param.configuration)
         )
+
         val userPrompt = InputRequest(
             role = GptRole.USER.alias,
             content = getUserPrompt(
@@ -78,16 +80,25 @@ class NoteMapper @Inject constructor(
         return listOf(systemPrompt, userPrompt)
     }
 
-    private fun getSystemPrompt(
-        noteType: NoteType
-    ): String {
-        val id = when (noteType) {
-            NoteType.LETTER_GREETING -> R.string.system_prompt_letter_greeting
-            NoteType.ANNOUNCEMENT_CONTENT -> R.string.system_prompt_announcement_content
-            NoteType.PLAY_CONTEXT -> R.string.system_prompt_play_context
-            else -> R.string.system_prompt_default
+    private fun resolveSystemPrompt(noteType: NoteType, configuration: ConfigurationResponse?): String {
+        return configuration?.getPromptFor(noteType).takeUnless { it.isNullOrBlank() }
+            ?: resourceHelper.getString(noteType.toPromptStringRes())
+    }
+
+    private fun ConfigurationResponse.getPromptFor(noteType: NoteType): String? {
+        return when (noteType) {
+            NoteType.LETTER_GREETING -> letterGreetingPrompt
+            NoteType.ANNOUNCEMENT_CONTENT -> announcementContentPrompt
+            NoteType.PLAY_CONTEXT -> playContextPrompt
+            else -> letterGreetingPrompt
         }
-        return resourceHelper.getString(id)
+    }
+
+    private fun NoteType.toPromptStringRes(): Int = when (this) {
+        NoteType.LETTER_GREETING -> R.string.system_prompt_letter_greeting
+        NoteType.ANNOUNCEMENT_CONTENT -> R.string.system_prompt_announcement_content
+        NoteType.PLAY_CONTEXT -> R.string.system_prompt_play_context
+        else -> R.string.system_prompt_default
     }
 
     private fun getUserPrompt(

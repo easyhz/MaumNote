@@ -1,8 +1,10 @@
 package com.maum.note.data.note.repository
 
+import android.util.Log
 import com.maum.note.core.common.helper.log.Logger
 import com.maum.note.core.database.note.entity.NoteWithStudent
 import com.maum.note.core.model.note.NoteType
+import com.maum.note.data.configuration.datasource.ConfigurationRemoteDataSource
 import com.maum.note.data.note.datasource.local.NoteLocalDataSource
 import com.maum.note.data.note.datasource.remote.NoteRemoteDataSource
 import com.maum.note.data.note.mapper.NoteMapper
@@ -27,6 +29,7 @@ class NoteRepositoryImpl @Inject constructor(
     private val toneLocalDataSource: ToneLocalDataSource,
     private val noteLocalDataSource: NoteLocalDataSource,
     private val noteRemoteDataSource: NoteRemoteDataSource,
+    private val configurationRemoteDataSource: ConfigurationRemoteDataSource,
 ) : NoteRepository {
     override suspend fun saveNote(request: NoteRequestParam) {
         noteLocalDataSource.saveNote(
@@ -34,36 +37,40 @@ class NoteRepositoryImpl @Inject constructor(
         )
     }
 
-    override suspend fun generateNote(param: NoteGenerationRequestParam): Result<NoteResponse> =
+    override suspend fun generateNote(param: NoteGenerationRequestParam): Result<NoteResponse> = runCatching {
         coroutineScope {
             val defaultToneDeferred =
                 async { toneLocalDataSource.findByNoteType(NoteType.DEFAULT.name) }
             val typeToneDeferred = async { toneLocalDataSource.findByNoteType(param.noteType) }
             val ageTypeDeferred = async { ageLocalDataSource.getAgeSetting() }
+            val configuration = async { configurationRemoteDataSource.fetchConfiguration() }
 
             val defaultTone = defaultToneDeferred.await()
             val typeTone = typeToneDeferred.await()
             val ageType = ageTypeDeferred.await()
+            val config = configuration.await().getOrNull()
             val request = param.copy(
                 ageType = ageType
             )
 
-            return@coroutineScope noteRemoteDataSource.generateNote(
-                noteMapper.mapToCreateNoteRequest(
-                    param = NoteGenerationMapParam(
-                        noteGenerationRequestParam = request.copy(
-                            ageType = ageType
-                        ),
-                        defaultTone = defaultTone?.content ?: "",
-                        typeTone = typeTone?.content ?: ""
-                    )
-                )
-            ).map { response ->
-                val result = noteMapper.mapToNoteGenerationResponse(response)
-                val noteEntity = saveNote(request = request.copy(ageType = ageType), result = result)
-                noteMapper.mapToNoteResponse(noteEntity)
-            }
+            val noteGenerationMapParam = NoteGenerationMapParam(
+                noteGenerationRequestParam = request.copy(
+                    ageType = ageType
+                ),
+                defaultTone = defaultTone?.content ?: "",
+                typeTone = typeTone?.content ?: "",
+                configuration = config
+            )
+
+            val generateNoteRequest = noteMapper.mapToCreateNoteRequest(noteGenerationMapParam)
+            Log.d("NoteRepositoryImpl", "generateNoteRequest: $generateNoteRequest")
+
+            val response = noteRemoteDataSource.generateNote(request = generateNoteRequest).getOrThrow()
+            val result = noteMapper.mapToNoteGenerationResponse(response)
+            val noteEntity = saveNote(request = request.copy(ageType = ageType), result = result)
+            noteMapper.mapToNoteResponse(noteEntity)
         }
+    }
 
     override fun findAllNotesFlow(): Flow<List<NoteResponse>> {
         return noteLocalDataSource.findAllNotesFlow()
