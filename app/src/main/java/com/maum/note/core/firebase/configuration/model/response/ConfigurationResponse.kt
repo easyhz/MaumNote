@@ -12,4 +12,10 @@ data class ConfigurationResponse(
     var notionUrl: String = "",
     @PropertyName("maintenanceNotice")
     val maintenanceNotice: String = "",
+    @PropertyName("announcementContentPrompt")
+    val announcementContentPrompt: String = "",
+    @PropertyName("letterGreetingPrompt")
+    val letterGreetingPrompt: String = "",
+    @PropertyName("playContextPrompt")
+    val playContextPrompt: String = "",
 )
