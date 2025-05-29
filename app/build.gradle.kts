@@ -38,6 +38,8 @@ android {
             buildConfigField("String", "GPT_API_URL", localProperties["gpt.api.url.dev"].toString())
             buildConfigField("String", "GPT_API_KEY", localProperties["gpt.api.key.dev"].toString())
             buildConfigField("String", "CLARITY_PROJECT_ID", localProperties["clarity.project.id.dev"].toString())
+            buildConfigField("String", "SUPABASE_URL", localProperties["supabase.url.dev"].toString())
+            buildConfigField("String", "SUPABASE_KEY", localProperties["supabase.key.dev"].toString())
         }
         release {
             isMinifyEnabled = false
@@ -48,6 +50,8 @@ android {
             buildConfigField("String", "GPT_API_URL", localProperties["gpt.api.url.prod"].toString())
             buildConfigField("String", "GPT_API_KEY", localProperties["gpt.api.key.prod"].toString())
             buildConfigField("String", "CLARITY_PROJECT_ID", localProperties["clarity.project.id.prod"].toString())
+            buildConfigField("String", "SUPABASE_URL", localProperties["supabase.url.prod"].toString())
+            buildConfigField("String", "SUPABASE_KEY", localProperties["supabase.key.prod"].toString())
         }
     }
 
@@ -153,4 +157,12 @@ dependencies {
 
     // clarity
     implementation(libs.clarity)
+
+    // supabase
+    implementation(libs.supabase.postgrest.kt)
+
+    // ktor
+    implementation(libs.ktor.client.android)
+    implementation(libs.ktor.client.core)
+    implementation(libs.ktor.utils)
 }
