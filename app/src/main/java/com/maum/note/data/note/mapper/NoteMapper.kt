@@ -6,7 +6,8 @@ import com.maum.note.core.common.util.date.AppDateTimeFormatter
 import com.maum.note.core.common.util.gpt.GptRole
 import com.maum.note.core.database.note.entity.NoteEntity
 import com.maum.note.core.database.note.entity.NoteWithStudent
-import com.maum.note.core.firebase.configuration.model.response.ConfigurationResponse
+import com.maum.note.core.firebase.configuration.model.response.SystemPromptResponse
+import com.maum.note.core.model.note.AgeType
 import com.maum.note.core.model.note.NoteType
 import com.maum.note.core.network.gpt.model.note.request.GptRequest
 import com.maum.note.core.network.gpt.model.note.request.etc.InputRequest
@@ -68,7 +69,10 @@ class NoteMapper @Inject constructor(
     ): List<InputRequest> {
         val systemPrompt = InputRequest(
             role = GptRole.SYSTEM.alias,
-            content = resolveSystemPrompt(noteType = param.noteType, configuration = param.configuration)
+            content = resolveSystemPrompt(
+                noteType = param.noteType,
+                systemPrompt = param.systemPrompt
+            )
         )
 
         val userPrompt = InputRequest(
@@ -80,12 +84,15 @@ class NoteMapper @Inject constructor(
         return listOf(systemPrompt, userPrompt)
     }
 
-    private fun resolveSystemPrompt(noteType: NoteType, configuration: ConfigurationResponse?): String {
-        return configuration?.getPromptFor(noteType).takeUnless { it.isNullOrBlank() }
+    private fun resolveSystemPrompt(
+        noteType: NoteType,
+        systemPrompt: SystemPromptResponse?
+    ): String {
+        return systemPrompt?.getPromptFor(noteType).takeUnless { it.isNullOrBlank() }
             ?: resourceHelper.getString(noteType.toPromptStringRes())
     }
 
-    private fun ConfigurationResponse.getPromptFor(noteType: NoteType): String? {
+    private fun SystemPromptResponse.getPromptFor(noteType: NoteType): String? {
         return when (noteType) {
             NoteType.LETTER_GREETING -> letterGreetingPrompt
             NoteType.ANNOUNCEMENT_CONTENT -> announcementContentPrompt
@@ -101,10 +108,30 @@ class NoteMapper @Inject constructor(
         else -> R.string.system_prompt_default
     }
 
+    private fun AgeType.toPromptString(systemPrompt: SystemPromptResponse): String {
+        return when (this) {
+            AgeType.ZERO -> systemPrompt.age0Desc
+            AgeType.ONE -> systemPrompt.age1Desc
+            AgeType.TWO -> systemPrompt.age2Desc
+            AgeType.THREE -> systemPrompt.age3Desc
+            AgeType.FOUR -> systemPrompt.age4Desc
+            AgeType.FIVE -> systemPrompt.age5Desc
+            AgeType.MIXED -> systemPrompt.ageMixedDesc
+        }
+    }
+
+    private fun getAgePrompt(ageType: AgeType, systemPrompt: SystemPromptResponse?): String {
+        val age = resourceHelper.getString(ageType.title)
+        return when (val prompt = systemPrompt) {
+            null -> age
+            else -> "$age, ${ageType.toPromptString(prompt)}"
+        }
+    }
+
     private fun getUserPrompt(
         param: InputRequestMapParam,
     ): String {
-        val age = resourceHelper.getString(param.ageType.title)
+        val age = getAgePrompt(param.ageType, param.systemPrompt)
         val sentence = resourceHelper.getString(param.sentenceType.title)
         val note = resourceHelper.getString(param.noteType.title)
         val inputContent = param.inputContent

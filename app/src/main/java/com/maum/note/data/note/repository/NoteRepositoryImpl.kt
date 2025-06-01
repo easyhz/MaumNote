@@ -43,12 +43,12 @@ class NoteRepositoryImpl @Inject constructor(
                 async { toneLocalDataSource.findByNoteType(NoteType.DEFAULT.name) }
             val typeToneDeferred = async { toneLocalDataSource.findByNoteType(param.noteType) }
             val ageTypeDeferred = async { ageLocalDataSource.getAgeSetting() }
-            val configuration = async { configurationRemoteDataSource.fetchConfiguration() }
+            val systemPromptDeferred = async { configurationRemoteDataSource.fetchSystemPrompt() }
 
             val defaultTone = defaultToneDeferred.await()
             val typeTone = typeToneDeferred.await()
             val ageType = ageTypeDeferred.await()
-            val config = configuration.await().getOrNull()
+            val systemPrompt = systemPromptDeferred.await().getOrNull()
             val request = param.copy(
                 ageType = ageType
             )
@@ -59,7 +59,7 @@ class NoteRepositoryImpl @Inject constructor(
                 ),
                 defaultTone = defaultTone?.content ?: "",
                 typeTone = typeTone?.content ?: "",
-                configuration = config
+                systemPrompt = systemPrompt
             )
 
             val generateNoteRequest = noteMapper.mapToCreateNoteRequest(noteGenerationMapParam)
