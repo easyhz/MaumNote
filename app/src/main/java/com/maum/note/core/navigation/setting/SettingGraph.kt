@@ -6,7 +6,7 @@ import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.maum.note.core.navigation.setting.screen.Setting
-import com.maum.note.ui.screen.onboarding.age.OnboardingAgeScreen
+import com.maum.note.ui.screen.setting.age.SettingAgeScreen
 import com.maum.note.ui.screen.setting.setting.SettingScreen
 import com.maum.note.ui.screen.setting.tone.ToneSettingScreen
 
@@ -31,7 +31,7 @@ fun NavGraphBuilder.settingGraph(
         }
 
         composable<Setting.Age> {
-            OnboardingAgeScreen(
+            SettingAgeScreen(
                 navigateUp = navController::navigateUp,
                 navigateToNext = navController::navigateUp,
             )
