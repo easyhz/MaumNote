@@ -9,7 +9,6 @@ import com.maum.note.data.note.datasource.local.NoteLocalDataSource
 import com.maum.note.data.note.datasource.remote.NoteRemoteDataSource
 import com.maum.note.data.note.mapper.NoteMapper
 import com.maum.note.data.note.model.NoteGenerationMapParam
-import com.maum.note.data.setting.datasource.age.local.AgeLocalDataSource
 import com.maum.note.data.setting.datasource.tone.local.ToneLocalDataSource
 import com.maum.note.domain.note.model.request.NoteGenerationRequestParam
 import com.maum.note.domain.note.model.request.NoteRequestParam
@@ -25,7 +24,6 @@ import javax.inject.Inject
 class NoteRepositoryImpl @Inject constructor(
     private val logger: Logger,
     private val noteMapper: NoteMapper,
-    private val ageLocalDataSource: AgeLocalDataSource,
     private val toneLocalDataSource: ToneLocalDataSource,
     private val noteLocalDataSource: NoteLocalDataSource,
     private val noteRemoteDataSource: NoteRemoteDataSource,
@@ -42,21 +40,14 @@ class NoteRepositoryImpl @Inject constructor(
             val defaultToneDeferred =
                 async { toneLocalDataSource.findByNoteType(NoteType.DEFAULT.name) }
             val typeToneDeferred = async { toneLocalDataSource.findByNoteType(param.noteType) }
-            val ageTypeDeferred = async { ageLocalDataSource.getAgeSetting() }
             val systemPromptDeferred = async { configurationRemoteDataSource.fetchSystemPrompt() }
 
             val defaultTone = defaultToneDeferred.await()
             val typeTone = typeToneDeferred.await()
-            val ageType = ageTypeDeferred.await()
             val systemPrompt = systemPromptDeferred.await().getOrNull()
-            val request = param.copy(
-                ageType = ageType
-            )
 
             val noteGenerationMapParam = NoteGenerationMapParam(
-                noteGenerationRequestParam = request.copy(
-                    ageType = ageType
-                ),
+                noteGenerationRequestParam = param,
                 defaultTone = defaultTone?.content ?: "",
                 typeTone = typeTone?.content ?: "",
                 systemPrompt = systemPrompt
@@ -67,7 +58,7 @@ class NoteRepositoryImpl @Inject constructor(
 
             val response = noteRemoteDataSource.generateNote(request = generateNoteRequest).getOrThrow()
             val result = noteMapper.mapToNoteGenerationResponse(response)
-            val noteEntity = saveNote(request = request.copy(ageType = ageType), result = result)
+            val noteEntity = saveNote(request = param, result = result)
             noteMapper.mapToNoteResponse(noteEntity)
         }
     }

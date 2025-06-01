@@ -1,7 +1,6 @@
 package com.maum.note.ui.screen.note.creation.select
 
 import com.maum.note.core.common.analytics.AnalyticsManager
-import com.maum.note.core.common.analytics.event.AddNoteAnalyticsEvent
 import com.maum.note.core.common.base.BaseViewModel
 import com.maum.note.core.model.note.NoteType
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -22,12 +21,12 @@ class NoteTypeSelectionViewModel @Inject constructor(
 ) {
 
     fun selectNoteType(noteType: NoteType) {
-        if (noteType == uiState.value.selectedNoteType) return
+        if (noteType == currentState.selectedNoteType) return
         setState { copy(selectedNoteType = noteType) }
     }
 
     fun logEventConfirm() {
-        val event = uiState.value.selectedNoteType?.getAddNoteLogEvent() ?: return
+        val event = currentState.selectedNoteType?.getAddNoteLogEvent() ?: return
         AnalyticsManager.logEvent(event)
     }
 }

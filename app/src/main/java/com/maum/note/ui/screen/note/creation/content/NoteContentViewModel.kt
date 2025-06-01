@@ -24,7 +24,6 @@ import com.maum.note.core.model.note.generation.GenerationNote
 import com.maum.note.domain.setting.usecase.age.GetAgeSettingUseCase
 import com.maum.note.ui.screen.note.creation.content.contract.NoteContentSideEffect
 import com.maum.note.ui.screen.note.creation.content.contract.NoteContentState
-import com.maum.note.ui.screen.setting.age.contract.SettingAgeSideEffect
 import com.maum.note.ui.theme.AppTypography
 import com.maum.note.ui.theme.MainBackground
 import com.maum.note.ui.theme.Primary
@@ -93,7 +92,9 @@ class NoteContentViewModel @Inject constructor(
             return
         }
         val noteType = currentState.noteType ?: return navigateUp()
+        val ageType = currentState.ageType ?: return navigateUp()
         val generationNote = GenerationNote(
+            ageType = ageType.name,
             noteType = noteType.name,
             sentenceCountType = currentState.selectedSentenceType.name,
             inputContent = currentState.inputText.text,
@@ -177,7 +178,7 @@ class NoteContentViewModel @Inject constructor(
     }
 
     private fun logEvent() {
-        val sentenceCountEvent = uiState.value.selectedSentenceType.getAddNoteLogEvent()
+        val sentenceCountEvent = currentState.selectedSentenceType.getAddNoteLogEvent()
         AnalyticsManager.logEvent(sentenceCountEvent)
         AnalyticsManager.logEvent(NoteAnalyticsEvent.NOTE_CREATE)
 

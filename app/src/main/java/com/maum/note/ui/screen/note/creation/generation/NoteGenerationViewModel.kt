@@ -12,7 +12,6 @@ import com.maum.note.core.common.helper.log.Logger
 import com.maum.note.core.common.helper.resource.ResourceHelper
 import com.maum.note.core.common.util.url.urlDecode
 import com.maum.note.core.model.error.ErrorMessage
-import com.maum.note.core.model.note.AgeType
 import com.maum.note.core.model.note.Note
 import com.maum.note.core.model.note.generation.GenerationNote
 import com.maum.note.domain.note.model.request.NoteGenerationRequestParam
@@ -49,14 +48,16 @@ class NoteGenerationViewModel @Inject constructor(
     }
 
     private fun init() {
+        val ageType: String? = savedStateHandle["ageType"]
         val noteType: String? = savedStateHandle["noteType"]
         val sentenceCountType: String? = savedStateHandle["sentenceCountType"]
         val inputContent: String? = savedStateHandle["inputContent"]
-        if (noteType.isNullOrBlank() || sentenceCountType.isNullOrBlank()) {
+        if (ageType.isNullOrBlank() || noteType.isNullOrBlank() || sentenceCountType.isNullOrBlank()) {
             navigateUp()
             return
         }
         val note = GenerationNote(
+            ageType = ageType,
             noteType = noteType,
             sentenceCountType = sentenceCountType,
             inputContent = inputContent?.urlDecode() ?: "",
@@ -94,7 +95,7 @@ class NoteGenerationViewModel @Inject constructor(
 
         return NoteGenerationRequestParam(
             noteType = generationNote.noteType,
-            ageType = AgeType.MIXED.name,
+            ageType = generationNote.ageType,
             sentenceCount = generationNote.sentenceCountType,
             inputContent = generationNote.inputContent
         )

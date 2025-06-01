@@ -47,7 +47,7 @@ fun NavGraphBuilder.noteCreationGraph(
             deepLinks = listOf(
                 navDeepLink {
                     uriPattern =
-                        "maum-note://note/creation/generation?noteType={noteType}&sentenceCountType={sentenceCountType}&inputContent={inputContent}"
+                        "maum-note://note/creation/generation?ageType={ageType}&noteType={noteType}&sentenceCountType={sentenceCountType}&inputContent={inputContent}"
                 }
             )
         ) {
@@ -88,6 +88,7 @@ fun NavController.navigateToNoteGeneration(
 ) {
     navigate(
         route = NoteCreation.NoteGeneration(
+            ageType = generationNote.ageType,
             noteType = generationNote.noteType,
             sentenceCountType = generationNote.sentenceCountType,
             inputContent = generationNote.inputContent.urlEncode()
