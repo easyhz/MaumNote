@@ -18,4 +18,8 @@
 
     <string name="setting_note_tone_save_success">저장되었습니다</string>
     <string name="setting_note_tone_save_failure">다시 시도해주세요</string>
+
+    <string name="setting_age_button">저장</string>
+    <string name="setting_age_title">몇 세 아이들을 가르치시나요?</string>
+    <string name="setting_age_sub_title">아이들 연령에 따라 어울리는 말투로\n글 작성을 도와드릴 수 있어요 😊</string>
 </resources>
