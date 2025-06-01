@@ -6,6 +6,7 @@ import androidx.compose.ui.text.input.TextFieldValue
 import com.maum.note.core.common.base.UiState
 import com.maum.note.core.designSystem.util.dialog.DialogMessage
 import com.maum.note.core.model.error.ErrorMessage
+import com.maum.note.core.model.note.AgeType
 import com.maum.note.core.model.note.NoteType
 import com.maum.note.core.model.note.SentenceType
 
@@ -17,6 +18,7 @@ import com.maum.note.core.model.note.SentenceType
 data class NoteContentState(
     val isLoading: Boolean,
     val noteType: NoteType?,
+    val ageType: AgeType?,
     val selectedSentenceType: SentenceType,
     val inputText: TextFieldValue,
     val maxCount: Int,
@@ -33,6 +35,7 @@ data class NoteContentState(
         fun init(): NoteContentState = NoteContentState(
             isLoading = true,
             noteType = null,
+            ageType = null,
             selectedSentenceType = SentenceType.FOUR_TO_FIVE,
             inputText = TextFieldValue(""),
             maxCount = 100,

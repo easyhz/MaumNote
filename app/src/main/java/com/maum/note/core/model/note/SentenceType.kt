@@ -2,6 +2,7 @@ package com.maum.note.core.model.note
 
 import androidx.annotation.StringRes
 import com.maum.note.R
+import com.maum.note.core.common.analytics.event.AddNoteAnalyticsEvent
 
 enum class SentenceType(
     @StringRes val title: Int
@@ -18,6 +19,14 @@ enum class SentenceType(
     companion object {
         fun getByValue(value: String): SentenceType? {
             return entries.find { it.name == value }
+        }
+    }
+
+    fun getAddNoteLogEvent(): AddNoteAnalyticsEvent {
+        return when(this) {
+            TWO_TO_THREE -> AddNoteAnalyticsEvent.SENTENCE_COUNT_TWO_TO_THREE
+            FOUR_TO_FIVE -> AddNoteAnalyticsEvent.SENTENCE_COUNT_FOUR_TO_FIVE
+            OVER_TEN -> AddNoteAnalyticsEvent.SENTENCE_COUNT_TEN_OR_MORE
         }
     }
 }

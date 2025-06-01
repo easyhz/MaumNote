@@ -21,7 +21,7 @@ enum class AddNoteAnalyticsEvent : AnalyticsEventInterface {
         override val log: String
             get() = "sentenceCount_fourToFive"
     },
-    SENTENCE_COUNT_SIX_TO_NINE {
+    SENTENCE_COUNT_TEN_OR_MORE {
         override val log: String
             get() = "sentenceCount_tenOrMore"
     };

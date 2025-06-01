@@ -5,22 +5,33 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.text.TextLayoutResult
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.viewModelScope
 import com.maum.note.R
+import com.maum.note.core.common.analytics.AnalyticsManager
+import com.maum.note.core.common.analytics.event.NoteAnalyticsEvent
 import com.maum.note.core.common.base.BaseViewModel
+import com.maum.note.core.common.di.dispatcher.AppDispatchers
+import com.maum.note.core.common.di.dispatcher.Dispatcher
 import com.maum.note.core.common.helper.resource.ResourceHelper
 import com.maum.note.core.common.util.validation.ValidationInput
 import com.maum.note.core.designSystem.util.dialog.BasicDialogButton
 import com.maum.note.core.designSystem.util.dialog.DialogMessage
 import com.maum.note.core.model.error.ErrorMessage
+import com.maum.note.core.model.note.AgeType
 import com.maum.note.core.model.note.NoteType
 import com.maum.note.core.model.note.SentenceType
 import com.maum.note.core.model.note.generation.GenerationNote
+import com.maum.note.domain.setting.usecase.age.GetAgeSettingUseCase
 import com.maum.note.ui.screen.note.creation.content.contract.NoteContentSideEffect
 import com.maum.note.ui.screen.note.creation.content.contract.NoteContentState
+import com.maum.note.ui.screen.setting.age.contract.SettingAgeSideEffect
 import com.maum.note.ui.theme.AppTypography
 import com.maum.note.ui.theme.MainBackground
 import com.maum.note.ui.theme.Primary
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 /**
@@ -30,9 +41,12 @@ import javax.inject.Inject
 
 @HiltViewModel
 class NoteContentViewModel @Inject constructor(
+    @Dispatcher(AppDispatchers.IO) private val ioDispatcher: CoroutineDispatcher,
+    @Dispatcher(AppDispatchers.MAIN) private val mainDispatcher: CoroutineDispatcher,
     private val savedStateHandle: SavedStateHandle,
     private val validationInput: ValidationInput,
     private val resourceHelper: ResourceHelper,
+    private val getAgeSettingUseCase: GetAgeSettingUseCase,
 ) : BaseViewModel<NoteContentState, NoteContentSideEffect>(
     initialState = NoteContentState.init()
 ) {
@@ -49,6 +63,19 @@ class NoteContentViewModel @Inject constructor(
             return
         }
         setState { copy(noteType = noteType) }
+        getAgeSetting()
+    }
+
+    private fun getAgeSetting() {
+        viewModelScope.launch(ioDispatcher) {
+            getAgeSettingUseCase.invoke(Unit)
+                .onSuccess {
+                    withContext(mainDispatcher) {
+                        val age = AgeType.getByValue(it) ?: AgeType.MIXED
+                        setState { copy(ageType = age) }
+                    }
+                }
+        }
     }
 
     fun onInputValueChange(value: TextFieldValue) {
@@ -71,7 +98,7 @@ class NoteContentViewModel @Inject constructor(
             sentenceCountType = currentState.selectedSentenceType.name,
             inputContent = currentState.inputText.text,
         )
-
+        logEvent()
         postSideEffect { NoteContentSideEffect.NavigateToNext(generationNote = generationNote) }
     }
 
@@ -149,4 +176,11 @@ class NoteContentViewModel @Inject constructor(
         setState { copy(isFocused = hasFocus, isMoved = !hasFocus) }
     }
 
+    private fun logEvent() {
+        val sentenceCountEvent = uiState.value.selectedSentenceType.getAddNoteLogEvent()
+        AnalyticsManager.logEvent(sentenceCountEvent)
+        AnalyticsManager.logEvent(NoteAnalyticsEvent.NOTE_CREATE)
+
+        // TODO 나이 이벤트 추가
+    }
 }
