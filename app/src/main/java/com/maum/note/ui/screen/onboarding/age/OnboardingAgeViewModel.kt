@@ -1,6 +1,8 @@
 package com.maum.note.ui.screen.onboarding.age
 
 import androidx.lifecycle.viewModelScope
+import com.maum.note.core.common.analytics.AnalyticsManager
+import com.maum.note.core.common.analytics.event.OnboardingAnalyticsEvent
 import com.maum.note.core.common.base.BaseViewModel
 import com.maum.note.core.common.di.dispatcher.AppDispatchers
 import com.maum.note.core.common.di.dispatcher.Dispatcher
@@ -58,6 +60,7 @@ class OnboardingAgeViewModel @Inject constructor(
     private fun updateAgeSetting(ageType: AgeType) {
         viewModelScope.launch(ioDispatcher) {
             updateAgeSettingUseCase.invoke(ageType.name).onSuccess {
+                logEvent(ageType)
                 navigateToNext()
             }
         }
@@ -65,5 +68,10 @@ class OnboardingAgeViewModel @Inject constructor(
 
     private fun navigateToNext() {
         postSideEffect { OnboardingAgeSideEffect.NavigateToNext }
+    }
+
+    private fun logEvent(ageType: AgeType) {
+        val event = ageType.getOnboardingLogEvent()
+        AnalyticsManager.logEvent(event)
     }
 }

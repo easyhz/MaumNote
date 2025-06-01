@@ -4,6 +4,8 @@ import androidx.annotation.StringRes
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.lifecycle.viewModelScope
 import com.maum.note.R
+import com.maum.note.core.common.analytics.AnalyticsManager
+import com.maum.note.core.common.analytics.event.SettingAnalyticsEvent
 import com.maum.note.core.common.base.BaseViewModel
 import com.maum.note.core.common.di.dispatcher.AppDispatchers
 import com.maum.note.core.common.di.dispatcher.Dispatcher
@@ -103,6 +105,7 @@ class ToneSettingViewModel @Inject constructor(
                 withContext(mainDispatcher) {
                     setState { copy(isLoading = false, originalContents = contents) }
                     showSnackBar(value = R.string.setting_note_tone_save_success)
+                    logEventSave()
                 }
             }.onFailure {
                 withContext(mainDispatcher) {
@@ -193,6 +196,10 @@ class ToneSettingViewModel @Inject constructor(
                 )
             )
         )
+    }
+
+    private fun logEventSave() {
+        AnalyticsManager.logEvent(SettingAnalyticsEvent.SETTING_TONE_SAVE)
     }
 
     private fun showSnackBar(

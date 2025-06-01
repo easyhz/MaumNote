@@ -2,6 +2,8 @@ package com.maum.note.ui.screen.home
 
 import androidx.lifecycle.viewModelScope
 import com.maum.note.R
+import com.maum.note.core.common.analytics.AnalyticsManager
+import com.maum.note.core.common.analytics.event.HomeAnalyticsEvent
 import com.maum.note.core.common.base.BaseViewModel
 import com.maum.note.core.common.di.dispatcher.AppDispatchers
 import com.maum.note.core.common.di.dispatcher.Dispatcher
@@ -44,9 +46,14 @@ class HomeViewModel @Inject constructor(
 
     fun onClickCopyButton(note: Note) {
         postSideEffect { HomeSideEffect.CopyToClipboard(note.result) }
+        logEventCopyButtonClick()
         showSnackBar(
             resourceHelper = resourceHelper,
             value = R.string.note_copy_success
         ) { HomeSideEffect.ShowSnackBar(it) }
+    }
+
+    private fun logEventCopyButtonClick() {
+        AnalyticsManager.logEvent(HomeAnalyticsEvent.HOME_NOTE_COPIED)
     }
 }

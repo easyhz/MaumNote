@@ -2,6 +2,8 @@ package com.maum.note.ui.screen.note.detail
 
 import androidx.lifecycle.SavedStateHandle
 import com.maum.note.R
+import com.maum.note.core.common.analytics.AnalyticsManager
+import com.maum.note.core.common.analytics.event.NoteDetailAnalyticsEvent
 import com.maum.note.core.common.base.BaseViewModel
 import com.maum.note.core.common.helper.resource.ResourceHelper
 import com.maum.note.core.common.util.url.urlDecode
@@ -76,10 +78,15 @@ class NoteDetailViewModel @Inject constructor(
     fun onClickCopyButton() {
         val noteDetailType = currentState.detailContent.find { it is NoteDetailType.Type} ?: return
         postSideEffect { NoteDetailSideEffect.CopyToClipboard(noteDetailType.content) }
+        logEventCopyButtonClick()
         showSnackBar(
             resourceHelper = resourceHelper,
             value = R.string.note_copy_success
         ) { NoteDetailSideEffect.ShowSnackBar(it) }
+    }
+
+    private fun logEventCopyButtonClick() {
+        AnalyticsManager.logEvent(NoteDetailAnalyticsEvent.NOTE_DETAIL_COPIED)
     }
 
 }

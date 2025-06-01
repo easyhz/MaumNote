@@ -2,6 +2,7 @@ package com.maum.note.core.model.note
 
 import androidx.annotation.StringRes
 import com.maum.note.R
+import com.maum.note.core.common.analytics.event.AddNoteAnalyticsEvent
 
 enum class NoteType(
     @StringRes val title: Int,
@@ -51,6 +52,15 @@ enum class NoteType(
     companion object {
         fun getByValue(value: String): NoteType? {
             return entries.find { it.name == value }
+        }
+    }
+
+    fun getAddNoteLogEvent(): AddNoteAnalyticsEvent? {
+        return when(this) {
+            DEFAULT -> null
+            LETTER_GREETING ->  AddNoteAnalyticsEvent.NOTE_TYPE_LETTER_GREETING
+            ANNOUNCEMENT_CONTENT -> AddNoteAnalyticsEvent.NOTE_TYPE_ANNOUNCEMENT_CONTENT
+            PLAY_CONTEXT -> AddNoteAnalyticsEvent.NOTE_TYPE_PLAY_CONTEXT
         }
     }
 }

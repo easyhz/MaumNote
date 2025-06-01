@@ -47,7 +47,12 @@ fun NoteTypeSelectionScreen(
         uiState = uiState,
         navigateUp = navigateUp,
         onSelectNoteType = viewModel::selectNoteType,
-        onClickNext = { uiState.selectedNoteType?.let { navigateToNext(it) } }
+        onClickNext = {
+            uiState.selectedNoteType?.let {
+                navigateToNext(it)
+                viewModel.logEventConfirm()
+            }
+        }
     )
 }
 
