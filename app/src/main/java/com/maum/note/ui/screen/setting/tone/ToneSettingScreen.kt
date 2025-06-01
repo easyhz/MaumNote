@@ -37,6 +37,7 @@ import com.maum.note.core.model.note.NoteType
 import com.maum.note.ui.screen.setting.tone.contract.ToneSettingSideEffect
 import com.maum.note.ui.screen.setting.tone.contract.ToneSettingState
 import com.maum.note.ui.theme.AppTypography
+import com.maum.note.ui.theme.LocalSnackBarHostState
 import com.maum.note.ui.theme.MainText
 import com.maum.note.ui.theme.Primary
 
@@ -54,6 +55,7 @@ fun ToneSettingScreen(
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val scrollState = rememberLazyListState()
     val focusManager = LocalFocusManager.current
+    val snackBarHost = LocalSnackBarHostState.current
 
     ToneSettingScreen(
         modifier = modifier,
@@ -70,6 +72,11 @@ fun ToneSettingScreen(
     viewModel.sideEffect.collectInSideEffectWithLifecycle { sideEffect ->
         when (sideEffect) {
             is ToneSettingSideEffect.NavigateUp -> navigateUp()
+            is ToneSettingSideEffect.ShowSnackBar -> {
+                snackBarHost.showSnackbar(
+                    message = sideEffect.message,
+                )
+            }
         }
 
     }

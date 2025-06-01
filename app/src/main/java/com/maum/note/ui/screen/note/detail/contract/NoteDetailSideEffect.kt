@@ -10,5 +10,5 @@ import com.maum.note.core.common.base.UiSideEffect
 sealed class NoteDetailSideEffect : UiSideEffect() {
     data object NavigateUp : NoteDetailSideEffect()
     data class CopyToClipboard(val text: String) : NoteDetailSideEffect()
-    data class ShowSnackBar(val value: String) : NoteDetailSideEffect()
+    data class ShowSnackBar(val message: String) : NoteDetailSideEffect()
 }

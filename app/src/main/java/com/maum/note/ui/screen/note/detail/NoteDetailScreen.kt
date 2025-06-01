@@ -68,7 +68,7 @@ fun NoteDetailScreen(
             }
             is NoteDetailSideEffect.ShowSnackBar -> {
                 snackBarHost.showSnackbar(
-                    message = sideEffect.value
+                    message = sideEffect.message
                 )
             }
         }

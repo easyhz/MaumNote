@@ -1,5 +1,6 @@
 package com.maum.note.ui.screen.setting.tone
 
+import androidx.annotation.StringRes
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.lifecycle.viewModelScope
 import com.maum.note.R
@@ -14,6 +15,7 @@ import com.maum.note.core.model.note.NoteType
 import com.maum.note.domain.setting.model.tone.request.UpdateToneRequestParam
 import com.maum.note.domain.setting.usecase.tone.GetAllSelectedTonesUseCase
 import com.maum.note.domain.setting.usecase.tone.UpdateAllToneUseCase
+import com.maum.note.ui.screen.home.contract.HomeSideEffect
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import com.maum.note.ui.screen.setting.tone.contract.ToneSettingSideEffect
@@ -100,11 +102,13 @@ class ToneSettingViewModel @Inject constructor(
             val param = getUpdateToneRequestParam()
             updateAllToneUseCase.invoke(param).onSuccess {
                 withContext(mainDispatcher) {
-                    setState { copy(isLoading = false) }
+                    setState { copy(isLoading = false, originalContents = contents) }
+                    showSnackBar(value = R.string.setting_note_tone_save_success)
                 }
             }.onFailure {
                 withContext(mainDispatcher) {
                     setState { copy(isLoading = false) }
+                    showSnackBar(value = R.string.setting_note_tone_save_failure)
                 }
             }
         }
@@ -190,5 +194,14 @@ class ToneSettingViewModel @Inject constructor(
                 )
             )
         )
+    }
+
+    private fun showSnackBar(
+        @StringRes value: Int
+    ) {
+        showSnackBar(
+            resourceHelper = resourceHelper,
+            value = value
+        ) { ToneSettingSideEffect.ShowSnackBar(it) }
     }
 }

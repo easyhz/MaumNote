@@ -9,4 +9,5 @@ import com.maum.note.core.common.base.UiSideEffect
 
 sealed class ToneSettingSideEffect : UiSideEffect() {
     data object NavigateUp : ToneSettingSideEffect()
+    data class ShowSnackBar(val message: String) : ToneSettingSideEffect()
 }

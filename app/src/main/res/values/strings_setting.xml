@@ -15,4 +15,7 @@
     <string name="setting_note_tone_do_not_save_message">변경사항을 저장하지 않고 종료할까요?</string>
     <string name="setting_note_tone_positive_button">종료</string>
     <string name="setting_note_tone_negative_button">취소</string>
+
+    <string name="setting_note_tone_save_success">저장되었습니다</string>
+    <string name="setting_note_tone_save_failure">다시 시도해주세요</string>
 </resources>
