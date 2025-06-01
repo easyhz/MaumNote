@@ -15,7 +15,6 @@ import com.maum.note.core.model.note.NoteType
 import com.maum.note.domain.setting.model.tone.request.UpdateToneRequestParam
 import com.maum.note.domain.setting.usecase.tone.GetAllSelectedTonesUseCase
 import com.maum.note.domain.setting.usecase.tone.UpdateAllToneUseCase
-import com.maum.note.ui.screen.home.contract.HomeSideEffect
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import com.maum.note.ui.screen.setting.tone.contract.ToneSettingSideEffect
