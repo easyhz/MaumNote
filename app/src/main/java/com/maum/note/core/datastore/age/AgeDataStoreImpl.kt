@@ -4,7 +4,7 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
-import com.maum.note.core.datastore.config.PreferencesKey
+import com.maum.note.core.datastore.constant.PreferencesKey
 import com.maum.note.core.datastore.di.AgeDataStorePreference
 import com.maum.note.core.model.note.AgeType
 import kotlinx.coroutines.flow.Flow
