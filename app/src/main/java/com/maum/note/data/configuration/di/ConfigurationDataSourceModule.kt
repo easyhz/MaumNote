@@ -1,7 +1,7 @@
 package com.maum.note.data.configuration.di
 
-import com.maum.note.data.configuration.datasource.ConfigurationRemoteDataSource
-import com.maum.note.data.configuration.datasource.ConfigurationRemoteDataSourceImpl
+import com.maum.note.data.configuration.datasource.remote.ConfigurationRemoteDataSource
+import com.maum.note.data.configuration.datasource.remote.ConfigurationRemoteDataSourceImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

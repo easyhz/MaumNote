@@ -1,4 +1,4 @@
-package com.maum.note.data.configuration.datasource
+package com.maum.note.data.configuration.datasource.remote
 
 import com.maum.note.core.firebase.configuration.model.response.ConfigurationResponse
 import com.maum.note.core.firebase.configuration.model.response.SystemPromptResponse

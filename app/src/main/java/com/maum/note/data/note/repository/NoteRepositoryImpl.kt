@@ -4,7 +4,7 @@ import android.util.Log
 import com.maum.note.core.common.helper.log.Logger
 import com.maum.note.core.database.note.entity.NoteWithStudent
 import com.maum.note.core.model.note.NoteType
-import com.maum.note.data.configuration.datasource.ConfigurationRemoteDataSource
+import com.maum.note.data.configuration.datasource.remote.ConfigurationRemoteDataSource
 import com.maum.note.data.note.datasource.local.NoteLocalDataSource
 import com.maum.note.data.note.datasource.remote.NoteRemoteDataSource
 import com.maum.note.data.note.mapper.NoteMapper
