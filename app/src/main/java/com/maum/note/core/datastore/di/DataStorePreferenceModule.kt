@@ -30,5 +30,19 @@ abstract class DataStorePreferenceModule {
                 ),
                 produceFile = { context.dataStoreFile("maumnote_age.preferences_pb") }
             )
+
+
+        @Singleton
+        @Provides
+        @ConfigurationDataStorePreference
+        fun provideConfigurationDataStorePreferences(
+            @ApplicationContext context: Context
+        ): DataStore<Preferences> =
+            PreferenceDataStoreFactory.create(
+                corruptionHandler = ReplaceFileCorruptionHandler(
+                    produceNewData = { emptyPreferences() }
+                ),
+                produceFile = { context.dataStoreFile("maumnote_configuration.preferences_pb") }
+            )
     }
 }
