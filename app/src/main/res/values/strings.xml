@@ -17,4 +17,8 @@
     <string name="time_yesterday">어제</string>
     <string name="time_date">%1$s</string>
 
+
+    <string name="notification_default_channel_name">기본 알림</string>
+    <string name="notification_default_channel_description">앱에서 보내는 기본 알림입니다.</string>
+
 </resources>
