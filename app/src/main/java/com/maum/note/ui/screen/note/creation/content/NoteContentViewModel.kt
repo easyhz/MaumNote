@@ -179,9 +179,9 @@ class NoteContentViewModel @Inject constructor(
 
     private fun logEvent() {
         val sentenceCountEvent = currentState.selectedSentenceType.getAddNoteLogEvent()
+        val ageEvent = currentState.ageType?.getAddNoteLogEvent()
         AnalyticsManager.logEvent(sentenceCountEvent)
         AnalyticsManager.logEvent(NoteAnalyticsEvent.NOTE_CREATE)
-
-        // TODO 나이 이벤트 추가
+        ageEvent?.let { AnalyticsManager.logEvent(it) }
     }
 }

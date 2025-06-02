@@ -2,6 +2,7 @@ package com.maum.note.core.model.note
 
 import androidx.annotation.StringRes
 import com.maum.note.R
+import com.maum.note.core.common.analytics.event.AddNoteAnalyticsEvent
 import com.maum.note.core.common.analytics.event.OnboardingAnalyticsEvent
 
 enum class AgeType(
@@ -38,6 +39,18 @@ enum class AgeType(
             THREE -> OnboardingAnalyticsEvent.ONBOARDING_STUDENT_AGE_3
             FOUR -> OnboardingAnalyticsEvent.ONBOARDING_STUDENT_AGE_4
             FIVE -> OnboardingAnalyticsEvent.ONBOARDING_STUDENT_AGE_5
+        }
+    }
+
+    fun getAddNoteLogEvent(): AddNoteAnalyticsEvent {
+        return when(this) {
+            MIXED -> AddNoteAnalyticsEvent.STUDENT_AGE_0
+            ZERO -> AddNoteAnalyticsEvent.STUDENT_AGE_0
+            ONE -> AddNoteAnalyticsEvent.STUDENT_AGE_1
+            TWO -> AddNoteAnalyticsEvent.STUDENT_AGE_2
+            THREE -> AddNoteAnalyticsEvent.STUDENT_AGE_3
+            FOUR -> AddNoteAnalyticsEvent.STUDENT_AGE_4
+            FIVE -> AddNoteAnalyticsEvent.STUDENT_AGE_5
         }
     }
 }

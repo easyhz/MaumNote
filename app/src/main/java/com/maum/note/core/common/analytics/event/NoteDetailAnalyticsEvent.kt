@@ -7,22 +7,22 @@ enum class NoteDetailAnalyticsEvent : AnalyticsEventInterface {
     },
     NOTE_RATE_1 {
         override val log: String
-            get() = "noteRate_1"
+            get() = "noteDetail_noteRated_1"
     },
     NOTE_RATE_2 {
         override val log: String
-            get() = "noteRate_2"
+            get() = "noteDetail_noteRated_2"
     },
     NOTE_RATE_3 {
         override val log: String
-            get() = "noteRate_3"
+            get() = "noteDetail_noteRated_3"
     },
     NOTE_RATE_4 {
         override val log: String
-            get() = "noteRate_4"
+            get() = "noteDetail_noteRated_4"
     },
     NOTE_RATE_5 {
         override val log: String
-            get() = "noteRate_5"
+            get() = "noteDetail_noteRated_5"
     };
 }

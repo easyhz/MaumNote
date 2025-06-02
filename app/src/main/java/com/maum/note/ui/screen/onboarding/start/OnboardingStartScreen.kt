@@ -21,7 +21,6 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.maum.note.R
-import com.maum.note.core.common.util.collect.collectInSideEffectWithLifecycle
 import com.maum.note.core.designSystem.component.button.MainButton
 import com.maum.note.core.designSystem.component.onboarding.OnboardingInformation
 import com.maum.note.core.designSystem.component.onboarding.OnboardingInformationType
@@ -49,11 +48,6 @@ fun OnboardingStartScreen(
         uiState = uiState,
         onClickNext = navigateToNext
     )
-
-    viewModel.sideEffect.collectInSideEffectWithLifecycle { sideEffect ->
-        TODO("Not yet implemented")
-
-    }
 }
 
 @Composable

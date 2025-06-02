@@ -8,6 +8,7 @@ import com.google.firebase.appcheck.ktx.appCheck
 import com.google.firebase.appcheck.playintegrity.PlayIntegrityAppCheckProviderFactory
 import com.google.firebase.ktx.Firebase
 import com.maum.note.core.common.analytics.AnalyticsManager
+import com.maum.note.core.common.analytics.event.AppAnalyticsEvent
 import com.maum.note.data.android.service.NotificationService
 import com.microsoft.clarity.Clarity
 import com.microsoft.clarity.ClarityConfig
@@ -27,6 +28,7 @@ class MaumNoteApplication : Application() {
         Clarity.initialize(applicationContext, config)
 
         createNotificationChannel()
+        logEventAppLaunch()
     }
 
     private fun createNotificationChannel() {
@@ -38,6 +40,10 @@ class MaumNoteApplication : Application() {
         channel.description = getString(R.string.notification_default_channel_description)
         val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
         notificationManager.createNotificationChannel(channel)
+    }
+
+    private fun logEventAppLaunch() {
+        AnalyticsManager.logEvent(AppAnalyticsEvent.APP_LAUNCH)
     }
 
 }

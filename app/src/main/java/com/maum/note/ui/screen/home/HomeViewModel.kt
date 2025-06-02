@@ -83,6 +83,10 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun logEventCopyButtonClick() {
-        AnalyticsManager.logEvent(HomeAnalyticsEvent.HOME_NOTE_COPIED)
+        AnalyticsManager.logEvent(HomeAnalyticsEvent.NOTE_COPIED)
+    }
+
+    fun logEventNoteSelected() {
+        AnalyticsManager.logEvent(HomeAnalyticsEvent.NOTE_SELECTED)
     }
 }

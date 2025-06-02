@@ -100,12 +100,12 @@ private fun Preview() {
         NoteTypeCard(
             noteType = NoteType.LETTER_GREETING,
             isChecked = true,
-            onClick = { /*TODO*/ }
+            onClick = { }
         )
         NoteTypeCard(
             noteType = NoteType.PLAY_CONTEXT,
             isChecked = false,
-            onClick = { /*TODO*/ }
+            onClick = {  }
         )
     }
 }

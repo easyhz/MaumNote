@@ -62,7 +62,10 @@ fun HomeScreen(
         uiState = uiState,
         onClickSetting = navigateToSetting,
         navigateToCreation = navigateToCreation,
-        navigateToDetail = navigateToDetail,
+        navigateToDetail = {
+            viewModel.logEventNoteSelected()
+            navigateToDetail(it)
+        },
         onClickCopy = viewModel::onClickCopyButton
     )
 

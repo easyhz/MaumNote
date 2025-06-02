@@ -7,6 +7,6 @@ enum class SettingAnalyticsEvent : AnalyticsEventInterface {
     },
     SETTING_TONE_SAVE {
         override val log: String
-            get() = "setting_toneSave"
+            get() = "setting_toneSaved"
     };
 }
