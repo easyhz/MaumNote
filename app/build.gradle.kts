@@ -142,6 +142,7 @@ dependencies {
     implementation(libs.firebase.crashlytics)
     implementation(libs.firebase.analytics)
     implementation(libs.firebase.appcheck.playintegrity)
+    implementation(libs.firebase.messaging)
 
     // retrofit
     implementation(libs.retrofit.core)
