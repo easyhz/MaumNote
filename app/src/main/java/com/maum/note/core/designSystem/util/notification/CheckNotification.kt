@@ -16,7 +16,7 @@ import androidx.core.content.ContextCompat
 
 @Composable
 fun CheckNotification(
-    showNotificationPermission: Boolean = true,
+    needNotificationPermission: Boolean = true,
     action: ((Boolean) -> Unit)? = null,
 ) {
     val context = LocalContext.current
@@ -27,8 +27,7 @@ fun CheckNotification(
         }
 
     LaunchedEffect(Unit) {
-        if (hasNotificationPermission(context)) return@LaunchedEffect
-        if (!showNotificationPermission) return@LaunchedEffect
+        if (hasNotificationPermission(context) && !needNotificationPermission) return@LaunchedEffect
         checkNotificationPermission(
             context = context,
             launcher = requestPermissionLauncher

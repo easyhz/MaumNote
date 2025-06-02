@@ -27,6 +27,7 @@ import com.maum.note.core.designSystem.component.card.NoteCard
 import com.maum.note.core.designSystem.component.empty.EmptyView
 import com.maum.note.core.designSystem.component.scaffold.AppScaffold
 import com.maum.note.core.designSystem.component.topbar.HomeTopBar
+import com.maum.note.core.designSystem.util.notification.CheckNotification
 import com.maum.note.core.model.note.Note
 import com.maum.note.ui.screen.home.contract.HomeSideEffect
 import com.maum.note.ui.screen.home.contract.HomeState
@@ -50,6 +51,11 @@ fun HomeScreen(
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val clipboardManager = LocalClipboardManager.current
     val snackBarHost = LocalSnackBarHostState.current
+
+    CheckNotification(
+        needNotificationPermission = uiState.needNotificationPermission,
+        action = viewModel::updatePushNotificationStatus
+    )
 
     HomeScreen(
         modifier = modifier,

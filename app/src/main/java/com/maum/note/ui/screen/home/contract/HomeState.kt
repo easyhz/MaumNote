@@ -10,12 +10,14 @@ import com.maum.note.core.model.note.Note
 
 data class HomeState(
     val isLoading: Boolean,
-    val noteList: List<Note>
+    val noteList: List<Note>,
+    val needNotificationPermission: Boolean
 ) : UiState() {
     companion object {
         fun init(): HomeState = HomeState(
             isLoading = true,
-            noteList = emptyList()
+            noteList = emptyList(),
+            needNotificationPermission = false
         )
     }
 }

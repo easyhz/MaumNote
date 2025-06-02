@@ -9,6 +9,8 @@ import com.maum.note.core.common.di.dispatcher.AppDispatchers
 import com.maum.note.core.common.di.dispatcher.Dispatcher
 import com.maum.note.core.common.helper.resource.ResourceHelper
 import com.maum.note.core.model.note.Note
+import com.maum.note.domain.configuration.usecase.ShouldNotificationPermissionUseCase
+import com.maum.note.domain.configuration.usecase.UpdateNotificationPermissionUseCase
 import com.maum.note.domain.note.usecase.FindAllNotesUseCase
 import com.maum.note.ui.screen.home.contract.HomeSideEffect
 import com.maum.note.ui.screen.home.contract.HomeState
@@ -17,6 +19,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 /**
@@ -29,11 +32,28 @@ class HomeViewModel @Inject constructor(
     @Dispatcher(AppDispatchers.IO) private val ioDispatcher: CoroutineDispatcher,
     private val findAllNotesUseCase: FindAllNotesUseCase,
     private val resourceHelper: ResourceHelper,
+    private val shouldNotificationPermissionUseCase: ShouldNotificationPermissionUseCase,
+    private val updateNotificationPermissionUseCase: UpdateNotificationPermissionUseCase,
 ) : BaseViewModel<HomeState, HomeSideEffect>(
     initialState = HomeState.init()
 ) {
     init {
+        init()
         findAllNotes()
+    }
+
+    private fun init() {
+        checkNotificationPermission()
+    }
+
+    private fun checkNotificationPermission() {
+        viewModelScope.launch(ioDispatcher) {
+            shouldNotificationPermissionUseCase.invoke(Unit).onSuccess {
+                setState { copy(needNotificationPermission = it) }
+            }.onFailure {
+                setState { copy(needNotificationPermission = true) }
+            }
+        }
     }
 
     private fun findAllNotes() {
@@ -51,6 +71,15 @@ class HomeViewModel @Inject constructor(
             resourceHelper = resourceHelper,
             value = R.string.note_copy_success
         ) { HomeSideEffect.ShowSnackBar(it) }
+    }
+
+
+    fun updatePushNotificationStatus(isPushEnabled: Boolean) {
+        viewModelScope.launch(ioDispatcher) {
+            updateNotificationPermissionUseCase.invoke(isPushEnabled).also {
+                setState { copy(needNotificationPermission = false) }
+            }
+        }
     }
 
     private fun logEventCopyButtonClick() {
