@@ -1,6 +1,8 @@
 package com.maum.note.core.common.util.date
 
 import com.google.firebase.Timestamp
+import kotlinx.datetime.Instant
+import kotlinx.datetime.toJavaInstant
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
@@ -32,5 +34,9 @@ class AppDateTimeFormatter @Inject constructor(
     fun formatLocalDateTimeToTimestamp(localDateTime: LocalDateTime): Timestamp {
         val instant = localDateTime.atZone(ZoneId.systemDefault()).toInstant()
         return Timestamp(Date.from(instant))
+    }
+
+    fun convertInstantToDateTime(instant: Instant): LocalDateTime {
+        return LocalDateTime.ofInstant(instant.toJavaInstant(), ZoneId.systemDefault())
     }
 }
