@@ -16,6 +16,7 @@ class InsertNoteIfFirstLaunchUseCase @Inject constructor(
     override suspend fun invoke(param: Unit): Result<Unit> {
         return runCatching {
             if (userRepository.isLogin().getOrThrow()) return@runCatching
+            if (noteRepository.countNotes() > 0) return@runCatching
             val noteRequestParam = getExampleNoteParam()
             noteRepository.saveNote(noteRequestParam)
         }
