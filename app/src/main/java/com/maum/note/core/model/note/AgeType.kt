@@ -6,22 +6,30 @@ import com.maum.note.core.common.analytics.event.AddNoteAnalyticsEvent
 import com.maum.note.core.common.analytics.event.OnboardingAnalyticsEvent
 
 enum class AgeType(
-    @StringRes val title: Int
+    @StringRes val title: Int,
+    val alias: String
 ) {
     MIXED(
-        title = R.string.age_type_mixed
+        title = R.string.age_type_mixed,
+        alias = "mixed"
     ), ZERO(
-        title = R.string.age_type_zero
+        title = R.string.age_type_zero,
+        alias = "age0"
     ), ONE(
-        title = R.string.age_type_one
+        title = R.string.age_type_one,
+        alias = "age1"
     ), TWO(
-        title = R.string.age_type_two
+        title = R.string.age_type_two,
+        alias = "age2"
     ), THREE(
-        title = R.string.age_type_three
+        title = R.string.age_type_three,
+        alias = "age3"
     ), FOUR(
-        title = R.string.age_type_four
+        title = R.string.age_type_four,
+        alias = "age4"
     ), FIVE(
-        title = R.string.age_type_five
+        title = R.string.age_type_five,
+        alias = "age5"
     );
 
     companion object {
