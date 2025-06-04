@@ -24,6 +24,9 @@ enum class AddNoteAnalyticsEvent : AnalyticsEventInterface {
     SENTENCE_COUNT_TEN_OR_MORE {
         override val log: String
             get() = "addNote_sentenceCount_tenOrMore"
+    }, STUDENT_AGE_MIXED {
+        override val log: String
+            get() = "addNote_studentAge_mixed"
     }, STUDENT_AGE_0 {
         override val log: String
             get() = "addNote_studentAge_0"

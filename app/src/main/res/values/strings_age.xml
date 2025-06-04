@@ -1,10 +1,10 @@
 <resources>
     <string name="age_type_none">선택하지 않음</string>
     <string name="age_type_mixed">혼합반</string>
-    <string name="age_type_zero">만 0 세</string>
-    <string name="age_type_one">만 1 세</string>
-    <string name="age_type_two">만 2 세</string>
-    <string name="age_type_three">만 3 세</string>
-    <string name="age_type_four">만 4 세</string>
-    <string name="age_type_five">만 5 세</string>
+    <string name="age_type_zero">만 0세</string>
+    <string name="age_type_one">만 1세</string>
+    <string name="age_type_two">만 2세</string>
+    <string name="age_type_three">만 3세</string>
+    <string name="age_type_four">만 4세</string>
+    <string name="age_type_five">만 5세</string>
 </resources>

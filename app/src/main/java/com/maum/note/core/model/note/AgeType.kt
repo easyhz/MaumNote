@@ -44,7 +44,7 @@ enum class AgeType(
 
     fun getAddNoteLogEvent(): AddNoteAnalyticsEvent {
         return when(this) {
-            MIXED -> AddNoteAnalyticsEvent.STUDENT_AGE_0
+            MIXED -> AddNoteAnalyticsEvent.STUDENT_AGE_MIXED
             ZERO -> AddNoteAnalyticsEvent.STUDENT_AGE_0
             ONE -> AddNoteAnalyticsEvent.STUDENT_AGE_1
             TWO -> AddNoteAnalyticsEvent.STUDENT_AGE_2
