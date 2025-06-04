@@ -27,6 +27,7 @@ import com.maum.note.core.designSystem.util.picker.rememberPickerState
 import com.maum.note.core.model.note.AgeType
 import com.maum.note.ui.screen.onboarding.age.contract.OnboardingAgeSideEffect
 import com.maum.note.ui.screen.onboarding.age.contract.OnboardingAgeState
+import com.maum.note.ui.theme.LocalSnackBarHostState
 
 /**
  * Date: 2025. 4. 18.
@@ -42,6 +43,8 @@ fun OnboardingAgeScreen(
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val pickerState = rememberPickerState(AgeType.MIXED)
+    val snackBarHost = LocalSnackBarHostState.current
+
     OnboardingAgeScreen(
         modifier = modifier,
         uiState = uiState,
@@ -51,11 +54,15 @@ fun OnboardingAgeScreen(
     )
 
     viewModel.sideEffect.collectInSideEffectWithLifecycle { sideEffect ->
-        when(sideEffect) {
+        when (sideEffect) {
             is OnboardingAgeSideEffect.SetPickerAge -> {
                 pickerState.animateToItem(sideEffect.ageType, AgeType.entries)
             }
+
             OnboardingAgeSideEffect.NavigateToNext -> navigateToNext()
+            is OnboardingAgeSideEffect.ShowSnackBar -> {
+                snackBarHost.showSnackbar(message = sideEffect.message)
+            }
         }
     }
 }
@@ -101,7 +108,9 @@ private fun OnboardingAgeScreen(
             )
 
             AgeNumberPicker(
-                modifier = Modifier.fillMaxWidth().align(Alignment.Center),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .align(Alignment.Center),
                 state = pickerState
             )
         }

@@ -27,6 +27,7 @@ import com.maum.note.core.designSystem.util.picker.rememberPickerState
 import com.maum.note.core.model.note.AgeType
 import com.maum.note.ui.screen.setting.age.contract.SettingAgeSideEffect
 import com.maum.note.ui.screen.setting.age.contract.SettingAgeState
+import com.maum.note.ui.theme.LocalSnackBarHostState
 
 /**
  * Date: 2025. 4. 18.
@@ -42,6 +43,8 @@ fun SettingAgeScreen(
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val pickerState = rememberPickerState(AgeType.MIXED)
+    val snackBarHost = LocalSnackBarHostState.current
+
     SettingAgeScreen(
         modifier = modifier,
         uiState = uiState,
@@ -56,6 +59,9 @@ fun SettingAgeScreen(
                 pickerState.animateToItem(sideEffect.ageType, AgeType.entries)
             }
             SettingAgeSideEffect.NavigateToNext -> navigateToNext()
+            is SettingAgeSideEffect.ShowSnackBar -> {
+                snackBarHost.showSnackbar(message = sideEffect.message)
+            }
         }
     }
 }

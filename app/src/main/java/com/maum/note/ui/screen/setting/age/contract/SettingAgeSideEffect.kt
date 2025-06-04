@@ -11,4 +11,5 @@ import com.maum.note.core.model.note.AgeType
 sealed class SettingAgeSideEffect : UiSideEffect() {
     data class SetPickerAge(val ageType: AgeType): SettingAgeSideEffect()
     data object NavigateToNext : SettingAgeSideEffect()
+    data class ShowSnackBar(val message: String) : SettingAgeSideEffect()
 }

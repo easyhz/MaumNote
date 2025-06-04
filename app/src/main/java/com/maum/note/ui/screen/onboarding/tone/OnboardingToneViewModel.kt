@@ -12,6 +12,7 @@ import com.maum.note.core.designSystem.util.dialog.BasicDialogButton
 import com.maum.note.core.designSystem.util.dialog.DialogMessage
 import com.maum.note.core.model.note.NoteType
 import com.maum.note.domain.setting.model.tone.request.UpdateToneRequestParam
+import com.maum.note.domain.setting.usecase.tone.GetAllSelectedTonesUseCase
 import com.maum.note.domain.setting.usecase.tone.UpdateToneUseCase
 import com.maum.note.ui.screen.onboarding.tone.contract.OnboardingToneSideEffect
 import com.maum.note.ui.screen.onboarding.tone.contract.OnboardingToneState
@@ -32,12 +33,32 @@ import javax.inject.Inject
 class OnboardingToneViewModel @Inject constructor(
     @Dispatcher(AppDispatchers.IO) private val ioDispatcher: CoroutineDispatcher,
     @Dispatcher(AppDispatchers.MAIN) private val mainDispatcher: CoroutineDispatcher,
+    private val getAllSelectedTonesUseCase: GetAllSelectedTonesUseCase,
     private val updateToneUseCase: UpdateToneUseCase,
     private val resourceHelper: ResourceHelper,
     private val validationInput: ValidationInput,
 ) : BaseViewModel<OnboardingToneState, OnboardingToneSideEffect>(
     initialState = OnboardingToneState.init()
 ) {
+
+    init {
+        getTones()
+    }
+
+    private fun getTones() {
+        viewModelScope.launch(ioDispatcher) {
+            getAllSelectedTonesUseCase.invoke(Unit).onSuccess { tones ->
+                val tone = tones.find { it.noteType == NoteType.DEFAULT.name }
+                if (tone == null) return@launch
+                setState {
+                    copy(
+                        content = TextFieldValue(tone.content),
+                        enabledButton = isValidContentInput(tone.content)
+                    )
+                }
+            }
+        }
+    }
 
     fun onContentValueChange(value: TextFieldValue) {
         setState { copy(content = value, enabledButton = isValidContentInput(value.text)) }
