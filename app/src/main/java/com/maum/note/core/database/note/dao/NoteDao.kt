@@ -43,6 +43,9 @@ interface NoteDao {
     @Query("SELECT * FROM NOTE WHERE id = :id")
     suspend fun findNoteById(id: Long): NoteWithStudent
 
+    @Query("SELECT COUNT(*) FROM NOTE WHERE isDeleted = 0")
+    suspend fun countNotes(): Int
+
     @Transaction
     suspend fun insertAndGetNote(noteWithStudent: NoteWithStudent): NoteWithStudent {
         val id = insertNote(noteWithStudent.note)

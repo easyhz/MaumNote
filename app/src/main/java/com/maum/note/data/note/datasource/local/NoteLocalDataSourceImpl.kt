@@ -20,4 +20,8 @@ class NoteLocalDataSourceImpl @Inject constructor(
     override suspend fun insertAndGetNote(noteWithStudent: NoteWithStudent): NoteWithStudent {
         return noteDao.insertAndGetNote(noteWithStudent)
     }
+
+    override suspend fun countNotes(): Int {
+        return noteDao.countNotes()
+    }
 }

@@ -9,4 +9,6 @@ interface NoteLocalDataSource {
     fun findAllNotesFlow(): Flow<List<NoteWithStudent>>
 
     suspend fun insertAndGetNote(noteWithStudent: NoteWithStudent): NoteWithStudent
+
+    suspend fun countNotes(): Int
 }

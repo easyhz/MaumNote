@@ -10,4 +10,6 @@ interface NoteRepository {
     suspend fun saveNote(request: NoteRequestParam)
     suspend fun generateNote(param: NoteGenerationRequestParam): Result<NoteResponse>
     fun findAllNotesFlow(): Flow<List<NoteResponse>>
+
+    suspend fun countNotes(): Int
 }

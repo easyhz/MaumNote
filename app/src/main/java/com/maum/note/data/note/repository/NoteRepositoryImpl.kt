@@ -72,6 +72,10 @@ class NoteRepositoryImpl @Inject constructor(
             }
     }
 
+    override suspend fun countNotes(): Int {
+        return noteLocalDataSource.countNotes()
+    }
+
     private suspend fun saveNote(
         request: NoteGenerationRequestParam,
         result: NoteGenerationResponse,
