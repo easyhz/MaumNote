@@ -8,6 +8,7 @@ import dagger.hilt.components.SingletonComponent
 import io.github.jan.supabase.SupabaseClient
 import io.github.jan.supabase.auth.Auth
 import io.github.jan.supabase.auth.FlowType
+import io.github.jan.supabase.auth.auth
 import io.github.jan.supabase.createSupabaseClient
 import io.github.jan.supabase.postgrest.Postgrest
 import io.github.jan.supabase.postgrest.postgrest
@@ -40,4 +41,9 @@ object SupabaseModule {
         return client.postgrest
     }
 
+    @Provides
+    @Singleton
+    fun provideSupabaseAuth(client: SupabaseClient): Auth {
+        return client.auth
+    }
 }
