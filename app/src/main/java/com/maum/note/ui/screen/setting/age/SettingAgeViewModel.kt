@@ -66,7 +66,7 @@ class SettingAgeViewModel @Inject constructor(
     private fun updateAge(ageType: AgeType) {
         viewModelScope.launch(ioDispatcher) {
             runCatching {
-                updateUserStudentAgeUseCase.invoke(ageType.name).getOrThrow()
+                updateUserStudentAgeUseCase.invoke(ageType.alias).getOrThrow()
                 updateAgeSettingUseCase.invoke(ageType.name).getOrThrow()
             }.onSuccess {
                 logEvent()
