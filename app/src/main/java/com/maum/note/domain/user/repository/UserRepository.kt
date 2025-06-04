@@ -1,12 +1,13 @@
 package com.maum.note.domain.user.repository
 
 import com.maum.note.domain.user.model.request.SaveUserRequestParam
-import com.maum.note.domain.user.model.response.UserResponseResult
+import com.maum.note.domain.user.model.response.AuthUser
+import com.maum.note.domain.user.model.response.User
 
 interface UserRepository {
     fun isLogin(): Result<Boolean>
-    fun getUserId(): Result<String>
-    suspend fun getUser(uid: String): Result<UserResponseResult?>
-    suspend fun signInAnonymously(): Result<String>
+    fun getCurrentUser(): AuthUser?
+    suspend fun fetchUser(uid: String): User?
+    suspend fun signInAnonymously()
     suspend fun saveUser(saveUserRequestParam: SaveUserRequestParam): Result<Unit>
 }

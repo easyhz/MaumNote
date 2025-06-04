@@ -1,26 +1,26 @@
 package com.maum.note.data.user.datasource.remote
 
-import com.maum.note.core.firebase.user.model.request.SaveUserRequest
-import com.maum.note.core.firebase.user.model.response.UserResponse
-import com.maum.note.core.firebase.user.service.UserService
+import com.maum.note.core.supabase.auth.AuthService
+import com.maum.note.core.supabase.user.dto.UserDto
+import com.maum.note.core.supabase.user.service.UserService
+import io.github.jan.supabase.auth.user.UserInfo
 import javax.inject.Inject
 
 class UserRemoteDataSourceImpl @Inject constructor(
+    private val authService: AuthService,
     private val userService: UserService,
 ) : UserRemoteDataSource {
-    override fun isLogin(): Boolean {
-        return userService.isLogin()
+    override fun getCurrentUser(): UserInfo? {
+        return authService.getCurrentUser()
     }
-    override fun getUserId(): String {
-        return userService.getUserId()
+
+    override suspend fun fetchUser(userId: String): UserDto? {
+        return userService.fetchUser(userId)
     }
-    override suspend fun getUser(uid: String): UserResponse? {
-        return userService.getUser(uid)
+    override suspend fun signInAnonymously() {
+        authService.signInAnonymously()
     }
-    override suspend fun signInAnonymously(): String {
-        return userService.signInAnonymously()
-    }
-    override suspend fun saveUser(saveUserRequest: SaveUserRequest) {
-        return userService.saveUser(saveUserRequest)
+    override suspend fun insertUser(userDto: UserDto) {
+        return userService.insertUser(userDto)
     }
 }

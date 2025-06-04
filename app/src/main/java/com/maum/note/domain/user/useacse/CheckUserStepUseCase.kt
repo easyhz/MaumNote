@@ -1,6 +1,7 @@
 package com.maum.note.domain.user.useacse
 
 import com.maum.note.core.common.base.BaseUseCase
+import com.maum.note.core.common.error.AppError
 import com.maum.note.core.common.util.version.Version
 import com.maum.note.core.model.user.UserStep
 import com.maum.note.domain.configuration.model.response.ConfigurationResponse
@@ -17,7 +18,7 @@ class CheckUserStepUseCase @Inject constructor(
     override suspend fun invoke(param: Unit): Result<UserStep> {
         return runCatching {
             val config = configurationRepository.fetchConfiguration().getOrThrow()
-            checkConfiguration(config) ?: checkIfLoginFlow()
+            checkConfiguration(config) ?: checkLoginFlow()
         }
     }
 
@@ -33,16 +34,17 @@ class CheckUserStepUseCase @Inject constructor(
         }
     }
 
-    private suspend fun checkIfLoginFlow(): UserStep {
+    private suspend fun checkLoginFlow(): UserStep {
         if (userRepository.isLogin().getOrThrow()) return UserStep.AlreadyLoginToMain
 
-        val userId = userRepository.signInAnonymously().getOrThrow()
-        val user = userRepository.getUser(userId).getOrThrow()
+        userRepository.signInAnonymously()
+        val currentUser = userRepository.getCurrentUser() ?: throw AppError.NoUserDataError
+        val user = userRepository.fetchUser(currentUser.id)
 
         return if (user != null) {
             UserStep.ExistingUserToOnboarding
         } else {
-            userRepository.saveUser(SaveUserRequestParam(userId)).getOrThrow()
+            userRepository.saveUser(SaveUserRequestParam(currentUser.id)).getOrThrow()
             UserStep.NewUserToOnboarding
         }
     }
