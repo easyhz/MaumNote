@@ -15,4 +15,12 @@ class AuthServiceImpl @Inject constructor(
     override fun getCurrentUser(): UserInfo? {
         return auth.currentUserOrNull()
     }
+
+    override suspend fun signOut() {
+        auth.signOut()
+    }
+
+    override suspend fun clearSession() {
+        auth.clearSession()
+    }
 }
