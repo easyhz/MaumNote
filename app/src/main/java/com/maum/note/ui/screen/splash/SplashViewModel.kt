@@ -15,16 +15,17 @@ import com.maum.note.core.designSystem.util.dialog.DialogMessage
 import com.maum.note.core.model.user.UserStep
 import com.maum.note.domain.note.usecase.InsertNoteIfFirstLaunchUseCase
 import com.maum.note.domain.user.useacse.CheckUserStepUseCase
-import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
+import com.maum.note.domain.user.useacse.ClearUserSessionUseCase
 import com.maum.note.ui.screen.splash.contract.SplashSideEffect
 import com.maum.note.ui.screen.splash.contract.SplashState
 import com.maum.note.ui.theme.AppTypography
 import com.maum.note.ui.theme.MainBackground
 import com.maum.note.ui.theme.Primary
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
 /**
  * Date: 2025. 4. 18.
@@ -37,6 +38,7 @@ class SplashViewModel @Inject constructor(
     @Dispatcher(AppDispatchers.MAIN) private val mainDispatcher: CoroutineDispatcher,
     private val checkUserStepUseCase: CheckUserStepUseCase,
     private val insertNoteIfFirstLaunchUseCase: InsertNoteIfFirstLaunchUseCase,
+    private val clearUserSessionUseCase: ClearUserSessionUseCase,
     private val resourceHelper: ResourceHelper,
     private val logger: Logger,
 ) : BaseViewModel<SplashState, SplashSideEffect>(
@@ -56,9 +58,16 @@ class SplashViewModel @Inject constructor(
             }
         }.onFailure { e ->
             withContext(mainDispatcher) {
+                signOutAndDelete()
                 logger.e(tag, "checkAppStep: ${e.message}")
                 handleError(e)
             }
+        }
+    }
+
+    private suspend fun signOutAndDelete() {
+        clearUserSessionUseCase.invoke(Unit).onFailure { e ->
+            logger.e(tag, "signOutAndDelete: ${e.message}")
         }
     }
 
@@ -69,7 +78,7 @@ class SplashViewModel @Inject constructor(
     }
 
     private fun handleUserStep(userStep: UserStep) {
-        when(userStep) {
+        when (userStep) {
             UserStep.NewUserToOnboarding, UserStep.ExistingUserToOnboarding -> navigateToOnboarding()
             UserStep.AlreadyLoginToMain -> navigateToHome()
             is UserStep.Maintenance -> handleMaintenance(userStep.notice)
@@ -97,7 +106,11 @@ class SplashViewModel @Inject constructor(
         setDialog(
             message = DialogMessage(
                 title = resourceHelper.getString(R.string.version_dialog_title),
-                message = resourceHelper.getString(R.string.version_dialog_message, version.toVersion(), BuildConfig.VERSION_NAME.toVersion()),
+                message = resourceHelper.getString(
+                    R.string.version_dialog_message,
+                    version.toVersion(),
+                    BuildConfig.VERSION_NAME.toVersion()
+                ),
                 positiveButton = getDefaultPositiveButton(
                     text = resourceHelper.getString(R.string.version_dialog_button),
                     onClick = ::updateAppVersion
@@ -129,8 +142,11 @@ class SplashViewModel @Inject constructor(
     }
 
     private fun handleError(e: Throwable) {
-        when(e) {
-            is AppError.DefaultError -> { navigateToOnboarding() }
+        when (e) {
+            is AppError.DefaultError -> {
+                navigateToOnboarding()
+            }
+
             else -> {
                 setDialog(
                     message = DialogMessage(
