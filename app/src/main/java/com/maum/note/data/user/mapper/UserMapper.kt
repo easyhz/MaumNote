@@ -6,6 +6,7 @@ import com.maum.note.domain.user.model.request.SaveUserRequestParam
 import com.maum.note.domain.user.model.response.AuthUser
 import com.maum.note.domain.user.model.response.User
 import io.github.jan.supabase.auth.user.UserInfo
+import kotlinx.datetime.Clock
 import javax.inject.Inject
 
 class UserMapper @Inject constructor(
@@ -34,7 +35,8 @@ class UserMapper @Inject constructor(
 
     fun mapToUserDto(saveUserRequestParam: SaveUserRequestParam): UserDto {
         return UserDto(
-            id = saveUserRequestParam.userId
+            id = saveUserRequestParam.userId,
+            creationTime = Clock.System.now()
         )
     }
 }
