@@ -17,7 +17,7 @@ hilt = "2.53"
 hiltNavigation = "1.2.0"
 ksp = "2.1.0-1.0.29"
 androidxDataStore = "1.1.4"
-postgrestKt = "3.1.4"
+supabase = "3.1.4"
 room = "2.7.0"
 coreSplashscreen = "1.0.1"
 paging = "3.3.6"
@@ -77,7 +77,10 @@ androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref =
 androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
 androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
 androidx-room-paging = { module = "androidx.room:room-paging", version.ref = "room" }
-supabase-postgrest-kt = { module = "io.github.jan-tennert.supabase:postgrest-kt", version.ref = "postgrestKt" }
+
+supabase-postgrest-kt = { module = "io.github.jan-tennert.supabase:postgrest-kt", version.ref = "supabase" }
+supabase-auth-kt = { module = "io.github.jan-tennert.supabase:auth-kt", version.ref = "supabase" }
+
 room-testing = { module = "androidx.room:room-testing", version.ref = "room" }
 
 
