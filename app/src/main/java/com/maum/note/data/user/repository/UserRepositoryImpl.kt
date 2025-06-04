@@ -3,6 +3,7 @@ package com.maum.note.data.user.repository
 import com.maum.note.data.user.datasource.remote.UserRemoteDataSource
 import com.maum.note.data.user.mapper.UserMapper
 import com.maum.note.domain.user.model.request.SaveUserRequestParam
+import com.maum.note.domain.user.model.request.UpdateUserStudentRequestParam
 import com.maum.note.domain.user.model.response.AuthUser
 import com.maum.note.domain.user.model.response.User
 import com.maum.note.domain.user.repository.UserRepository
@@ -39,4 +40,15 @@ class UserRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun signOut() {
+        userRemoteDataSource.signOut()
+    }
+
+    override suspend fun clearUserSession() {
+        userRemoteDataSource.clearUserSession()
+    }
+
+    override suspend fun updateUserStudentAge(updateUserStudentRequestParam: UpdateUserStudentRequestParam) {
+        userRemoteDataSource.updateUserStudentAge(userId = updateUserStudentRequestParam.userId, ageType = updateUserStudentRequestParam.ageType)
+    }
 }

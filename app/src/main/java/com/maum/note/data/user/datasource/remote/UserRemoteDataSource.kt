@@ -8,4 +8,8 @@ interface UserRemoteDataSource {
     suspend fun fetchUser(userId: String): UserDto?
     suspend fun signInAnonymously()
     suspend fun insertUser(userDto: UserDto)
+    suspend fun signOut()
+    suspend fun clearUserSession()
+
+    suspend fun updateUserStudentAge(userId: String, ageType: String)
 }

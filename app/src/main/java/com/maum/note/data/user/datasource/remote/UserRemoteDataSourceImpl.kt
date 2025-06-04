@@ -23,4 +23,16 @@ class UserRemoteDataSourceImpl @Inject constructor(
     override suspend fun insertUser(userDto: UserDto) {
         return userService.insertUser(userDto)
     }
+
+    override suspend fun signOut() {
+        authService.signOut()
+    }
+
+    override suspend fun clearUserSession() {
+        authService.clearSession()
+    }
+
+    override suspend fun updateUserStudentAge(userId: String, ageType: String) {
+        return userService.updateUserStudentAge(userId, ageType)
+    }
 }
