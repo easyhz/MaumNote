@@ -1,5 +1,6 @@
 package com.maum.note.core.common.error
 
+import androidx.annotation.StringRes
 import com.maum.note.R
 import com.maum.note.core.common.helper.resource.ResourceHelper
 import javax.inject.Inject
@@ -21,3 +22,12 @@ class ErrorHandler @Inject constructor(
             ?: resourceHelper.getString(R.string.unexpected_error)
     }
 }
+
+@StringRes
+fun Throwable.handleError(): Int =
+    when (this) {
+        AppError.UnexpectedError -> R.string.unexpected_error
+        AppError.NoResultError -> R.string.no_result_error
+        AppError.NetworkConnectionError -> R.string.network_connection_error
+        else -> R.string.unexpected_error
+    }
