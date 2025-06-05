@@ -9,14 +9,18 @@ import com.maum.note.core.database.note.entity.NoteWithStudent
 import com.maum.note.core.firebase.configuration.model.response.SystemPromptResponse
 import com.maum.note.core.model.note.AgeType
 import com.maum.note.core.model.note.NoteType
+import com.maum.note.core.model.note.SentenceType
 import com.maum.note.core.network.gpt.model.note.request.GptRequest
 import com.maum.note.core.network.gpt.model.note.request.etc.InputRequest
 import com.maum.note.core.network.gpt.model.note.response.GptResponse
+import com.maum.note.core.supabase.note.dto.NoteDto
 import com.maum.note.data.note.model.NoteGenerationMapParam
 import com.maum.note.data.note.model.InputRequestMapParam
+import com.maum.note.data.note.model.InsertNoteParam
 import com.maum.note.domain.note.model.request.NoteRequestParam
 import com.maum.note.domain.note.model.response.NoteGenerationResponse
 import com.maum.note.domain.note.model.response.NoteResponse
+import kotlinx.datetime.Clock
 import java.time.LocalDateTime
 import javax.inject.Inject
 
@@ -24,6 +28,9 @@ class NoteMapper @Inject constructor(
     private val resourceHelper: ResourceHelper,
     private val appDateTimeFormatter: AppDateTimeFormatter
 ) {
+    /**
+     * NoteRequestParam -> NoteEntity
+     */
     fun mapToNoteEntity(noteRequestParam: NoteRequestParam): NoteEntity = NoteEntity(
         noteType = noteRequestParam.noteType,
         age = noteRequestParam.age,
@@ -35,6 +42,9 @@ class NoteMapper @Inject constructor(
         isDeleted = false
     )
 
+    /**
+     * NoteGenerationMapParam -> GptRequest
+     */
     fun mapToCreateNoteRequest(
         param: NoteGenerationMapParam,
     ): GptRequest =
@@ -45,6 +55,9 @@ class NoteMapper @Inject constructor(
             )
         )
 
+    /**
+     * GptResponse -> NoteGenerationResponse
+     */
     fun mapToNoteGenerationResponse(
         response: GptResponse
     ) = NoteGenerationResponse(
@@ -52,6 +65,9 @@ class NoteMapper @Inject constructor(
         result = response.output.getOrNull(0)?.content?.getOrNull(0)?.text ?: "",
     )
 
+    /**
+     * NoteWithStudent -> NoteResponse
+     */
     fun mapToNoteResponse(
         noteWithStudent: NoteWithStudent
     ) = NoteResponse(
@@ -64,6 +80,31 @@ class NoteMapper @Inject constructor(
         createdAt = appDateTimeFormatter.convertStringToDateTime(noteWithStudent.note.createdAt),
     )
 
+    fun mapToNoteDto(
+        insertNoteParam: InsertNoteParam
+    ): NoteDto {
+        val noteRequestParam = insertNoteParam.param
+        val noteType = NoteType.getByValue(noteRequestParam.noteType) ?: NoteType.PLAY_CONTEXT
+        val ageType = AgeType.getByValue(noteRequestParam.age) ?: AgeType.MIXED
+        val sentenceType = SentenceType.getByValue(noteRequestParam.sentenceCount) ?: SentenceType.FOUR_TO_FIVE
+        val userId = insertNoteParam.userId
+
+        return NoteDto(
+            userId = userId,
+            noteType = noteType.alias,
+            studentAge = ageType.alias,
+            sentenceCount = sentenceType.alias,
+            inputContent = noteRequestParam.inputContent,
+            result = noteRequestParam.result,
+            creationTime = Clock.System.now(),
+            updatedTime = Clock.System.now(),
+            isDeleted = false
+        )
+    }
+
+    /**
+     * GPT input 생성
+     */
     private fun createGptInputRequests(
         param: InputRequestMapParam,
     ): List<InputRequest> {
@@ -84,6 +125,9 @@ class NoteMapper @Inject constructor(
         return listOf(systemPrompt, userPrompt)
     }
 
+    /**
+     * 시스템 프롬프트 생성
+     */
     private fun resolveSystemPrompt(
         noteType: NoteType,
         systemPrompt: SystemPromptResponse?
@@ -92,6 +136,9 @@ class NoteMapper @Inject constructor(
             ?: resourceHelper.getString(noteType.toPromptStringRes())
     }
 
+    /**
+     * 시스템 프롬프트 가져오기
+     */
     private fun SystemPromptResponse.getPromptFor(noteType: NoteType): String? {
         return when (noteType) {
             NoteType.LETTER_GREETING -> letterGreetingPrompt
@@ -101,6 +148,9 @@ class NoteMapper @Inject constructor(
         }
     }
 
+    /**
+     * NoteType에 따른 프롬프트 리소스 가져오기
+     */
     private fun NoteType.toPromptStringRes(): Int = when (this) {
         NoteType.LETTER_GREETING -> R.string.system_prompt_letter_greeting
         NoteType.ANNOUNCEMENT_CONTENT -> R.string.system_prompt_announcement_content
@@ -108,6 +158,9 @@ class NoteMapper @Inject constructor(
         else -> R.string.system_prompt_default
     }
 
+    /**
+     * AgeType에 따른 프롬프트 문자열 가져오기
+     */
     private fun AgeType.toPromptString(systemPrompt: SystemPromptResponse): String {
         return when (this) {
             AgeType.ZERO -> systemPrompt.age0Desc
@@ -120,6 +173,9 @@ class NoteMapper @Inject constructor(
         }
     }
 
+    /**
+     * AgeType 프롬프트 조합
+     */
     private fun getAgePrompt(ageType: AgeType, systemPrompt: SystemPromptResponse?): String {
         val age = resourceHelper.getString(ageType.title)
         return when (val prompt = systemPrompt) {
@@ -128,6 +184,9 @@ class NoteMapper @Inject constructor(
         }
     }
 
+    /**
+     * 사용자 프롬프트 가져오기
+     */
     private fun getUserPrompt(
         param: InputRequestMapParam,
     ): String {
