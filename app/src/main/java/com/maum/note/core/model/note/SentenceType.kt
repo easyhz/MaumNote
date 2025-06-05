@@ -5,15 +5,19 @@ import com.maum.note.R
 import com.maum.note.core.common.analytics.event.AddNoteAnalyticsEvent
 
 enum class SentenceType(
-    @StringRes val title: Int
+    @StringRes val title: Int,
+    val alias: String
 ) {
     TWO_TO_THREE(
-        title = R.string.sentence_two_to_three
+        title = R.string.sentence_two_to_three,
+        alias = "twoToThree"
     ),
     FOUR_TO_FIVE(
-        title = R.string.sentence_four_to_five
+        title = R.string.sentence_four_to_five,
+        alias = "fourToFive"
     ), OVER_TEN(
-        title = R.string.sentence_over_ten
+        title = R.string.sentence_over_ten,
+        alias = "tenOrMore"
     );
 
     companion object {

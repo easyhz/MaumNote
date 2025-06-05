@@ -12,7 +12,8 @@ enum class NoteType(
     @StringRes val inputTitle: Int?,
     @StringRes val inputPlaceholder: Int?,
     val enabledSelection: Boolean = true,
-    val maxCount: Int = 200
+    val maxCount: Int = 200,
+    val alias: String
 ) {
     DEFAULT(
         title = R.string.note_type_default,
@@ -23,6 +24,7 @@ enum class NoteType(
         inputTitle = null,
         inputPlaceholder = null,
         maxCount = 300,
+        alias = "default"
     ),
     LETTER_GREETING(
         title = R.string.note_type_letter_greeting,
@@ -31,6 +33,7 @@ enum class NoteType(
         hint = R.string.note_type_letter_greeting_hint,
         inputTitle = R.string.note_type_letter_greeting_input_title,
         inputPlaceholder = R.string.note_type_letter_greeting_input_placeholder,
+        alias = "letterGreeting"
     ),
     ANNOUNCEMENT_CONTENT(
         title = R.string.note_type_announcement_content,
@@ -39,6 +42,7 @@ enum class NoteType(
         hint = null,
         inputTitle = R.string.note_type_announcement_content_input_title,
         inputPlaceholder = R.string.note_type_announcement_content_input_placeholder,
+        alias = "announcementContent"
     ),
     PLAY_CONTEXT(
         title = R.string.note_type_play_context,
@@ -47,6 +51,7 @@ enum class NoteType(
         hint = R.string.note_type_play_context_hint,
         inputTitle = R.string.note_type_play_context_input_title,
         inputPlaceholder = R.string.note_type_play_context_input_placeholder,
+        alias = "playContext"
     ),;
 
     companion object {
