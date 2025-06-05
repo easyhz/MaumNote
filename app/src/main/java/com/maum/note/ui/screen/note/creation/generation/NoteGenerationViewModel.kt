@@ -86,6 +86,7 @@ class NoteGenerationViewModel @Inject constructor(
             navigateToNoteDetail(note = response.toNote())
         }.onFailure { e ->
             logger.e("NoteGenerationViewModel", "generateNote", e)
+            handleError(e)
             navigateUp(e)
         }
     }
@@ -105,6 +106,13 @@ class NoteGenerationViewModel @Inject constructor(
         postSideEffect { NoteGenerationSideEffect.NavigateToNext(note = note) }
     }
 
+    private fun handleError(e: Throwable) {
+        when(e) {
+            is AppError.NoUserDataError -> navigateToSplash()
+            else -> navigateUp(e)
+        }
+    }
+
 
     private fun navigateUp(error: Throwable? = null) {
         viewModelScope.launch {
@@ -117,5 +125,9 @@ class NoteGenerationViewModel @Inject constructor(
             delay(500L)
             postSideEffect { NoteGenerationSideEffect.NavigateUp(errorMessage = errorMessage) }
         }
+    }
+
+    private fun navigateToSplash() {
+        postSideEffect { NoteGenerationSideEffect.NavigateToSplash }
     }
 }

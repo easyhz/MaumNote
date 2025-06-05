@@ -12,4 +12,5 @@ import com.maum.note.core.model.note.Note
 sealed class NoteGenerationSideEffect : UiSideEffect() {
     data class NavigateUp(val errorMessage: ErrorMessage?) : NoteGenerationSideEffect()
     data class NavigateToNext(val note: Note) : NoteGenerationSideEffect()
+    data object NavigateToSplash : NoteGenerationSideEffect()
 }

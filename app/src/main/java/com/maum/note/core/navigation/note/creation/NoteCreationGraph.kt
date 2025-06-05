@@ -14,6 +14,7 @@ import com.maum.note.core.model.note.generation.GenerationNote
 import com.maum.note.core.navigation.home.screen.Home
 import com.maum.note.core.navigation.note.creation.screen.NoteCreation
 import com.maum.note.core.navigation.note.detail.navigateToNoteDetail
+import com.maum.note.core.navigation.splash.navigateToSplash
 import com.maum.note.ui.screen.note.creation.content.NoteContentScreen
 import com.maum.note.ui.screen.note.creation.generation.NoteGenerationScreen
 import com.maum.note.ui.screen.note.creation.select.NoteTypeSelectionScreen
@@ -68,6 +69,12 @@ fun NavGraphBuilder.noteCreationGraph(
                         navOptions = navOptions
                     )
                 },
+                navigateToSplash = {
+                    val navOptions = navOptions {
+                        popUpTo(navController.graph.id) { inclusive = true }
+                    }
+                    navController.navigateToSplash(navOptions = navOptions)
+                }
             )
         }
 

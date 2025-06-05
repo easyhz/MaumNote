@@ -2,6 +2,7 @@ package com.maum.note.core.navigation.splash
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import androidx.navigation.navOptions
 import com.maum.note.core.navigation.home.navigateToHome
@@ -22,4 +23,8 @@ fun NavGraphBuilder.splashGraph(
             navigateToHome = { navController.navigateToHome(navOptions) },
         )
     }
+}
+
+fun NavController.navigateToSplash(navOptions: NavOptions? = null) {
+    this.navigate(Splash, navOptions)
 }

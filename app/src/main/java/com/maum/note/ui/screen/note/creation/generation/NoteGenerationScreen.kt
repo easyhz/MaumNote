@@ -45,6 +45,7 @@ fun NoteGenerationScreen(
     viewModel: NoteGenerationViewModel = hiltViewModel(),
     navigateUp: (errorMessage: ErrorMessage?) -> Unit,
     navigateToNext: (Note) -> Unit,
+    navigateToSplash: () -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -57,6 +58,7 @@ fun NoteGenerationScreen(
         when(sideEffect) {
             is NoteGenerationSideEffect.NavigateUp -> navigateUp(sideEffect.errorMessage)
             is NoteGenerationSideEffect.NavigateToNext -> navigateToNext(sideEffect.note)
+            is NoteGenerationSideEffect.NavigateToSplash -> navigateToSplash()
         }
     }
 }
