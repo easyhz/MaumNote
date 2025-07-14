@@ -2,7 +2,6 @@ package com.maum.note.core.designSystem.component.section.board
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -22,6 +21,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.maum.note.R
 import com.maum.note.core.designSystem.component.board.AuthorWithTime
+import com.maum.note.core.designSystem.extension.modifier.singleClickable
 import com.maum.note.core.model.board.Post
 import com.maum.note.ui.theme.AppTypography
 import com.maum.note.ui.theme.FilledIconDisabled
@@ -41,7 +41,7 @@ fun PostSection(
         modifier = modifier
             .fillMaxWidth()
             .background(White)
-            .clickable(onClick = onClick)
+            .singleClickable(onClick = onClick)
             .padding(horizontal = 20.dp, vertical = 12.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
