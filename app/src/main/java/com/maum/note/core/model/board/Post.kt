@@ -9,5 +9,6 @@ data class Post(
     val author: String,
     val isAnonymous: Boolean,
     val commentCount: Int,
+    val hasCommented: Boolean,
     val createdAt: LocalDateTime
 )

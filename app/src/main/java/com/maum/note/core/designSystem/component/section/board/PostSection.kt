@@ -33,7 +33,9 @@ import com.maum.note.ui.theme.AppTypography
 import com.maum.note.ui.theme.FilledIconDisabled
 import com.maum.note.ui.theme.FilledIconPrimary
 import com.maum.note.ui.theme.LocalDateTimeFormatter
+import com.maum.note.ui.theme.MainBackground
 import com.maum.note.ui.theme.Placeholder
+import com.maum.note.ui.theme.White
 import java.time.LocalDateTime
 
 @Composable
@@ -46,6 +48,7 @@ fun PostSection(
     Column(
         modifier = modifier
             .fillMaxWidth()
+            .background(White)
             .clickable(onClick = onClick)
             .padding(horizontal = 20.dp, vertical = 12.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
@@ -79,7 +82,7 @@ fun PostSection(
             )
             IconWithNumber(
                 painter = painterResource(R.drawable.ic_chat),
-                includeValues = true,
+                hasCommented = post.hasCommented,
                 number = post.commentCount
             )
         }
@@ -124,13 +127,17 @@ private fun AuthorWithTime(
 @Composable
 private fun IconWithNumber(
     modifier: Modifier = Modifier,
-    includeValues: Boolean,
+    hasCommented: Boolean,
     painter: Painter,
     number: Int
 ) {
 
-    val color by animateColorAsState(
-        targetValue = if (includeValues) FilledIconPrimary else FilledIconDisabled
+    val iconColor by animateColorAsState(
+        targetValue = if (hasCommented) FilledIconPrimary else FilledIconDisabled
+    )
+
+    val textColor by animateColorAsState(
+        targetValue = if (hasCommented) FilledIconPrimary else Placeholder
     )
 
     Row(
@@ -142,13 +149,13 @@ private fun IconWithNumber(
             modifier = Modifier.size(20.dp),
             painter = painter,
             contentDescription = null,
-            tint = color
+            tint = iconColor
         )
 
         Text(
             text = (number.takeIf { it < 100 } ?: "99+").toString(),
             style = AppTypography.body2_regular.copy(
-                color = color
+                color = textColor
             )
         )
     }
@@ -157,16 +164,36 @@ private fun IconWithNumber(
 @Preview
 @Composable
 private fun PostSectionPreview() {
-    PostSection(
-        appDateTimeFormatter = AppDateTimeFormatter(),
-        post = Post(
-            title = "심심한데",
-            content = "OO이는 식목일을 맞이해 옥상 텃밭에 상추, 고추, 방울토마토를 심었어요. 또 여러 가지 자료들을 통해 따뜻한 봄에 볼 수 있는 동식물에 대해 알아보기도 했답니다. 봄이",
-            author = "노래하는 곰돌이",
-            isAnonymous = true,
-            commentCount = 10,
-            createdAt = LocalDateTime.now()
-        ),
-        onClick = {}
-    )
+    Column(
+        modifier = Modifier.background(MainBackground),
+        verticalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        PostSection(
+            appDateTimeFormatter = AppDateTimeFormatter(),
+            post = Post(
+                title = "심심한데",
+                content = "OO이는 식목일을 맞이해 옥상 텃밭에 상추, 고추, 방울토마토를 심었어요. 또 여러 가지 자료들을 통해 따뜻한 봄에 볼 수 있는 동식물에 대해 알아보기도 했답니다. 봄이",
+                author = "노래하는 곰돌이",
+                isAnonymous = true,
+                commentCount = 10,
+                hasCommented = true,
+                createdAt = LocalDateTime.now()
+            ),
+            onClick = {}
+        )
+
+        PostSection(
+            appDateTimeFormatter = AppDateTimeFormatter(),
+            post = Post(
+                title = "심심한데",
+                content = "OO이는 식목일을 맞이해 옥상 텃밭에 상추, 고추, 방울토마토를 심었어요. 또 여러 가지 자료들을 통해 따뜻한 봄에 볼 수 있는 동식물에 대해 알아보기도 했답니다. 봄이",
+                author = "노래하는곰돌이",
+                isAnonymous = false,
+                commentCount = 10032342,
+                hasCommented = false,
+                createdAt = LocalDateTime.now()
+            ),
+            onClick = {}
+        )
+    }
 }
