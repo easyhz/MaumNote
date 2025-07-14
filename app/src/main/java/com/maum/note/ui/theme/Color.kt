@@ -35,3 +35,9 @@ val DestructiveRed = Color(0xFFFF3D3D)
 
 @Stable
 val ButtonShapeColor = Color(0xFFF0F0F2)
+
+@Stable
+val FilledIconPrimary = Color(0xFF7EC1FF)
+
+@Stable
+val FilledIconDisabled = Color(0xFFE1E1E1)
