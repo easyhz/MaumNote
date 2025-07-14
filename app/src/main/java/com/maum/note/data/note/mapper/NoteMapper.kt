@@ -14,9 +14,9 @@ import com.maum.note.core.network.gpt.model.note.request.GptRequest
 import com.maum.note.core.network.gpt.model.note.request.etc.InputRequest
 import com.maum.note.core.network.gpt.model.note.response.GptResponse
 import com.maum.note.core.supabase.service.note.dto.NoteDto
-import com.maum.note.data.note.model.NoteGenerationMapParam
 import com.maum.note.data.note.model.InputRequestMapParam
 import com.maum.note.data.note.model.InsertNoteParam
+import com.maum.note.data.note.model.NoteGenerationMapParam
 import com.maum.note.domain.note.model.request.NoteRequestParam
 import com.maum.note.domain.note.model.response.NoteGenerationResponse
 import com.maum.note.domain.note.model.response.NoteResponse
@@ -26,7 +26,6 @@ import javax.inject.Inject
 
 class NoteMapper @Inject constructor(
     private val resourceHelper: ResourceHelper,
-    private val appDateTimeFormatter: AppDateTimeFormatter
 ) {
     /**
      * NoteRequestParam -> NoteEntity
@@ -77,7 +76,7 @@ class NoteMapper @Inject constructor(
         sentenceCountType = noteWithStudent.note.sentenceCount,
         inputContent = noteWithStudent.note.inputContent,
         result = noteWithStudent.note.result,
-        createdAt = appDateTimeFormatter.convertStringToDateTime(noteWithStudent.note.createdAt),
+        createdAt = AppDateTimeFormatter.convertStringToDateTime(noteWithStudent.note.createdAt),
     )
 
     fun mapToNoteDto(

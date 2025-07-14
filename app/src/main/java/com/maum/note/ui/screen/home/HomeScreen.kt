@@ -31,7 +31,6 @@ import com.maum.note.core.designSystem.util.notification.CheckNotification
 import com.maum.note.core.model.note.Note
 import com.maum.note.ui.screen.home.contract.HomeSideEffect
 import com.maum.note.ui.screen.home.contract.HomeState
-import com.maum.note.ui.theme.LocalDateTimeFormatter
 import com.maum.note.ui.theme.LocalSnackBarHostState
 import java.time.LocalDateTime
 
@@ -87,7 +86,6 @@ fun HomeScreen(
 private fun HomeScreen(
     modifier: Modifier = Modifier,
     uiState: HomeState,
-    appDateTimeFormatter: AppDateTimeFormatter = LocalDateTimeFormatter.current,
     onClickSetting: () -> Unit,
     navigateToCreation: () -> Unit,
     navigateToDetail: (Note) -> Unit,
@@ -124,7 +122,7 @@ private fun HomeScreen(
                     modifier = Modifier
                         .height(196.dp),
                     content = it.result,
-                    date = it.createdAt.toDisplayTimeAgo(context = context, appDateTimeFormatter = appDateTimeFormatter),
+                    date = it.createdAt.toDisplayTimeAgo(context = context),
                     onClick = {
                         navigateToDetail(it)
                     },
@@ -154,7 +152,6 @@ private fun HomeScreenPreview() {
                 )
             )
         ),
-        appDateTimeFormatter = AppDateTimeFormatter(),
         onClickSetting = { },
         navigateToCreation = { },
         navigateToDetail = { },

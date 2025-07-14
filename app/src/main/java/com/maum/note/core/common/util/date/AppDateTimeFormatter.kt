@@ -7,11 +7,8 @@ import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.util.Date
-import javax.inject.Inject
 
-class AppDateTimeFormatter @Inject constructor(
-
-) {
+object AppDateTimeFormatter {
     private val dateFormatter = DateTimeFormatter.ofPattern("yyyy.MM.dd")
     private val timeFormatter = DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm")
 

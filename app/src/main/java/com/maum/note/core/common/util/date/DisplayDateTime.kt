@@ -6,7 +6,6 @@ import java.time.temporal.ChronoUnit
 
 fun LocalDateTime.toDisplayTimeAgo(
     context: Context,
-    appDateTimeFormatter: AppDateTimeFormatter,
 ): String {
     return when (val timeType = toTimeAgoType()) {
         is TimeType.JustNow -> context.getString(timeType.stringRes)
@@ -15,15 +14,13 @@ fun LocalDateTime.toDisplayTimeAgo(
         is TimeType.Yesterday -> context.getString(timeType.stringRes)
         is TimeType.Date -> context.getString(
             timeType.stringRes,
-            appDateTimeFormatter.convertDateTimeToStringDate(timeType.date),
+            AppDateTimeFormatter.convertDateTimeToStringDate(timeType.date),
         )
     }
 }
 
-fun LocalDateTime.toDisplayDate(
-    appDateTimeFormatter: AppDateTimeFormatter,
-): String {
-    return appDateTimeFormatter.convertDateTimeToStringDateTime(this)
+fun LocalDateTime.toDisplayDate(): String {
+    return AppDateTimeFormatter.convertDateTimeToStringDateTime(this)
 }
 
 private fun LocalDateTime.toTimeAgoType(): TimeType {

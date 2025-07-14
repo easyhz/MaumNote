@@ -21,13 +21,11 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.maum.note.R
-import com.maum.note.core.common.util.date.AppDateTimeFormatter
 import com.maum.note.core.designSystem.component.board.AuthorWithTime
 import com.maum.note.core.model.board.Post
 import com.maum.note.ui.theme.AppTypography
 import com.maum.note.ui.theme.FilledIconDisabled
 import com.maum.note.ui.theme.FilledIconPrimary
-import com.maum.note.ui.theme.LocalDateTimeFormatter
 import com.maum.note.ui.theme.MainBackground
 import com.maum.note.ui.theme.Placeholder
 import com.maum.note.ui.theme.White
@@ -36,7 +34,6 @@ import java.time.LocalDateTime
 @Composable
 fun PostSection(
     modifier: Modifier = Modifier,
-    appDateTimeFormatter: AppDateTimeFormatter = LocalDateTimeFormatter.current,
     post: Post,
     onClick: () -> Unit
 ) {
@@ -70,7 +67,6 @@ fun PostSection(
             verticalAlignment = Alignment.CenterVertically
         ) {
             AuthorWithTime(
-                appDateTimeFormatter = appDateTimeFormatter,
                 author = post.author,
                 isAnonymous = post.isAnonymous,
                 createdAt = post.createdAt
@@ -129,7 +125,6 @@ private fun PostSectionPreview() {
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         PostSection(
-            appDateTimeFormatter = AppDateTimeFormatter(),
             post = Post(
                 title = "심심한데",
                 content = "OO이는 식목일을 맞이해 옥상 텃밭에 상추, 고추, 방울토마토를 심었어요. 또 여러 가지 자료들을 통해 따뜻한 봄에 볼 수 있는 동식물에 대해 알아보기도 했답니다. 봄이",
@@ -143,7 +138,6 @@ private fun PostSectionPreview() {
         )
 
         PostSection(
-            appDateTimeFormatter = AppDateTimeFormatter(),
             post = Post(
                 title = "심심한데",
                 content = "OO이는 식목일을 맞이해 옥상 텃밭에 상추, 고추, 방울토마토를 심었어요. 또 여러 가지 자료들을 통해 따뜻한 봄에 볼 수 있는 동식물에 대해 알아보기도 했답니다. 봄이",

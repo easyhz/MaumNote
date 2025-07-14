@@ -10,14 +10,14 @@ import kotlinx.datetime.Clock
 import javax.inject.Inject
 
 class UserMapper @Inject constructor(
-    private val dataTimeFormatter: AppDateTimeFormatter,
+
 ) {
     fun mapUserInfoToAuthUser(userInfo: UserInfo?): AuthUser? {
         if (userInfo == null) return null
         return AuthUser(
             id = userInfo.id,
             createdAt = userInfo.createdAt?.let {
-                dataTimeFormatter.convertInstantToDateTime(it)
+                AppDateTimeFormatter.convertInstantToDateTime(it)
             }
         )
     }
@@ -28,7 +28,7 @@ class UserMapper @Inject constructor(
             nickname = userDto.nickname,
             hasAgreedToTerms = userDto.hasAgreedToTerms,
             studentAge = userDto.studentAge,
-            creationTime = dataTimeFormatter.convertInstantToDateTime(userDto.creationTime),
+            creationTime = AppDateTimeFormatter.convertInstantToDateTime(userDto.creationTime),
             isDeleted = userDto.isDeleted,
         )
     }
