@@ -1,4 +1,4 @@
-package com.maum.note.core.designSystem.component.card
+package com.maum.note.core.designSystem.component.card.note
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box

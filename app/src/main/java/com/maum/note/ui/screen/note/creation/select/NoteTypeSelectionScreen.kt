@@ -20,7 +20,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.maum.note.R
 import com.maum.note.core.designSystem.component.button.MainButton
-import com.maum.note.core.designSystem.component.card.NoteTypeCard
+import com.maum.note.core.designSystem.component.card.note.NoteTypeCard
 import com.maum.note.core.designSystem.component.scaffold.AppScaffold
 import com.maum.note.core.designSystem.component.topbar.TopBar
 import com.maum.note.core.designSystem.component.topbar.TopBarIcon

@@ -23,7 +23,7 @@ import com.maum.note.core.common.util.collect.collectInSideEffectWithLifecycle
 import com.maum.note.core.common.util.date.AppDateTimeFormatter
 import com.maum.note.core.common.util.date.toDisplayTimeAgo
 import com.maum.note.core.designSystem.component.button.HomeFloatingActionButton
-import com.maum.note.core.designSystem.component.card.NoteCard
+import com.maum.note.core.designSystem.component.card.note.NoteCard
 import com.maum.note.core.designSystem.component.empty.EmptyView
 import com.maum.note.core.designSystem.component.scaffold.AppScaffold
 import com.maum.note.core.designSystem.component.topbar.HomeTopBar
