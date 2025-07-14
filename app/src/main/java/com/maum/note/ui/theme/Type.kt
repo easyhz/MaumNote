@@ -63,6 +63,13 @@ object AppTypography {
         lineHeight = (16 * 1.4).sp,
     )
 
+    val body1_regular = TextStyle(
+        fontFamily = fontFamily,
+        fontWeight = FontWeight.Normal,
+        fontSize = 16.sp,
+        lineHeight = 20.sp,
+    )
+
     val body2_regular = TextStyle(
         fontFamily = fontFamily,
         fontWeight = FontWeight.Normal,
