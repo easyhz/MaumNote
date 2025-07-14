@@ -1,6 +1,6 @@
 package com.maum.note.data.user.datasource.remote
 
-import com.maum.note.core.supabase.user.dto.UserDto
+import com.maum.note.core.supabase.service.user.dto.UserDto
 import io.github.jan.supabase.auth.user.UserInfo
 
 interface UserRemoteDataSource {

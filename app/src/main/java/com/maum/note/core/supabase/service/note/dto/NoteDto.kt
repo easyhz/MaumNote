@@ -1,4 +1,4 @@
-package com.maum.note.core.supabase.note.dto
+package com.maum.note.core.supabase.service.note.dto
 
 import com.maum.note.core.supabase.constant.Table
 import kotlinx.datetime.Instant

@@ -1,7 +1,7 @@
-package com.maum.note.core.supabase.user.service
+package com.maum.note.core.supabase.service.user.service
 
 import com.maum.note.core.supabase.constant.Table
-import com.maum.note.core.supabase.user.dto.UserDto
+import com.maum.note.core.supabase.service.user.dto.UserDto
 import io.github.jan.supabase.postgrest.Postgrest
 import javax.inject.Inject
 

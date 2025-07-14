@@ -1,4 +1,4 @@
-package com.maum.note.core.supabase.auth
+package com.maum.note.core.supabase.service.auth
 
 import io.github.jan.supabase.auth.user.UserInfo
 

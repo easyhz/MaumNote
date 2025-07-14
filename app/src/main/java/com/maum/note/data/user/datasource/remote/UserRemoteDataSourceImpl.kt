@@ -1,8 +1,8 @@
 package com.maum.note.data.user.datasource.remote
 
-import com.maum.note.core.supabase.auth.AuthService
-import com.maum.note.core.supabase.user.dto.UserDto
-import com.maum.note.core.supabase.user.service.UserService
+import com.maum.note.core.supabase.service.auth.AuthService
+import com.maum.note.core.supabase.service.user.dto.UserDto
+import com.maum.note.core.supabase.service.user.service.UserService
 import io.github.jan.supabase.auth.user.UserInfo
 import javax.inject.Inject
 

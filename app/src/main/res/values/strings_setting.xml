@@ -6,6 +6,7 @@
     <string name="setting_note_age">연령대 설정</string>
     <string name="setting_note_tone">문체 설정</string>
     <string name="setting_note_trash">휴지통</string>
+    <string name="setting_note_legacy_note">지난 노트</string>
 
     <string name="setting_etc_about">마음노트 사용법</string>
     <string name="setting_etc_version">버전</string>

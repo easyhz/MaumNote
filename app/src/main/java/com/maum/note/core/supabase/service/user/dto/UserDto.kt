@@ -1,4 +1,4 @@
-package com.maum.note.core.supabase.user.dto
+package com.maum.note.core.supabase.service.user.dto
 
 import com.maum.note.core.model.note.AgeType
 import com.maum.note.core.supabase.constant.Table

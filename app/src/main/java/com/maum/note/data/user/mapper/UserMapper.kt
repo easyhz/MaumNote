@@ -1,7 +1,7 @@
 package com.maum.note.data.user.mapper
 
 import com.maum.note.core.common.util.date.AppDateTimeFormatter
-import com.maum.note.core.supabase.user.dto.UserDto
+import com.maum.note.core.supabase.service.user.dto.UserDto
 import com.maum.note.domain.user.model.request.SaveUserRequestParam
 import com.maum.note.domain.user.model.response.AuthUser
 import com.maum.note.domain.user.model.response.User

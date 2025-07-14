@@ -31,6 +31,9 @@ enum class NoteSettingItem: SettingItem {
     }, TONE {
         override val stringResId: Int
             get() = R.string.setting_note_tone
+    }, LEGACY_NOTE {
+        override val stringResId: Int
+            get() = R.string.setting_note_legacy_note
     };
 }
 

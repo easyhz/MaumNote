@@ -1,11 +1,11 @@
 package com.maum.note.core.supabase.di
 
-import com.maum.note.core.supabase.user.service.UserService
-import com.maum.note.core.supabase.user.service.UserServiceImpl
-import com.maum.note.core.supabase.auth.AuthService
-import com.maum.note.core.supabase.auth.AuthServiceImpl
-import com.maum.note.core.supabase.note.service.NoteService
-import com.maum.note.core.supabase.note.service.NoteServiceImpl
+import com.maum.note.core.supabase.service.user.service.UserService
+import com.maum.note.core.supabase.service.user.service.UserServiceImpl
+import com.maum.note.core.supabase.service.auth.AuthService
+import com.maum.note.core.supabase.service.auth.AuthServiceImpl
+import com.maum.note.core.supabase.service.note.service.NoteService
+import com.maum.note.core.supabase.service.note.service.NoteServiceImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

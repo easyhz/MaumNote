@@ -13,7 +13,7 @@ import com.maum.note.core.model.note.SentenceType
 import com.maum.note.core.network.gpt.model.note.request.GptRequest
 import com.maum.note.core.network.gpt.model.note.request.etc.InputRequest
 import com.maum.note.core.network.gpt.model.note.response.GptResponse
-import com.maum.note.core.supabase.note.dto.NoteDto
+import com.maum.note.core.supabase.service.note.dto.NoteDto
 import com.maum.note.data.note.model.NoteGenerationMapParam
 import com.maum.note.data.note.model.InputRequestMapParam
 import com.maum.note.data.note.model.InsertNoteParam
