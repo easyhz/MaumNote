@@ -64,6 +64,9 @@ class SettingViewModel @Inject constructor(
             NoteSettingItem.TONE -> {
                 navigateToToneSetting()
             }
+            NoteSettingItem.LEGACY_NOTE -> {
+
+            }
         }
     }
 
