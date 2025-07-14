@@ -16,10 +16,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.maum.note.R
-import com.maum.note.core.common.util.date.AppDateTimeFormatter
 import com.maum.note.core.common.util.date.toDisplayTimeAgo
 import com.maum.note.ui.theme.AppTypography
-import com.maum.note.ui.theme.LocalDateTimeFormatter
 import com.maum.note.ui.theme.Placeholder
 import java.time.LocalDateTime
 
@@ -27,7 +25,6 @@ import java.time.LocalDateTime
 @Composable
 fun AuthorWithTime(
     modifier: Modifier = Modifier,
-    appDateTimeFormatter: AppDateTimeFormatter = LocalDateTimeFormatter.current,
     author: String,
     isAnonymous: Boolean,
     createdAt: LocalDateTime
@@ -53,7 +50,7 @@ fun AuthorWithTime(
         )
 
         Text(
-            text = createdAt.toDisplayTimeAgo(context = context, appDateTimeFormatter = appDateTimeFormatter),
+            text = createdAt.toDisplayTimeAgo(context = context),
             style = AppTypography.body2_regular.copy(
                 color = Placeholder
             )
@@ -65,7 +62,6 @@ fun AuthorWithTime(
 @Composable
 private fun AuthorWithTimePreview() {
     AuthorWithTime(
-        appDateTimeFormatter = AppDateTimeFormatter(),
         author = "익명",
         isAnonymous = true,
         createdAt = LocalDateTime.now()
