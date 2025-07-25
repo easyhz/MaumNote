@@ -1,4 +1,5 @@
 <resources>
+    <string name="board">게시판</string>
     <string name="board_anonymous">익명</string>
     <string name="board_creation_title">게시글 작성</string>
     <string name="board_creation_button">작성</string>
