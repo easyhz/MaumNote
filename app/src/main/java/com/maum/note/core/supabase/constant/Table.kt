@@ -23,4 +23,14 @@ sealed class Table(val name: String) {
         const val UPDATED_TIME = "updated_time"
         const val IS_DELETED = "is_deleted"
     }
+
+    object POSTS : Table("POSTS") {
+        const val ID = "id"
+        const val USER_ID = "user_id"
+        const val TITLE = "title"
+        const val CONTENT = "content"
+        const val IS_ANONYMOUS = "is_anonymous"
+        const val IS_DELETED = "is_deleted"
+        const val CREATED_AT = "created_at"
+    }
 }
