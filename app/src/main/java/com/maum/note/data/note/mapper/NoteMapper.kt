@@ -95,8 +95,7 @@ class NoteMapper @Inject constructor(
             sentenceCount = sentenceType.alias,
             inputContent = noteRequestParam.inputContent,
             result = noteRequestParam.result,
-            creationTime = Clock.System.now(),
-            updatedTime = Clock.System.now(),
+            createdAt = Clock.System.now(),
             isDeleted = false
         )
     }

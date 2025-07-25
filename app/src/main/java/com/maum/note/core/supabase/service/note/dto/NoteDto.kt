@@ -23,10 +23,8 @@ data class NoteDto(
     val inputContent: String,
     @SerialName(Table.NOTES.RESULT)
     val result: String,
-    @SerialName(Table.NOTES.CREATION_TIME)
-    val creationTime: Instant,
-    @SerialName(Table.NOTES.UPDATED_TIME)
-    val updatedTime: Instant,
+    @SerialName(Table.NOTES.CREATED_AT)
+    val createdAt: Instant,
     @SerialName(Table.NOTES.IS_DELETED)
     val isDeleted: Boolean = false
 )

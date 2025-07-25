@@ -73,7 +73,6 @@ fun PostSection(
             )
             IconWithNumber(
                 painter = painterResource(R.drawable.ic_chat),
-                hasCommented = post.hasCommented,
                 number = post.commentCount
             )
         }
@@ -84,18 +83,9 @@ fun PostSection(
 @Composable
 private fun IconWithNumber(
     modifier: Modifier = Modifier,
-    hasCommented: Boolean,
     painter: Painter,
     number: Int
 ) {
-    val iconColor by animateColorAsState(
-        targetValue = if (hasCommented) FilledIconPrimary else FilledIconDisabled
-    )
-
-    val textColor by animateColorAsState(
-        targetValue = if (hasCommented) FilledIconPrimary else Placeholder
-    )
-
     Row(
         modifier = modifier,
         verticalAlignment = Alignment.CenterVertically,
@@ -105,13 +95,13 @@ private fun IconWithNumber(
             modifier = Modifier.size(20.dp),
             painter = painter,
             contentDescription = null,
-            tint = iconColor
+            tint = FilledIconDisabled
         )
 
         Text(
             text = (number.takeIf { it < 100 } ?: "99+").toString(),
             style = AppTypography.body2_regular.copy(
-                color = textColor
+                color = Placeholder
             )
         )
     }
@@ -126,12 +116,12 @@ private fun PostSectionPreview() {
     ) {
         PostSection(
             post = Post(
+                id = "23",
                 title = "심심한데",
                 content = "OO이는 식목일을 맞이해 옥상 텃밭에 상추, 고추, 방울토마토를 심었어요. 또 여러 가지 자료들을 통해 따뜻한 봄에 볼 수 있는 동식물에 대해 알아보기도 했답니다. 봄이",
                 author = "노래하는 곰돌이",
                 isAnonymous = true,
                 commentCount = 10,
-                hasCommented = true,
                 createdAt = LocalDateTime.now()
             ),
             onClick = {}
@@ -139,12 +129,12 @@ private fun PostSectionPreview() {
 
         PostSection(
             post = Post(
+                id = "23",
                 title = "심심한데",
                 content = "OO이는 식목일을 맞이해 옥상 텃밭에 상추, 고추, 방울토마토를 심었어요. 또 여러 가지 자료들을 통해 따뜻한 봄에 볼 수 있는 동식물에 대해 알아보기도 했답니다. 봄이",
                 author = "노래하는곰돌이",
                 isAnonymous = false,
                 commentCount = 10032342,
-                hasCommented = false,
                 createdAt = LocalDateTime.now()
             ),
             onClick = {}
