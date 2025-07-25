@@ -1,5 +1,6 @@
 package com.maum.note.ui.screen.home
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -14,11 +15,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.maum.note.R
 import com.maum.note.core.common.util.collect.collectInSideEffectWithLifecycle
 import com.maum.note.core.common.util.date.AppDateTimeFormatter
 import com.maum.note.core.common.util.date.toDisplayTimeAgo
@@ -96,6 +99,13 @@ private fun HomeScreen(
         modifier = modifier,
         topBar = {
             HomeTopBar(
+                content = {
+                    Image(
+                        modifier = Modifier.height(40.dp),
+                        painter = painterResource(R.drawable.ic_app_icon),
+                        contentDescription = null
+                    )
+                },
                 onClickSetting = onClickSetting
             )
         },
