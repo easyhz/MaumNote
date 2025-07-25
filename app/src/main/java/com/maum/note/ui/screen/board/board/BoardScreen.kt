@@ -91,7 +91,7 @@ private fun BoardScreen(
         }
         LazyColumn(
             modifier = Modifier.padding(innerPadding),
-            verticalArrangement = Arrangement.spacedBy(12.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp),
             contentPadding = PaddingValues(bottom = 80.dp)
         ) {
             items(uiState.postList) { item ->
