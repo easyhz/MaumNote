@@ -1,3 +1,15 @@
 <resources>
     <string name="board_anonymous">익명</string>
+    <string name="board_creation_title">게시글 작성</string>
+    <string name="board_creation_button">작성</string>
+
+    <string name="board_creation_post_title">제목</string>
+    <string name="board_creation_post_title_placeholder">제목을 입력해 주세요.</string>
+    <string name="board_creation_post_content">내용 입력</string>
+    <string name="board_creation_post_content_placeholder">내용을 입력해 주세요.</string>
+    <string name="board_creation_post_rule">
+        비속어, 선정적 표현, 모욕과 같은 내용은 허용되지 않아요.
+        \n커뮤니티 운영 정책을 위반할 경우, 계정이 제한될 수 있어요.
+        \n모두가 편안하게 이용할 수 있도록, 함께 지켜주세요
+    </string>
 </resources>
