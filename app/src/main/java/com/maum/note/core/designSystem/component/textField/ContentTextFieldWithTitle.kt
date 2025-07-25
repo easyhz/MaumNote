@@ -12,6 +12,7 @@ import androidx.compose.ui.text.TextLayoutResult
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.maum.note.core.designSystem.util.textField.TextFieldType
 import com.maum.note.ui.theme.AppTypography
 import com.maum.note.ui.theme.SubText
 
@@ -26,6 +27,8 @@ fun ContentTextFieldWithTitle(
     maxCount: Int? = null,
     caption: String? = null,
     hint: String? = null,
+    textFieldType: TextFieldType = TextFieldType.Multiple(),
+    singleLine: Boolean = false,
     onTextLayout: (TextLayoutResult) -> Unit = {},
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     keyboardActions: KeyboardActions = KeyboardActions.Default,
@@ -49,6 +52,8 @@ fun ContentTextFieldWithTitle(
                 placeholder = placeholder,
                 maxCount = maxCount,
                 caption = caption,
+                textFieldType = textFieldType,
+                singleLine = singleLine,
                 onTextLayout = onTextLayout,
                 keyboardActions = keyboardActions,
                 keyboardOptions = keyboardOptions,

@@ -32,7 +32,7 @@ internal fun TextFieldContainer(
 ) {
     TextFieldContainerContent(
         modifier = modifier
-            .heightIn(min = textFieldType.minHeight)
+            .heightIn(min = textFieldType.minHeight, max = textFieldType.maxHeight)
             .clip(RoundedCornerShape(8.dp))
             .background(White)
             .padding(textFieldType.paddingValues),
