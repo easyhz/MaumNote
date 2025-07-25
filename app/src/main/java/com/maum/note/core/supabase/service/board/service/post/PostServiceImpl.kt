@@ -8,7 +8,6 @@ import javax.inject.Inject
 class PostServiceImpl @Inject constructor(
     private val postgrest: Postgrest
 ): PostService {
-
     override suspend fun insertPost(postDto: PostDto) {
         postgrest.from(Table.POSTS.name).insert(postDto)
     }
