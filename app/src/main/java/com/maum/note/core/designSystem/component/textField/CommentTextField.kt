@@ -38,6 +38,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.maum.note.R
 import com.maum.note.core.designSystem.component.button.CommentAnonymousCheckButton
+import com.maum.note.core.designSystem.extension.modifier.singleClickable
 import com.maum.note.core.designSystem.util.textField.TextFieldState
 import com.maum.note.core.designSystem.util.textField.getTextFieldState
 import com.maum.note.ui.theme.AppTypography
@@ -133,8 +134,8 @@ fun CommentTextField(
                     .height(30.dp)
                     .clip(RoundedCornerShape(12.dp))
                     .background(Primary)
-                    .padding(vertical = 6.dp)
-                    .clickable(onClick = onClickSend),
+                    .singleClickable(onClick = onClickSend)
+                    .padding(vertical = 6.dp),
                 contentAlignment = Alignment.Center
             ) {
                 Icon(

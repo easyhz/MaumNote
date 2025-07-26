@@ -7,7 +7,7 @@ import com.maum.note.core.common.util.date.AppDateTimeFormatter
 import com.maum.note.core.model.board.Post
 import com.maum.note.core.supabase.service.board.dto.post.PostDto
 import com.maum.note.core.supabase.service.board.dto.post.PostWithCommentDto
-import com.maum.note.domain.board.model.request.CreatePostRequest
+import com.maum.note.domain.board.model.post.request.CreatePostRequest
 import kotlinx.datetime.Clock
 import javax.inject.Inject
 

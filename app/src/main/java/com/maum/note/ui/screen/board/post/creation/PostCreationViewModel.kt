@@ -3,7 +3,7 @@ package com.maum.note.ui.screen.board.post.creation
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.lifecycle.viewModelScope
 import com.maum.note.core.common.base.BaseViewModel
-import com.maum.note.domain.board.model.request.CreatePostRequest
+import com.maum.note.domain.board.model.post.request.CreatePostRequest
 import com.maum.note.domain.board.usecase.post.CreatePostUseCase
 import com.maum.note.ui.screen.board.post.creation.contract.PostCreationSideEffect
 import com.maum.note.ui.screen.board.post.creation.contract.PostCreationState
