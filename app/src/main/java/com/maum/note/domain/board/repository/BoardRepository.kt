@@ -6,4 +6,5 @@ import com.maum.note.domain.board.model.request.CreatePostRequest
 interface BoardRepository {
     suspend fun createPost(request: CreatePostRequest): Result<Unit>
     suspend fun fetchPosts(): Result<List<Post>>
+    suspend fun fetchPost(id: String): Result<Post>
 }

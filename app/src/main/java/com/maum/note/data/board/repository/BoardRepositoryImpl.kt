@@ -22,4 +22,8 @@ class BoardRepositoryImpl @Inject constructor(
     override suspend fun fetchPosts(): Result<List<Post>> = runCatching {
         postRemoteDataSource.fetchPosts().map { postMapper.toPost(it) }
     }
+
+    override suspend fun fetchPost(id: String): Result<Post> = runCatching {
+        postRemoteDataSource.fetchPost(id).let { postMapper.toPost(it) }
+    }
 }
