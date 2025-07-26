@@ -10,3 +10,7 @@ annotation class AgeDataStorePreference
 @Qualifier
 @Retention(AnnotationRetention.BINARY)
 annotation class ConfigurationDataStorePreference
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class BoardDataStorePreference

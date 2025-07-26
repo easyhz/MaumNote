@@ -2,6 +2,8 @@ package com.maum.note.core.datastore.di
 
 import com.maum.note.core.datastore.age.AgeDataStore
 import com.maum.note.core.datastore.age.AgeDataStoreImpl
+import com.maum.note.core.datastore.board.BoardDataStore
+import com.maum.note.core.datastore.board.BoardDataStoreImpl
 import com.maum.note.core.datastore.configuration.ConfigurationDataStore
 import com.maum.note.core.datastore.configuration.ConfigurationDataStoreImpl
 import dagger.Binds
@@ -22,4 +24,9 @@ interface DataStoreModule {
     fun bindConfigurationDataStore(
         configurationDataStoreImpl: ConfigurationDataStoreImpl
     ): ConfigurationDataStore
+
+    @Binds
+    fun bindBoardDataStore(
+        boardDataStoreImpl: BoardDataStoreImpl
+    ): BoardDataStore
 }
