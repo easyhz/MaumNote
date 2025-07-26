@@ -33,6 +33,7 @@ import com.maum.note.core.designSystem.component.topbar.TopBar
 import com.maum.note.core.designSystem.component.topbar.TopBarIcon
 import com.maum.note.core.designSystem.component.topbar.TopBarText
 import com.maum.note.core.designSystem.extension.modifier.noRippleClickable
+import com.maum.note.ui.screen.board.post.detail.contract.PostDetailSideEffect
 import com.maum.note.ui.screen.board.post.detail.contract.PostDetailState
 import com.maum.note.ui.theme.White
 
@@ -61,10 +62,9 @@ fun PostDetailScreen(
     )
 
     viewModel.sideEffect.collectInSideEffectWithLifecycle { sideEffect ->
-        TODO("Not yet implemented")
-//        when (sideEffect) {
-//
-//        }
+        when (sideEffect) {
+            is PostDetailSideEffect.NavigateUp -> navigateUp()
+        }
     }
 }
 

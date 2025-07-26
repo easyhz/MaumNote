@@ -7,6 +7,8 @@ import com.maum.note.core.common.base.BaseViewModel
 import com.maum.note.core.common.di.dispatcher.AppDispatchers
 import com.maum.note.core.common.di.dispatcher.Dispatcher
 import com.maum.note.domain.board.model.comment.request.CreateCommentRequest
+import com.maum.note.domain.board.usecase.GetAnonymousSettingFlowUseCase
+import com.maum.note.domain.board.usecase.SetAnonymousSettingUseCase
 import com.maum.note.domain.board.usecase.comment.CreateCommentUseCase
 import com.maum.note.domain.board.usecase.comment.FetchCommentsUseCase
 import com.maum.note.domain.board.usecase.post.FetchPostUseCase
@@ -14,6 +16,8 @@ import com.maum.note.ui.screen.board.post.detail.contract.PostDetailSideEffect
 import com.maum.note.ui.screen.board.post.detail.contract.PostDetailState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -30,13 +34,16 @@ class PostDetailViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle,
     private val fetchPostUseCase: FetchPostUseCase,
     private val fetchCommentsUseCase: FetchCommentsUseCase,
-    private val createCommentUseCase: CreateCommentUseCase
+    private val createCommentUseCase: CreateCommentUseCase,
+    private val getAnonymousSettingFlowUseCase: GetAnonymousSettingFlowUseCase,
+    private val setAnonymousSettingUseCase: SetAnonymousSettingUseCase,
 ) : BaseViewModel<PostDetailState, PostDetailSideEffect>(
     initialState = PostDetailState.init()
 ) {
 
     init {
         init()
+        getAnonymousSetting()
     }
 
     private fun init() {
@@ -50,12 +57,23 @@ class PostDetailViewModel @Inject constructor(
         fetchComments(id = id)
     }
 
+    private fun getAnonymousSetting() {
+        viewModelScope.launch {
+            getAnonymousSettingFlowUseCase.invoke().flowOn(ioDispatcher).catch { e ->
+                e.printStackTrace()
+            }.collect {
+                setState { copy(isAnonymous = it) }
+            }
+        }
+    }
+
     fun onCommentTextChanged(value: TextFieldValue) {
         setState { copy(commentText = value) }
     }
 
     fun onClickAnonymous() {
         setState { copy(isAnonymous = !isAnonymous) }
+        setAnonymousSetting()
     }
 
     fun onClickSend() {
@@ -117,11 +135,18 @@ class PostDetailViewModel @Inject constructor(
     }
 
     private fun navigateUp() {
-
+        postSideEffect { PostDetailSideEffect.NavigateUp }
     }
 
     private fun setLoading(isLoading: Boolean) {
         setState { copy(isLoading = isLoading) }
+    }
+
+    private fun setAnonymousSetting() {
+        viewModelScope.launch(ioDispatcher) {
+            val isAnonymous = currentState.isAnonymous
+            setAnonymousSettingUseCase.invoke(isAnonymous)
+        }
     }
 
 }
