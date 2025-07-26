@@ -170,4 +170,7 @@ dependencies {
 
     // uuid v7
     implementation(libs.uuid.creator)
+
+    // glide
+    implementation(libs.glide)
 }

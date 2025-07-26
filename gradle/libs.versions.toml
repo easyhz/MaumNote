@@ -41,6 +41,8 @@ clarity = "3.1.3"
 
 uuidCreator = "6.1.0"
 
+glide = "1.0.0-beta01"
+
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 firebase-messaging = { module = "com.google.firebase:firebase-messaging" }
@@ -109,6 +111,8 @@ lottie = { group = "com.airbnb.android", name = "lottie-compose", version.ref = 
 clarity = { module = "com.microsoft.clarity:clarity-compose", version.ref = "clarity" }
 
 uuid-creator = { module = "com.github.f4b6a3:uuid-creator", version.ref = "uuidCreator" }
+
+glide = { group = "com.github.bumptech.glide", name = "compose", version.ref = "glide" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
