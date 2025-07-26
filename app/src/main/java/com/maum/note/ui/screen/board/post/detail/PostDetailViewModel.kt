@@ -1,5 +1,6 @@
 package com.maum.note.ui.screen.board.post.detail
 
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.maum.note.core.common.base.BaseViewModel
@@ -44,6 +45,18 @@ class PostDetailViewModel @Inject constructor(
         setState { copy(post = post?.copy(id = id, title = title)) }
         fetchPost(id = id)
         fetchComments(id = id)
+    }
+
+    fun onCommentTextChanged(value: TextFieldValue) {
+        setState { copy(commentText = value) }
+    }
+
+    fun onClickAnonymous() {
+        setState { copy(isAnonymous = !isAnonymous) }
+    }
+
+    fun onClickSend() {
+
     }
 
     private fun fetchPost(id: String = currentState.post?.id ?: "") {

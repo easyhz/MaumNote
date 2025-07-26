@@ -16,4 +16,5 @@
     </string>
 
     <string name="board_detail_comment">댓글</string>
+    <string name="board_detail_comment_placeholder">댓글을 입력하세요</string>
 </resources>

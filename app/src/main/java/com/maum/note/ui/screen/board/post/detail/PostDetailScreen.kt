@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -15,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -25,6 +27,7 @@ import com.maum.note.core.designSystem.component.dialog.BasicDialog
 import com.maum.note.core.designSystem.component.scaffold.AppScaffold
 import com.maum.note.core.designSystem.component.section.board.CommentSection
 import com.maum.note.core.designSystem.component.section.board.PostSection
+import com.maum.note.core.designSystem.component.textField.CommentTextField
 import com.maum.note.core.designSystem.component.topbar.TopBar
 import com.maum.note.core.designSystem.component.topbar.TopBarIcon
 import com.maum.note.core.designSystem.component.topbar.TopBarText
@@ -51,7 +54,10 @@ fun PostDetailScreen(
         modifier = modifier,
         uiState = uiState,
         clearFocus = focusManager::clearFocus,
-        navigateUp = navigateUp
+        navigateUp = navigateUp,
+        onValueChange = viewModel::onCommentTextChanged,
+        onClickAnonymous = viewModel::onClickAnonymous,
+        onClickSend = viewModel::onClickSend
     )
 
     viewModel.sideEffect.collectInSideEffectWithLifecycle { sideEffect ->
@@ -68,6 +74,9 @@ private fun PostDetailScreen(
     uiState: PostDetailState,
     clearFocus: () -> Unit,
     navigateUp: () -> Unit,
+    onValueChange: (TextFieldValue) -> Unit = { },
+    onClickAnonymous: () -> Unit = { },
+    onClickSend: () -> Unit = { }
 ) {
 
     BackHandler {
@@ -108,20 +117,14 @@ private fun PostDetailScreen(
             )
         },
         bottomBar = {
-//            Box(
-//                modifier = Modifier
-//                    .imePadding()
-//                    .fillMaxWidth()
-//                    .heightIn(min = 48.dp)
-//                    .background(White)
-//                    .padding(horizontal = 16.dp),
-//                contentAlignment = Alignment.CenterStart
-//            ) {
-//                AnonymousCheckButton(
-//                    isChecked = uiState.isAnonymous,
-//                    onClick = onClickAnonymous,
-//                )
-//            }
+            CommentTextField(
+                modifier = Modifier.imePadding(),
+                value = uiState.commentText,
+                onValueChange = onValueChange,
+                isAnonymous = uiState.isAnonymous,
+                onClickAnonymous = onClickAnonymous,
+                onClickSend = onClickSend
+            )
         }
     ) { innerPadding ->
         LazyColumn(

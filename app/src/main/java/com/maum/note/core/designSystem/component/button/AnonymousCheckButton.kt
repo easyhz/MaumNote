@@ -3,6 +3,7 @@ package com.maum.note.core.designSystem.component.button
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
@@ -35,7 +36,8 @@ fun AnonymousCheckButton(
         verticalAlignment = Alignment.CenterVertically
     ) {
         Crossfade(
-            isChecked
+            modifier = Modifier.align(Alignment.Bottom),
+            targetState = isChecked
         ) {
             Image(
                 modifier = Modifier.size(24.dp).circleClickable(onClick = onClick),
@@ -51,15 +53,57 @@ fun AnonymousCheckButton(
             )
         )
     }
+}
 
+
+@Composable
+fun CommentAnonymousCheckButton(
+    modifier: Modifier = Modifier,
+    isChecked: Boolean,
+    textColor: Color = MainText,
+    onClick: () -> Unit
+) {
+
+    Row(
+        modifier = modifier.noRippleClickable(onClick = onClick),
+        horizontalArrangement = Arrangement.spacedBy(2.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Crossfade(
+            modifier = Modifier.align(Alignment.Bottom),
+            targetState = isChecked
+        ) {
+            Image(
+                modifier = Modifier.size(16.dp).circleClickable(onClick = onClick),
+                painter = painterResource(if(it) R.drawable.ic_checkbox_check else R.drawable.ic_checkbox_uncheck),
+                contentDescription = null
+            )
+        }
+
+        Text(
+            text = stringResource(R.string.board_anonymous),
+            style = AppTypography.body3_regular.copy(
+                color = textColor
+            )
+        )
+    }
 }
 
 @Preview
 @Composable
 private fun AnonymousCheckButtonPreview() {
-    AnonymousCheckButton(
-        modifier = Modifier,
-        isChecked = true,
-        onClick = {}
-    )
+    Column(
+        verticalArrangement = Arrangement.spacedBy(12.dp)
+    ) {
+        AnonymousCheckButton(
+            modifier = Modifier,
+            isChecked = true,
+            onClick = {}
+        )
+        CommentAnonymousCheckButton(
+            modifier = Modifier,
+            isChecked = true,
+            onClick = {}
+        )
+    }
 }

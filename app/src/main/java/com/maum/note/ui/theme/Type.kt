@@ -77,6 +77,13 @@ object AppTypography {
         lineHeight = 16.sp,
     )
 
+    val body3_regular = TextStyle(
+        fontFamily = fontFamily,
+        fontWeight = FontWeight.Normal,
+        fontSize = 12.sp,
+        lineHeight = 16.sp,
+    )
+
 
     val bottom_bar_text = TextStyle(
         fontFamily = fontFamily,
