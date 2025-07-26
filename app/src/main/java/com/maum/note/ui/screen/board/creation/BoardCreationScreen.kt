@@ -47,7 +47,8 @@ import com.maum.note.ui.theme.White
 @Composable
 fun BoardCreationScreen(
     modifier: Modifier = Modifier,
-    viewModel: BoardCreationViewModel = hiltViewModel()
+    viewModel: BoardCreationViewModel = hiltViewModel(),
+    navigateUp: () -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val focusManager = LocalFocusManager.current
@@ -56,7 +57,7 @@ fun BoardCreationScreen(
         modifier = modifier,
         uiState = uiState,
         clearFocus = focusManager::clearFocus,
-        navigateUp = { },
+        navigateUp = navigateUp,
         onClickNext = viewModel::onClickNext,
         onValueChangeTitle = viewModel::onValueChangeTitle,
         onValueChangeContent = viewModel::onValueChangeContent,
