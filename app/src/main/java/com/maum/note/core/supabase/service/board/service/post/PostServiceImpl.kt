@@ -78,7 +78,7 @@ class PostServiceImpl @Inject constructor(
     }
 
     override suspend fun deletePost(id: String) {
-        postgrest.from(Table.USERS.name).update(
+        postgrest.from(Table.POSTS.name).update(
             {
                 set(Table.POSTS.IS_DELETED, true)
             }
