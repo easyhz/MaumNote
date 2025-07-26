@@ -14,6 +14,7 @@ interface BoardRepository {
 
     suspend fun createComment(request: CreateCommentRequest): Result<Unit>
     suspend fun fetchComments(postId: String): Result<List<Comment>>
+    suspend fun deleteComment(id: String): Result<Unit>
 
     fun getAnonymousSettingFlow(): Flow<Boolean>
     suspend fun setAnonymousSetting(isAnonymous: Boolean): Result<Unit>

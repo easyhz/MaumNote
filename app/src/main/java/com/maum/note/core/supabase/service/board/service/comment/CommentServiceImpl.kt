@@ -45,4 +45,16 @@ class CommentServiceImpl @Inject constructor(
             }
         ).decodeList()
     }
+
+    override suspend fun deleteComment(id: String) {
+        postgrest.from(Table.COMMENTS.name).update(
+            {
+                set(Table.COMMENTS.IS_DELETED, true)
+            }
+        ) {
+            filter {
+                eq(Table.COMMENTS.ID, id)
+            }
+        }
+    }
 }

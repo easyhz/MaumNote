@@ -15,4 +15,8 @@ class CommentRemoteDataSourceImpl @Inject constructor(
     override suspend fun fetchComments(postId: String): List<CommentWithUserDto> {
         return commentService.fetchComments(postId)
     }
+
+    override suspend fun deleteComment(id: String) {
+        return commentService.deleteComment(id)
+    }
 }

@@ -49,6 +49,10 @@ class BoardRepositoryImpl @Inject constructor(
         commentRemoteDataSource.fetchComments(postId).map { commentMapper.toComment(it) }
     }
 
+    override suspend fun deleteComment(id: String): Result<Unit> = runCatching {
+        commentRemoteDataSource.deleteComment(id)
+    }
+
     override fun getAnonymousSettingFlow(): Flow<Boolean> {
         return boardLocalDataSource.getAnonymousSettingFlow()
     }
