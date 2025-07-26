@@ -44,6 +44,7 @@ sealed class Table(val name: String) {
         const val USER_ID = "user_id"
         const val POST_ID = "post_id"
         const val CONTENT = "content"
+        const val PARENT_ID = "parent_id"
         const val IS_ANONYMOUS = "is_anonymous"
         const val IS_DELETED = "is_deleted"
         const val CREATED_AT = "created_at"
