@@ -38,7 +38,8 @@ import java.time.LocalDateTime
 @Composable
 fun BoardScreen(
     modifier: Modifier = Modifier,
-    viewModel: BoardViewModel = hiltViewModel()
+    viewModel: BoardViewModel = hiltViewModel(),
+    navigateToSetting: () -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 

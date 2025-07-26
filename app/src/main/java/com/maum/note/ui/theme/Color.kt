@@ -41,3 +41,6 @@ val FilledIconPrimary = Color(0xFF7EC1FF)
 
 @Stable
 val FilledIconDisabled = Color(0xFFE1E1E1)
+
+@Stable
+val BottomBarBackground = Color(0xFFF9F9F9)

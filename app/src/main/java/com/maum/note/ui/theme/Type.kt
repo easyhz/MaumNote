@@ -76,4 +76,11 @@ object AppTypography {
         fontSize = 14.sp,
         lineHeight = 16.sp,
     )
+
+
+    val bottom_bar_text = TextStyle(
+        fontFamily = fontFamily,
+        fontWeight = FontWeight.Medium,
+        fontSize = 12.sp,
+    )
 }

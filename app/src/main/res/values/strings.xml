@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">MaumNote</string>
+    <string name="bottom_bar_tab_note">노트</string>
+    <string name="bottom_bar_tab_board">게시판</string>
 
     <string name="version_dialog_title">최신 버전이 아닙니다</string>
     <string name="version_dialog_message">최신 버전 : %1s\n현재 버전 : %2s</string>
