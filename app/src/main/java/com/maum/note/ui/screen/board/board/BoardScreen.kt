@@ -1,10 +1,13 @@
 package com.maum.note.ui.screen.board.board
 
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -19,16 +22,22 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.maum.note.R
+import com.maum.note.core.common.util.collect.collectInSideEffectWithLifecycle
 import com.maum.note.core.designSystem.component.empty.EmptyView
 import com.maum.note.core.designSystem.component.scaffold.AppScaffold
+import com.maum.note.core.designSystem.component.section.ad.BoardAdSection
 import com.maum.note.core.designSystem.component.section.board.PostSection
 import com.maum.note.core.designSystem.component.topbar.HomeTopBar
 import com.maum.note.core.model.board.Post
+import com.maum.note.core.model.setting.BoardAdContent
+import com.maum.note.ui.screen.board.board.contract.BoardSideEffect
 import com.maum.note.ui.screen.board.board.contract.BoardState
 import com.maum.note.ui.theme.AppTypography
 import com.maum.note.ui.theme.MainText
 import com.maum.note.ui.theme.White
 import java.time.LocalDateTime
+import androidx.core.net.toUri
+import com.maum.note.core.designSystem.component.button.BoardFloatingActionButton
 
 /**
  * Date: 2025. 7. 25.
@@ -40,29 +49,37 @@ fun BoardScreen(
     modifier: Modifier = Modifier,
     viewModel: BoardViewModel = hiltViewModel(),
     navigateToSetting: () -> Unit,
+    navigateToCreation: () -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val context = LocalContext.current
 
     BoardScreen(
         modifier = modifier,
-        uiState = uiState
+        uiState = uiState,
+        onClickSetting = navigateToSetting,
+        onClickFab = navigateToCreation,
+        onClickAd = viewModel::onClickAd,
     )
 
-//    viewModel.sideEffect.collectInSideEffectWithLifecycle { sideEffect ->
-//        TODO("Not yet implemented")
-//        when (sideEffect) {
-//
-//        }
-//    }
+    viewModel.sideEffect.collectInSideEffectWithLifecycle { sideEffect ->
+        when (sideEffect) {
+            is BoardSideEffect.NavigateToUrl -> {
+                val intent = Intent(Intent.ACTION_VIEW, sideEffect.url.toUri())
+                context.startActivity(intent)
+            }
+        }
+    }
 }
 
 @Composable
 private fun BoardScreen(
     modifier: Modifier = Modifier,
     uiState: BoardState,
+    onClickSetting: () -> Unit = { },
+    onClickFab: () -> Unit = { },
+    onClickAd: (BoardAdContent) -> Unit = { },
 ) {
-
-    val context = LocalContext.current
     AppScaffold(
         modifier = modifier,
         topBar = {
@@ -76,10 +93,13 @@ private fun BoardScreen(
                         )
                     )
                 },
-                onClickSetting = { }
+                onClickSetting = onClickSetting
             )
         },
         floatingActionButton = {
+            BoardFloatingActionButton(
+                onClick = onClickFab
+            )
 //            HomeFloatingActionButton { navigateToCreation() }
         }
     ) { innerPadding ->
@@ -92,13 +112,19 @@ private fun BoardScreen(
         }
         LazyColumn(
             modifier = Modifier.padding(innerPadding),
-            verticalArrangement = Arrangement.spacedBy(8.dp),
             contentPadding = PaddingValues(bottom = 80.dp)
         ) {
+            item {
+                BoardAdSection(
+                    boardAdContents = uiState.configuration.boardAdContents.shuffled(),
+                    onClick = onClickAd
+                )
+            }
             items(uiState.postList) { item ->
                 PostSection(
                     post = item
                 ) { }
+                Box(modifier = Modifier.height(8.dp).fillMaxWidth())
             }
         }
     }

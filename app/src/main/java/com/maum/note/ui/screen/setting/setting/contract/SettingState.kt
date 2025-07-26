@@ -20,6 +20,7 @@ data class SettingState(
                 androidVersion = BuildConfig.VERSION_NAME,
                 notionUrl = "https://jdeoks.notion.site/1dab1dc234bc809cb604fa5dc4ebe865",
                 maintenanceNotice = "",
+                boardAdContents = emptyList()
             )
         )
     }

@@ -11,8 +11,10 @@ import androidx.navigation.compose.composable
 import com.maum.note.core.designSystem.util.transition.SlideDirection
 import com.maum.note.core.designSystem.util.transition.exitSlide
 import com.maum.note.core.navigation.board.screen.Board
+import com.maum.note.core.navigation.board.screen.BoardCreation
 import com.maum.note.core.navigation.setting.navigateToSetting
 import com.maum.note.ui.screen.board.board.BoardScreen
+import com.maum.note.ui.screen.board.creation.BoardCreationScreen
 
 
 fun NavGraphBuilder.boardGraph(
@@ -28,10 +30,21 @@ fun NavGraphBuilder.boardGraph(
         BoardScreen(
             modifier = modifier,
             navigateToSetting = navController::navigateToSetting,
+            navigateToCreation = navController::navigateToBoardCreation
+        )
+    }
+
+    composable<BoardCreation> {
+        BoardCreationScreen(
+            navigateUp = navController::navigateUp
         )
     }
 }
 
 fun NavController.navigateToBoard(navOptions: NavOptions? = null) {
     navigate(route = Board, navOptions = navOptions)
+}
+
+fun NavController.navigateToBoardCreation(navOptions: NavOptions? = null) {
+    navigate(route = BoardCreation, navOptions = navOptions)
 }

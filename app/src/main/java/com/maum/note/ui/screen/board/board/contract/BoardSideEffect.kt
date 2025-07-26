@@ -8,5 +8,5 @@ import com.maum.note.core.common.base.UiSideEffect
  */
 
 sealed class BoardSideEffect : UiSideEffect() {
-
+    data class NavigateToUrl(val url: String) : BoardSideEffect()
 }
