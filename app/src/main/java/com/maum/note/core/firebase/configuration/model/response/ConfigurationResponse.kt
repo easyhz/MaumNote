@@ -18,4 +18,6 @@ data class ConfigurationResponse(
     val letterGreetingPrompt: String = "",
     @PropertyName("playContextPrompt")
     val playContextPrompt: String = "",
+    @PropertyName("boardADContents")
+    val boardAdContents: List<BoardAdContentsResponse> = emptyList()
 )

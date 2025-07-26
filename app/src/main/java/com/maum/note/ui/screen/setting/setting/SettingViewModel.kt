@@ -90,11 +90,4 @@ class SettingViewModel @Inject constructor(
     private fun navigateToUrl(url: String){
         postSideEffect { SettingSideEffect.NavigateToUrl(url) }
     }
-
-
-    private fun ConfigurationResponse.toModel() = Configuration(
-        androidVersion = androidVersion,
-        notionUrl = notionUrl,
-        maintenanceNotice = maintenanceNotice,
-    )
 }
