@@ -1,7 +1,6 @@
 package com.maum.note.ui.screen.board.board
 
 import android.content.Intent
-import android.net.Uri
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -50,6 +49,7 @@ fun BoardScreen(
     viewModel: BoardViewModel = hiltViewModel(),
     navigateToSetting: () -> Unit,
     navigateToCreation: () -> Unit,
+    navigateToPostDetail: (id: String, title: String) -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val context = LocalContext.current
@@ -60,6 +60,9 @@ fun BoardScreen(
         onClickSetting = navigateToSetting,
         onClickFab = navigateToCreation,
         onClickAd = viewModel::onClickAd,
+        onClickPost = {
+            navigateToPostDetail(it.id, it.title)
+        }
     )
 
     viewModel.sideEffect.collectInSideEffectWithLifecycle { sideEffect ->
@@ -79,6 +82,7 @@ private fun BoardScreen(
     onClickSetting: () -> Unit = { },
     onClickFab: () -> Unit = { },
     onClickAd: (BoardAdContent) -> Unit = { },
+    onClickPost: (Post) -> Unit = { },
 ) {
     AppScaffold(
         modifier = modifier,
@@ -121,8 +125,11 @@ private fun BoardScreen(
             }
             items(uiState.postList) { item ->
                 PostSection(
-                    post = item
-                ) { }
+                    post = item,
+                    onClick = {
+                        onClickPost(item)
+                    }
+                )
                 Box(modifier = Modifier.height(8.dp).fillMaxWidth())
             }
         }

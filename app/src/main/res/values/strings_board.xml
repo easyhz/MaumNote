@@ -14,4 +14,6 @@
         \n커뮤니티 운영 정책을 위반할 경우, 계정이 제한될 수 있어요.
         \n모두가 편안하게 이용할 수 있도록, 함께 지켜주세요
     </string>
+
+    <string name="board_detail_comment">댓글</string>
 </resources>
