@@ -8,7 +8,8 @@ import com.maum.note.data.board.datasource.remote.post.PostRemoteDataSource
 import com.maum.note.data.board.mapper.CommentMapper
 import com.maum.note.data.board.mapper.PostMapper
 import com.maum.note.data.user.datasource.remote.UserRemoteDataSource
-import com.maum.note.domain.board.model.request.CreatePostRequest
+import com.maum.note.domain.board.model.comment.request.CreateCommentRequest
+import com.maum.note.domain.board.model.post.request.CreatePostRequest
 import com.maum.note.domain.board.repository.BoardRepository
 import javax.inject.Inject
 
@@ -30,6 +31,11 @@ class BoardRepositoryImpl @Inject constructor(
 
     override suspend fun fetchPost(id: String): Result<Post> = runCatching {
         postRemoteDataSource.fetchPost(id).let { postMapper.toPost(it) }
+    }
+
+    override suspend fun createComment(request: CreateCommentRequest): Result<Unit> = runCatching {
+        val userInfo = userRemoteDataSource.getCurrentUser() ?: throw AppError.NoUserDataError
+        commentRemoteDataSource.insertComment(commentMapper.toCommentDto(request = request, userId = userInfo.id))
     }
 
     override suspend fun fetchComments(postId: String): Result<List<Comment>> = runCatching {
