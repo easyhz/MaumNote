@@ -1,5 +1,7 @@
 package com.maum.note.data.board.di
 
+import com.maum.note.data.board.datasource.remote.comment.CommentRemoteDataSource
+import com.maum.note.data.board.datasource.remote.comment.CommentRemoteDataSourceImpl
 import com.maum.note.data.board.datasource.remote.post.PostRemoteDataSource
 import com.maum.note.data.board.datasource.remote.post.PostRemoteDataSourceImpl
 import dagger.Binds
@@ -15,4 +17,9 @@ interface BoardDataSourceModule {
     fun bindPostRemoteDataSource(
         postRemoteDataSourceImpl: PostRemoteDataSourceImpl
     ): PostRemoteDataSource
+
+    @Binds
+    fun bindCommentRemoteDataSource(
+        commentRemoteDataSourceImpl: CommentRemoteDataSourceImpl
+    ): CommentRemoteDataSource
 }
