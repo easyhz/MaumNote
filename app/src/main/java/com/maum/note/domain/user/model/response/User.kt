@@ -8,6 +8,6 @@ data class User(
     val nickname: String? = null,
     val hasAgreedToTerms: Boolean = false,
     val studentAge: String = AgeType.MIXED.alias,
-    val creationTime: LocalDateTime,
+    val createdAt: LocalDateTime,
     val isDeleted: Boolean = false
 )

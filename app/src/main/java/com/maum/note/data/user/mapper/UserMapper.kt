@@ -28,7 +28,7 @@ class UserMapper @Inject constructor(
             nickname = userDto.nickname,
             hasAgreedToTerms = userDto.hasAgreedToTerms,
             studentAge = userDto.studentAge,
-            creationTime = AppDateTimeFormatter.convertInstantToDateTime(userDto.creationTime),
+            createdAt = AppDateTimeFormatter.convertInstantToDateTime(userDto.createdAt),
             isDeleted = userDto.isDeleted,
         )
     }
@@ -36,7 +36,7 @@ class UserMapper @Inject constructor(
     fun mapToUserDto(saveUserRequestParam: SaveUserRequestParam): UserDto {
         return UserDto(
             id = saveUserRequestParam.userId,
-            creationTime = Clock.System.now()
+            createdAt = Clock.System.now()
         )
     }
 }

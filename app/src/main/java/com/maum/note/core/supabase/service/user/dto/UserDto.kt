@@ -17,8 +17,8 @@ data class UserDto(
     val hasAgreedToTerms: Boolean = false,
     @SerialName(Table.USERS.STUDENT_AGE)
     val studentAge: String = AgeType.MIXED.alias,
-    @SerialName(Table.USERS.CREATION_TIME)
-    val creationTime: Instant = Clock.System.now(),
+    @SerialName(Table.USERS.CREATED_AT)
+    val createdAt: Instant = Clock.System.now(),
     @SerialName(Table.USERS.IS_DELETED)
     val isDeleted: Boolean = false
 )

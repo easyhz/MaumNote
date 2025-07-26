@@ -7,7 +7,7 @@ sealed class Table(val name: String) {
         const val HAS_AGREED_TO_TERMS = "has_agreed_to_terms"
         const val STUDENT_AGE = "student_age"
         const val FCM_TOKEN = "fcm_token"
-        const val CREATION_TIME = "creation_time"
+        const val CREATED_AT = "created_at"
         const val IS_DELETED = "is_deleted"
 
         const val DTO_NAME = "user"
