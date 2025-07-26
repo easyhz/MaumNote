@@ -1,4 +1,4 @@
-package com.maum.note.domain.board.usecase
+package com.maum.note.domain.board.usecase.post
 
 import com.maum.note.core.common.base.BaseUseCase
 import com.maum.note.domain.board.model.request.CreatePostRequest

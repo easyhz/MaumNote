@@ -3,7 +3,7 @@ package com.maum.note.ui.screen.board.post.detail
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.maum.note.core.common.base.BaseViewModel
-import com.maum.note.domain.board.usecase.FetchPostUseCase
+import com.maum.note.domain.board.usecase.post.FetchPostUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import com.maum.note.ui.screen.board.post.detail.contract.PostDetailSideEffect
