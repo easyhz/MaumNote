@@ -8,5 +8,5 @@ import com.maum.note.core.common.base.UiSideEffect
  */
 
 sealed class PostCreationSideEffect : UiSideEffect() {
-
+    data object NavigateToBoard: PostCreationSideEffect()
 }

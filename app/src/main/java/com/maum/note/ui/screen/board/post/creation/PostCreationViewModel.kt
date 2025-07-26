@@ -32,7 +32,7 @@ class PostCreationViewModel @Inject constructor(
                 isAnonymous = currentState.isAnonymous
             )
             createPostUseCase.invoke(param).onSuccess {
-                println("성공")
+                navigateToBoard()
             }.onFailure {
                 println("Error occurred: ${it.message}")
             }.also {
@@ -55,5 +55,9 @@ class PostCreationViewModel @Inject constructor(
 
     private fun setLoading(isLoading: Boolean) {
         setState { copy(isLoading = isLoading) }
+    }
+
+    private fun navigateToBoard() {
+        postSideEffect { PostCreationSideEffect.NavigateToBoard }
     }
 }

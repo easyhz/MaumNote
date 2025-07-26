@@ -27,6 +27,7 @@ import com.maum.note.R
 import com.maum.note.core.common.util.collect.collectInSideEffectWithLifecycle
 import com.maum.note.core.designSystem.component.button.AnonymousCheckButton
 import com.maum.note.core.designSystem.component.dialog.BasicDialog
+import com.maum.note.core.designSystem.component.loading.FullLoadingIndicator
 import com.maum.note.core.designSystem.component.scaffold.AppScaffold
 import com.maum.note.core.designSystem.component.textField.ContentTextFieldWithTitle
 import com.maum.note.core.designSystem.component.topbar.TopBar
@@ -34,6 +35,7 @@ import com.maum.note.core.designSystem.component.topbar.TopBarIcon
 import com.maum.note.core.designSystem.component.topbar.TopBarText
 import com.maum.note.core.designSystem.extension.modifier.noRippleClickable
 import com.maum.note.core.designSystem.util.textField.TextFieldType
+import com.maum.note.ui.screen.board.post.creation.contract.PostCreationSideEffect
 import com.maum.note.ui.screen.board.post.creation.contract.PostCreationState
 import com.maum.note.ui.theme.MainBackground
 import com.maum.note.ui.theme.Primary
@@ -49,6 +51,7 @@ fun PostCreationScreen(
     modifier: Modifier = Modifier,
     viewModel: PostCreationViewModel = hiltViewModel(),
     navigateUp: () -> Unit,
+    navigateToBoard: () -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val focusManager = LocalFocusManager.current
@@ -65,10 +68,9 @@ fun PostCreationScreen(
     )
 
     viewModel.sideEffect.collectInSideEffectWithLifecycle { sideEffect ->
-        TODO("Not yet implemented")
-//        when(sideEffect) {
-//
-//        }
+        when(sideEffect) {
+            is PostCreationSideEffect.NavigateToBoard -> navigateToBoard()
+        }
     }
 }
 
@@ -180,6 +182,9 @@ private fun PostCreationScreen(
         }
     }
 
+    FullLoadingIndicator(
+        isLoading = uiState.isLoading
+    )
 }
 
 @Preview

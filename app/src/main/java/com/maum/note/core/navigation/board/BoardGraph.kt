@@ -9,6 +9,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import androidx.navigation.navDeepLink
+import androidx.navigation.navOptions
 import com.maum.note.core.common.util.url.urlEncode
 import com.maum.note.core.designSystem.util.transition.SlideDirection
 import com.maum.note.core.designSystem.util.transition.exitSlide
@@ -41,7 +42,13 @@ fun NavGraphBuilder.boardGraph(
 
     composable<PostCreation> {
         PostCreationScreen(
-            navigateUp = navController::navigateUp
+            navigateUp = navController::navigateUp,
+            navigateToBoard = {
+                val navOptions = navOptions {
+                    popUpTo(Board::class.java.name) { inclusive = false }
+                }
+                navController.navigateToBoard(navOptions)
+            }
         )
     }
 

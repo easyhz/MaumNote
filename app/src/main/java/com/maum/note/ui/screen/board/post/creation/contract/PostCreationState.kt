@@ -20,7 +20,7 @@ data class PostCreationState(
 ) : UiState() {
     companion object {
         fun init(): PostCreationState = PostCreationState(
-            isLoading = true,
+            isLoading = false,
             titleText = TextFieldValue(""),
             contentText = TextFieldValue(""),
             isAnonymous = false,
