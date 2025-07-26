@@ -73,8 +73,9 @@ class PostDetailViewModel @Inject constructor(
                 setState { copy(commentText = TextFieldValue("")) }
             }.onFailure {
                 // ERROR 처리
+            }.also {
+                setLoading(false)
             }
-            setLoading(false)
             fetchComments(id = postId)
         }
 
@@ -91,8 +92,9 @@ class PostDetailViewModel @Inject constructor(
                 }
             }.onFailure {
                 // ERROR 처리
+            }.also {
+                setLoading(false)
             }
-            setLoading(false)
         }
     }
 
@@ -108,8 +110,9 @@ class PostDetailViewModel @Inject constructor(
             }.onFailure {
                 // ERROR 처리
                 it.printStackTrace()
+            }.also {
+                setLoading(false)
             }
-            setLoading(false)
         }
     }
 

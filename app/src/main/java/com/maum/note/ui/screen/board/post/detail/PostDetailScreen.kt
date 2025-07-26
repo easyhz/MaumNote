@@ -24,6 +24,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.maum.note.R
 import com.maum.note.core.common.util.collect.collectInSideEffectWithLifecycle
 import com.maum.note.core.designSystem.component.dialog.BasicDialog
+import com.maum.note.core.designSystem.component.loading.FullLoadingIndicator
 import com.maum.note.core.designSystem.component.scaffold.AppScaffold
 import com.maum.note.core.designSystem.component.section.board.CommentSection
 import com.maum.note.core.designSystem.component.section.board.PostSection
@@ -33,7 +34,6 @@ import com.maum.note.core.designSystem.component.topbar.TopBarIcon
 import com.maum.note.core.designSystem.component.topbar.TopBarText
 import com.maum.note.core.designSystem.extension.modifier.noRippleClickable
 import com.maum.note.ui.screen.board.post.detail.contract.PostDetailState
-import com.maum.note.ui.theme.MainBackground
 import com.maum.note.ui.theme.White
 
 /**
@@ -157,6 +157,10 @@ private fun PostDetailScreen(
             )
         }
     }
+
+    FullLoadingIndicator(
+        isLoading = uiState.isLoading
+    )
 
 }
 

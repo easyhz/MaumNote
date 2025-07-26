@@ -18,10 +18,12 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.core.net.toUri
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.maum.note.R
 import com.maum.note.core.common.util.collect.collectInSideEffectWithLifecycle
+import com.maum.note.core.designSystem.component.button.BoardFloatingActionButton
 import com.maum.note.core.designSystem.component.empty.EmptyView
 import com.maum.note.core.designSystem.component.scaffold.AppScaffold
 import com.maum.note.core.designSystem.component.section.ad.BoardAdSection
@@ -35,8 +37,6 @@ import com.maum.note.ui.theme.AppTypography
 import com.maum.note.ui.theme.MainText
 import com.maum.note.ui.theme.White
 import java.time.LocalDateTime
-import androidx.core.net.toUri
-import com.maum.note.core.designSystem.component.button.BoardFloatingActionButton
 
 /**
  * Date: 2025. 7. 25.
