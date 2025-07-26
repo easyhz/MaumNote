@@ -10,6 +10,7 @@ interface BoardRepository {
     suspend fun createPost(request: CreatePostRequest): Result<Unit>
     suspend fun fetchPosts(): Result<List<Post>>
     suspend fun fetchPost(id: String): Result<Post>
+    suspend fun deletePost(id: String): Result<Unit>
 
     suspend fun createComment(request: CreateCommentRequest): Result<Unit>
     suspend fun fetchComments(postId: String): Result<List<Comment>>

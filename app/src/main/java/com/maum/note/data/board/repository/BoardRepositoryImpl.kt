@@ -36,6 +36,10 @@ class BoardRepositoryImpl @Inject constructor(
         postRemoteDataSource.fetchPost(id).let { postMapper.toPost(it) }
     }
 
+    override suspend fun deletePost(id: String): Result<Unit> = runCatching {
+        postRemoteDataSource.deletePost(id)
+    }
+
     override suspend fun createComment(request: CreateCommentRequest): Result<Unit> = runCatching {
         val userInfo = userRemoteDataSource.getCurrentUser() ?: throw AppError.NoUserDataError
         commentRemoteDataSource.insertComment(commentMapper.toCommentDto(request = request, userId = userInfo.id))

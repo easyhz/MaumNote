@@ -7,4 +7,5 @@ interface PostRemoteDataSource {
     suspend fun insertPost(postDto: PostDto)
     suspend fun fetchPosts(): List<PostWithCommentDto>
     suspend fun fetchPost(id: String): PostWithCommentDto
+    suspend fun deletePost(id: String)
 }

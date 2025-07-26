@@ -76,4 +76,16 @@ class PostServiceImpl @Inject constructor(
             }
         ).decodeSingle()
     }
+
+    override suspend fun deletePost(id: String) {
+        postgrest.from(Table.USERS.name).update(
+            {
+                set(Table.POSTS.IS_DELETED, true)
+            }
+        ) {
+            filter {
+                eq(Table.POSTS.ID, id)
+            }
+        }
+    }
 }

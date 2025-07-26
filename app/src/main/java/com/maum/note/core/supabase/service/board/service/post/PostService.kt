@@ -8,4 +8,6 @@ interface PostService {
 
     suspend fun fetchPosts(): List<PostWithCommentDto>
     suspend fun fetchPost(id: String): PostWithCommentDto
+
+    suspend fun deletePost(id: String)
 }
