@@ -1,12 +1,12 @@
-package com.maum.note.ui.screen.board.creation
+package com.maum.note.ui.screen.board.post.creation
 
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.lifecycle.viewModelScope
 import com.maum.note.core.common.base.BaseViewModel
 import com.maum.note.domain.board.model.request.CreatePostRequest
 import com.maum.note.domain.board.usecase.CreatePostUseCase
-import com.maum.note.ui.screen.board.creation.contract.BoardCreationSideEffect
-import com.maum.note.ui.screen.board.creation.contract.BoardCreationState
+import com.maum.note.ui.screen.board.post.creation.contract.PostCreationSideEffect
+import com.maum.note.ui.screen.board.post.creation.contract.PostCreationState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -17,10 +17,10 @@ import javax.inject.Inject
  */
 
 @HiltViewModel
-class BoardCreationViewModel @Inject constructor(
+class PostCreationViewModel @Inject constructor(
     private val createPostUseCase: CreatePostUseCase,
-) : BaseViewModel<BoardCreationState, BoardCreationSideEffect>(
-    initialState = BoardCreationState.init()
+) : BaseViewModel<PostCreationState, PostCreationSideEffect>(
+    initialState = PostCreationState.init()
 ) {
 
     fun onClickNext() {

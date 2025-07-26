@@ -1,4 +1,4 @@
-package com.maum.note.ui.screen.board.creation
+package com.maum.note.ui.screen.board.post.creation
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
@@ -34,7 +34,7 @@ import com.maum.note.core.designSystem.component.topbar.TopBarIcon
 import com.maum.note.core.designSystem.component.topbar.TopBarText
 import com.maum.note.core.designSystem.extension.modifier.noRippleClickable
 import com.maum.note.core.designSystem.util.textField.TextFieldType
-import com.maum.note.ui.screen.board.creation.contract.BoardCreationState
+import com.maum.note.ui.screen.board.post.creation.contract.PostCreationState
 import com.maum.note.ui.theme.MainBackground
 import com.maum.note.ui.theme.Primary
 import com.maum.note.ui.theme.White
@@ -45,15 +45,15 @@ import com.maum.note.ui.theme.White
  */
 
 @Composable
-fun BoardCreationScreen(
+fun PostCreationScreen(
     modifier: Modifier = Modifier,
-    viewModel: BoardCreationViewModel = hiltViewModel(),
+    viewModel: PostCreationViewModel = hiltViewModel(),
     navigateUp: () -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val focusManager = LocalFocusManager.current
 
-    BoardCreationScreen(
+    PostCreationScreen(
         modifier = modifier,
         uiState = uiState,
         clearFocus = focusManager::clearFocus,
@@ -73,9 +73,9 @@ fun BoardCreationScreen(
 }
 
 @Composable
-private fun BoardCreationScreen(
+private fun PostCreationScreen(
     modifier: Modifier = Modifier,
-    uiState: BoardCreationState,
+    uiState: PostCreationState,
     clearFocus: () -> Unit,
     navigateUp: () -> Unit,
     onClickNext: () -> Unit,
@@ -184,9 +184,9 @@ private fun BoardCreationScreen(
 
 @Preview
 @Composable
-private fun BoardCreationScreenPreview() {
-    BoardCreationScreen(
-        uiState = BoardCreationState.init(),
+private fun PostCreationScreenPreview() {
+    PostCreationScreen(
+        uiState = PostCreationState.init(),
         clearFocus = { },
         navigateUp = { },
         onClickNext = { },
