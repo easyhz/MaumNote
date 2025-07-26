@@ -4,6 +4,8 @@ import com.maum.note.core.supabase.service.user.service.UserService
 import com.maum.note.core.supabase.service.user.service.UserServiceImpl
 import com.maum.note.core.supabase.service.auth.AuthService
 import com.maum.note.core.supabase.service.auth.AuthServiceImpl
+import com.maum.note.core.supabase.service.board.service.comment.CommentService
+import com.maum.note.core.supabase.service.board.service.comment.CommentServiceImpl
 import com.maum.note.core.supabase.service.board.service.post.PostService
 import com.maum.note.core.supabase.service.board.service.post.PostServiceImpl
 import com.maum.note.core.supabase.service.note.service.NoteService
@@ -35,4 +37,9 @@ interface ServiceModule {
     fun bindPostService(
         postServiceImpl: PostServiceImpl
     ): PostService
+    
+    @Binds
+    fun bindCommentService(
+        commentServiceImpl: CommentServiceImpl
+    ): CommentService
 }
