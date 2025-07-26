@@ -6,7 +6,7 @@ import com.maum.note.core.common.di.dispatcher.AppDispatchers
 import com.maum.note.core.common.di.dispatcher.Dispatcher
 import com.maum.note.core.common.helper.log.Logger
 import com.maum.note.core.model.setting.BoardAdContent
-import com.maum.note.domain.board.usecase.FetchPostsUseCase
+import com.maum.note.domain.board.usecase.post.FetchPostsUseCase
 import com.maum.note.domain.configuration.usecase.FetchConfigurationUseCase
 import com.maum.note.ui.screen.board.board.contract.BoardSideEffect
 import com.maum.note.ui.screen.board.board.contract.BoardState
@@ -59,7 +59,11 @@ class BoardViewModel @Inject constructor(
         viewModelScope.launch(ioDispatcher) {
             fetchConfigurationUseCase.invoke(Unit).onSuccess { configuration ->
                 withContext(mainDispatcher) {
-                    setState { copy(configuration = configuration.toModel()) }
+                    setState {
+                        copy(configuration = configuration.toModel().let {
+                            it.copy(boardAdContents = it.boardAdContents.shuffled())
+                        })
+                    }
                 }
             }.onFailure { error ->
                 logger.e("SettingViewModel", "Error fetching configuration: $error")

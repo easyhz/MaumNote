@@ -119,7 +119,7 @@ private fun BoardScreen(
         ) {
             item {
                 BoardAdSection(
-                    boardAdContents = uiState.configuration.boardAdContents.shuffled(),
+                    boardAdContents = uiState.configuration.boardAdContents,
                     onClick = onClickAd
                 )
             }

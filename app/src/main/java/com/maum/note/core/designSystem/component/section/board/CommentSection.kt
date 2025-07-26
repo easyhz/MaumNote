@@ -44,7 +44,7 @@ fun CommentSection(
             verticalAlignment = Alignment.CenterVertically
         ) {
             AuthorWithTime(
-                author = comment.author,
+                author = comment.userNickname,
                 isAnonymous = comment.isAnonymous,
                 createdAt = comment.createdAt,
             )
@@ -74,8 +74,12 @@ fun CommentSection(
 private fun CommentSectionPreview() {
     CommentSection(
         comment = Comment(
+            id = "123",
+            postId = "123",
+            parentId = null,
             content = "사적으로 아무이유 없이 만나자고 할 수 있는 친구 몇 몇명임? 학교쪽이고 남자예요",
-            author = "춤추는곰돌",
+            userNickname = "춤추는",
+            userId = "213",
             isAnonymous = true,
             createdAt = LocalDateTime.now(),
         ),

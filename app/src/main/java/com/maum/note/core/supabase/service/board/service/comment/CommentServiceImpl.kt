@@ -10,7 +10,7 @@ import javax.inject.Inject
 
 class CommentServiceImpl @Inject constructor(
     private val postgrest: Postgrest
-): CommentService {
+) : CommentService {
     override suspend fun insertComment(commentDto: CommentDto) {
         postgrest.from(Table.COMMENTS.name).insert(commentDto)
     }
@@ -38,10 +38,10 @@ class CommentServiceImpl @Inject constructor(
                 """.trimIndent()
             ), request = {
                 filter {
-                    eq(Table.POSTS.ID, postId)
-                    eq(Table.POSTS.IS_DELETED, false)
+                    eq(Table.COMMENTS.POST_ID, postId)
+                    eq(Table.COMMENTS.IS_DELETED, false)
                 }
-                order(Table.POSTS.CREATED_AT, Order.ASCENDING)
+                order(Table.COMMENTS.CREATED_AT, Order.ASCENDING)
             }
         ).decodeList()
     }
