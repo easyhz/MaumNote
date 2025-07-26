@@ -3,6 +3,7 @@ package com.maum.note.ui.screen.board.post.detail.contract
 import androidx.compose.ui.text.input.TextFieldValue
 import com.maum.note.core.common.base.UiState
 import com.maum.note.core.designSystem.util.dialog.DialogMessage
+import com.maum.note.core.model.board.Comment
 import com.maum.note.core.model.board.Post
 import com.maum.note.core.model.error.ErrorMessage
 
@@ -14,6 +15,7 @@ import com.maum.note.core.model.error.ErrorMessage
 data class PostDetailState(
     val isLoading: Boolean,
     val post: Post?,
+    val comments: List<Comment>,
     val commentText: TextFieldValue,
     val isAnonymous: Boolean,
     val dialogMessage: DialogMessage?,
@@ -23,6 +25,7 @@ data class PostDetailState(
         fun init(): PostDetailState = PostDetailState(
             isLoading = true,
             post = null,
+            comments = emptyList(),
             commentText = TextFieldValue(),
             isAnonymous = false,
             dialogMessage = null,
