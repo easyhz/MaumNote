@@ -7,4 +7,5 @@ interface PostService {
     suspend fun insertPost(post: PostDto)
 
     suspend fun fetchPosts(): List<PostWithCommentDto>
+    suspend fun fetchPost(id: String): PostWithCommentDto
 }
