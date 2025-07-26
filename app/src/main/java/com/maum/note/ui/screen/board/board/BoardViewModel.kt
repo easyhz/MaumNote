@@ -45,7 +45,7 @@ class BoardViewModel @Inject constructor(
             setLoading(true)
             fetchPostsUseCase.invoke(Unit).onSuccess {
                 withContext(mainDispatcher) {
-                    setState { copy(postList = it) }
+                    setState { copy(postList = it) } // TODO 페이징 처리
                 }
             }.onFailure {
                 // TODO 에러 처리

@@ -100,7 +100,6 @@ private fun BoardScreen(
             BoardFloatingActionButton(
                 onClick = onClickFab
             )
-//            HomeFloatingActionButton { navigateToCreation() }
         }
     ) { innerPadding ->
         if (!uiState.isLoading && uiState.postList.isEmpty()) {
