@@ -1,5 +1,6 @@
 package com.maum.note.data.user.mapper
 
+import com.maum.note.core.common.util.Generate
 import com.maum.note.core.common.util.date.AppDateTimeFormatter
 import com.maum.note.core.supabase.service.user.dto.UserDto
 import com.maum.note.domain.user.model.request.SaveUserRequestParam
@@ -33,9 +34,10 @@ class UserMapper @Inject constructor(
         )
     }
 
-    fun mapToUserDto(saveUserRequestParam: SaveUserRequestParam): UserDto {
+    fun mapToUserDto(saveUserRequestParam: SaveUserRequestParam, nicknameLength: Int): UserDto {
         return UserDto(
             id = saveUserRequestParam.userId,
+            nickname = Generate.randomNickname(length = nicknameLength),
             createdAt = Clock.System.now()
         )
     }
