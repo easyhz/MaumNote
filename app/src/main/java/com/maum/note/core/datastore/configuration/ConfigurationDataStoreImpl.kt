@@ -16,6 +16,7 @@ class ConfigurationDataStoreImpl @Inject constructor(
 ): ConfigurationDataStore {
     private val notificationStatusKey = booleanPreferencesKey(PreferencesKey.NOTIFICATION_STATUS)
     private val notificationDateKey = stringPreferencesKey(PreferencesKey.NOTIFICATION_DATE)
+    private val isSynchronizationKey = booleanPreferencesKey(PreferencesKey.IS_SYNCHRONIZATION)
 
     override fun getNotificationStatus(): Flow<Boolean> {
         return dataStore.data.map { preferences ->
@@ -38,6 +39,18 @@ class ConfigurationDataStoreImpl @Inject constructor(
     override suspend fun updateNotificationDate(newValue: String) {
         dataStore.edit { preferences ->
             preferences[notificationDateKey] = newValue
+        }
+    }
+
+    override fun getIsSynchronization(): Flow<Boolean> {
+        return dataStore.data.map { preferences ->
+            preferences[isSynchronizationKey] == true
+        }
+    }
+
+    override suspend fun updateIsSynchronization(newValue: Boolean) {
+        dataStore.edit { preferences ->
+            preferences[isSynchronizationKey] = newValue
         }
     }
 }

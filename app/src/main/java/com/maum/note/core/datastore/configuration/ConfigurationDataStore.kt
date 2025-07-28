@@ -8,4 +8,7 @@ interface ConfigurationDataStore {
 
     suspend fun updateNotificationStatus(newValue: Boolean)
     suspend fun updateNotificationDate(newValue: String)
+
+    fun getIsSynchronization(): Flow<Boolean>
+    suspend fun updateIsSynchronization(newValue: Boolean)
 }
