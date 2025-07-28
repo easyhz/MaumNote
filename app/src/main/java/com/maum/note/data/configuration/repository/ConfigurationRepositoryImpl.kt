@@ -5,6 +5,7 @@ import com.maum.note.data.configuration.datasource.remote.ConfigurationRemoteDat
 import com.maum.note.data.configuration.mapper.ConfigurationMapper
 import com.maum.note.domain.configuration.model.response.ConfigurationResponse
 import com.maum.note.domain.configuration.repository.ConfigurationRepository
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import java.text.SimpleDateFormat
 import java.time.LocalDate
@@ -45,5 +46,13 @@ class ConfigurationRepositoryImpl @Inject constructor(
     override suspend fun updateNotificationPermission(isAllowed: Boolean): Result<Unit> = runCatching {
         configurationLocalDataSource.updateNotificationStatus(isAllowed)
         configurationLocalDataSource.updateNotificationDate(LocalDate.now().toString())
+    }
+
+    override fun getIsSynchronization(): Flow<Boolean> {
+        return configurationLocalDataSource.getIsSynchronization()
+    }
+
+    override suspend fun updateIsSynchronization(newValue: Boolean) {
+        configurationLocalDataSource.updateIsSynchronization(newValue)
     }
 }
