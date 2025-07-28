@@ -4,6 +4,8 @@ import com.maum.note.data.setting.datasource.age.local.AgeLocalDataSource
 import com.maum.note.data.setting.datasource.age.local.AgeLocalDataSourceImpl
 import com.maum.note.data.setting.datasource.tone.local.ToneLocalDataSource
 import com.maum.note.data.setting.datasource.tone.local.ToneLocalDataSourceImpl
+import com.maum.note.data.setting.datasource.tone.remote.ToneRemoteDataSource
+import com.maum.note.data.setting.datasource.tone.remote.ToneRemoteDataSourceImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -21,4 +23,9 @@ interface SettingDataSourceModule {
      fun bindAgeLocalDataSource(
          ageLocalDataSourceImpl: AgeLocalDataSourceImpl
      ): AgeLocalDataSource
+
+     @Binds
+     fun bindToneRemoteDataSource(
+         toneRemoteDataSourceImpl: ToneRemoteDataSourceImpl
+     ): ToneRemoteDataSource
 }

@@ -8,6 +8,7 @@ import com.maum.note.domain.configuration.model.response.ConfigurationResponse
 import com.maum.note.domain.configuration.repository.ConfigurationRepository
 import com.maum.note.domain.user.model.request.SaveUserRequestParam
 import com.maum.note.domain.user.repository.UserRepository
+import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 
 class CheckUserStepUseCase @Inject constructor(
@@ -39,15 +40,23 @@ class CheckUserStepUseCase @Inject constructor(
 
         userRepository.signInAnonymously()
         val currentUser = userRepository.getCurrentUser() ?: throw AppError.NoUserDataError
-        val user = userRepository.fetchUser(currentUser.id)
 
-        return if (user != null) {
-            UserStep.ExistingUserToOnboarding
+        val existingUser = userRepository.fetchUser(currentUser.id)
+        if (existingUser != null) {
+            return UserStep.ExistingUserToOnboarding
+        }
+
+        return handleNewUser(currentUser.id)
+    }
+
+    private suspend fun handleNewUser(userId: String): UserStep {
+        userRepository.saveUser(SaveUserRequestParam(userId)).getOrThrow()
+        val isSynchronization = configurationRepository.getIsSynchronization().first()
+        return if (!isSynchronization) {
+            UserStep.NeedSynchronize
         } else {
-            userRepository.saveUser(SaveUserRequestParam(currentUser.id)).getOrThrow()
             UserStep.NewUserToOnboarding
         }
     }
-
 
 }

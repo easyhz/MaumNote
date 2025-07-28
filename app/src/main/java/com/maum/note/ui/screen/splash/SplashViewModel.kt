@@ -16,6 +16,7 @@ import com.maum.note.core.model.user.UserStep
 import com.maum.note.domain.note.usecase.InsertNoteIfFirstLaunchUseCase
 import com.maum.note.domain.user.useacse.CheckUserStepUseCase
 import com.maum.note.domain.user.useacse.ClearUserSessionUseCase
+import com.maum.note.domain.user.useacse.SynchronizeUserUseCase
 import com.maum.note.ui.screen.splash.contract.SplashSideEffect
 import com.maum.note.ui.screen.splash.contract.SplashState
 import com.maum.note.ui.theme.AppTypography
@@ -23,6 +24,8 @@ import com.maum.note.ui.theme.MainBackground
 import com.maum.note.ui.theme.Primary
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -39,6 +42,7 @@ class SplashViewModel @Inject constructor(
     private val checkUserStepUseCase: CheckUserStepUseCase,
     private val insertNoteIfFirstLaunchUseCase: InsertNoteIfFirstLaunchUseCase,
     private val clearUserSessionUseCase: ClearUserSessionUseCase,
+    private val synchronizeUserUseCase: SynchronizeUserUseCase,
     private val resourceHelper: ResourceHelper,
     private val logger: Logger,
 ) : BaseViewModel<SplashState, SplashSideEffect>(
@@ -83,6 +87,20 @@ class SplashViewModel @Inject constructor(
             UserStep.AlreadyLoginToMain -> navigateToHome()
             is UserStep.Maintenance -> handleMaintenance(userStep.notice)
             is UserStep.Update -> handleUpdate(userStep.newVersion)
+            UserStep.NeedSynchronize -> handleSynchronize()
+        }
+    }
+
+    private fun handleSynchronize() {
+        viewModelScope.launch {
+            synchronizeUserUseCase.invoke(10)
+                .catch {
+                    it.printStackTrace()
+                }.onEach {
+                    setState { copy(synchronizeState = it) }
+                }.collect {
+                    navigateToHome()
+                }
         }
     }
 

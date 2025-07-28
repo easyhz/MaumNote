@@ -33,7 +33,7 @@ enum class NoteType(
         hint = R.string.note_type_letter_greeting_hint,
         inputTitle = R.string.note_type_letter_greeting_input_title,
         inputPlaceholder = R.string.note_type_letter_greeting_input_placeholder,
-        alias = "letterGreeting"
+        alias = "letter_greeting"
     ),
     ANNOUNCEMENT_CONTENT(
         title = R.string.note_type_announcement_content,
@@ -42,7 +42,7 @@ enum class NoteType(
         hint = null,
         inputTitle = R.string.note_type_announcement_content_input_title,
         inputPlaceholder = R.string.note_type_announcement_content_input_placeholder,
-        alias = "announcementContent"
+        alias = "announcement_content"
     ),
     PLAY_CONTEXT(
         title = R.string.note_type_play_context,
@@ -51,7 +51,7 @@ enum class NoteType(
         hint = R.string.note_type_play_context_hint,
         inputTitle = R.string.note_type_play_context_input_title,
         inputPlaceholder = R.string.note_type_play_context_input_placeholder,
-        alias = "playContext"
+        alias = "play_context"
     ),;
 
     companion object {

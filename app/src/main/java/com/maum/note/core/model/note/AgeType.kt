@@ -14,22 +14,22 @@ enum class AgeType(
         alias = "mixed"
     ), ZERO(
         title = R.string.age_type_zero,
-        alias = "age0"
+        alias = "age_0"
     ), ONE(
         title = R.string.age_type_one,
-        alias = "age1"
+        alias = "age_1"
     ), TWO(
         title = R.string.age_type_two,
-        alias = "age2"
+        alias = "age_2"
     ), THREE(
         title = R.string.age_type_three,
-        alias = "age3"
+        alias = "age_3"
     ), FOUR(
         title = R.string.age_type_four,
-        alias = "age4"
+        alias = "age_4"
     ), FIVE(
         title = R.string.age_type_five,
-        alias = "age5"
+        alias = "age_5"
     );
 
     companion object {

@@ -152,7 +152,7 @@ private fun HomeScreenPreview() {
         uiState = HomeState.init().copy(
             noteList = listOf(
                 Note(
-                    id = 1L,
+                    id = "12312",
                     noteType = com.maum.note.core.model.note.NoteType.DEFAULT,
                     ageType = com.maum.note.core.model.note.AgeType.MIXED,
                     sentenceCountType = com.maum.note.core.model.note.SentenceType.TWO_TO_THREE,

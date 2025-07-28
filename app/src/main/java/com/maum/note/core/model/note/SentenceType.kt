@@ -10,14 +10,14 @@ enum class SentenceType(
 ) {
     TWO_TO_THREE(
         title = R.string.sentence_two_to_three,
-        alias = "twoToThree"
+        alias = "two_to_three"
     ),
     FOUR_TO_FIVE(
         title = R.string.sentence_four_to_five,
-        alias = "fourToFive"
+        alias = "four_to_five"
     ), OVER_TEN(
         title = R.string.sentence_over_ten,
-        alias = "tenOrMore"
+        alias = "ten_or_more"
     );
 
     companion object {

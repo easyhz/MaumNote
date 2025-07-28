@@ -13,12 +13,14 @@ data class SplashState(
     val isLoading: Boolean,
     val version: String,
     val dialogMessage: DialogMessage?,
+    val synchronizeState: Float?
 ) : UiState() {
     companion object {
         fun init(): SplashState = SplashState(
             isLoading = true,
             version = "v${BuildConfig.VERSION_NAME}",
             dialogMessage = null,
+            synchronizeState = null
         )
     }
 }
