@@ -36,7 +36,7 @@ class NoteDetailViewModel @Inject constructor(
     }
 
     private fun init() {
-        val id: Long? = savedStateHandle["id"]
+        val id: String? = savedStateHandle["id"]
         val noteType: String? = savedStateHandle["noteType"]
         val ageType: String? = savedStateHandle["ageType"]
         val sentenceCountType: String? = savedStateHandle["sentenceCountType"]

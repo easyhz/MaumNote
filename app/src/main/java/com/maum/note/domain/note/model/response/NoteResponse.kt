@@ -7,7 +7,7 @@ import com.maum.note.core.model.note.SentenceType
 import java.time.LocalDateTime
 
 data class NoteResponse(
-    val id: Long,
+    val id: String,
     val noteType: String,
     val ageType: String,
     val sentenceCountType: String,

@@ -3,7 +3,7 @@ package com.maum.note.core.model.note
 import java.time.LocalDateTime
 
 data class Note(
-    val id: Long,
+    val id: String,
     val noteType: NoteType,
     val ageType: AgeType,
     val sentenceCountType: SentenceType,

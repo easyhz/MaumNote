@@ -17,11 +17,14 @@ import com.maum.note.core.supabase.service.note.dto.NoteDto
 import com.maum.note.data.note.model.InputRequestMapParam
 import com.maum.note.data.note.model.InsertNoteParam
 import com.maum.note.data.note.model.NoteGenerationMapParam
+import com.maum.note.domain.note.model.request.LegacyNoteRequestParam
 import com.maum.note.domain.note.model.request.NoteRequestParam
 import com.maum.note.domain.note.model.response.NoteGenerationResponse
 import com.maum.note.domain.note.model.response.NoteResponse
 import kotlinx.datetime.Clock
+import kotlinx.datetime.Instant
 import java.time.LocalDateTime
+import java.time.ZoneId
 import javax.inject.Inject
 
 class NoteMapper @Inject constructor(
@@ -70,7 +73,7 @@ class NoteMapper @Inject constructor(
     fun mapToNoteResponse(
         noteWithStudent: NoteWithStudent
     ) = NoteResponse(
-        id = noteWithStudent.note.id,
+        id = noteWithStudent.note.id.toString(),
         noteType = noteWithStudent.note.noteType,
         ageType = noteWithStudent.note.age,
         sentenceCountType = noteWithStudent.note.sentenceCount,
@@ -89,6 +92,7 @@ class NoteMapper @Inject constructor(
         val userId = insertNoteParam.userId
 
         return NoteDto(
+            id = insertNoteParam.noteId,
             userId = userId,
             noteType = noteType.alias,
             studentAge = ageType.alias,
@@ -99,6 +103,21 @@ class NoteMapper @Inject constructor(
             isDeleted = false
         )
     }
+
+    fun mapLegacyNoteToNoteDto(
+        param: LegacyNoteRequestParam
+    ): NoteDto = NoteDto(
+        userId = param.userId,
+        noteType = NoteType.getByValue(param.noteType)?.alias ?: NoteType.PLAY_CONTEXT.alias,
+        studentAge = AgeType.getByValue(param.studentAge)?.alias ?: AgeType.MIXED.alias,
+        sentenceCount = SentenceType.getByValue(param.sentenceCount)?.alias ?: SentenceType.FOUR_TO_FIVE.alias,
+        inputContent = param.inputContent,
+        result = param.result,
+        createdAt = Instant.fromEpochMilliseconds(
+            param.createdAt.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
+        ),
+        isDeleted = false
+    )
 
     /**
      * GPT input 생성

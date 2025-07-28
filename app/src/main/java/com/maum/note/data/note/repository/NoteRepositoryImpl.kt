@@ -3,6 +3,7 @@ package com.maum.note.data.note.repository
 import android.util.Log
 import com.maum.note.core.common.error.AppError
 import com.maum.note.core.common.helper.log.Logger
+import com.maum.note.core.common.util.Generate
 import com.maum.note.core.database.note.entity.NoteWithStudent
 import com.maum.note.core.model.note.NoteType
 import com.maum.note.data.configuration.datasource.remote.ConfigurationRemoteDataSource
@@ -13,6 +14,7 @@ import com.maum.note.data.note.model.InsertNoteParam
 import com.maum.note.data.note.model.NoteGenerationMapParam
 import com.maum.note.data.setting.datasource.tone.local.ToneLocalDataSource
 import com.maum.note.data.user.datasource.remote.UserRemoteDataSource
+import com.maum.note.domain.note.model.request.LegacyNoteRequestParam
 import com.maum.note.domain.note.model.request.NoteGenerationRequestParam
 import com.maum.note.domain.note.model.request.NoteRequestParam
 import com.maum.note.domain.note.model.response.NoteGenerationResponse
@@ -22,6 +24,7 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import java.time.LocalDateTime
 import javax.inject.Inject
 
 class NoteRepositoryImpl @Inject constructor(
@@ -63,9 +66,17 @@ class NoteRepositoryImpl @Inject constructor(
 
             val response = noteRemoteDataSource.generateNote(request = generateNoteRequest).getOrThrow()
             val result = noteMapper.mapToNoteGenerationResponse(response)
-            insertNote(userId = userId, request = param, result = result)
-            val noteEntity = saveNote(request = param, result = result)
-            noteMapper.mapToNoteResponse(noteEntity)
+            val noteId = Generate.randomUUIDv7()
+            insertNote(noteId = noteId, userId = userId, request = param, result = result)
+            NoteResponse(
+                id = noteId,
+                noteType = param.noteType,
+                ageType = param.ageType,
+                sentenceCountType = param.sentenceCount,
+                inputContent = param.inputContent,
+                result = result.result,
+                createdAt = LocalDateTime.now()
+            )
         }
     }
 
@@ -82,12 +93,18 @@ class NoteRepositoryImpl @Inject constructor(
         return noteLocalDataSource.countNotes()
     }
 
+    override suspend fun insertLegacyNote(param: LegacyNoteRequestParam) {
+        noteRemoteDataSource.insertNote(noteMapper.mapLegacyNoteToNoteDto(param))
+    }
+
     private suspend fun insertNote(
+        noteId: String,
         userId: String,
         request: NoteGenerationRequestParam,
         result: NoteGenerationResponse
     ): Result<Unit> = runCatching {
         val param = InsertNoteParam(
+            noteId = noteId,
             userId = userId,
             param = NoteRequestParam(
                 noteType = request.noteType,

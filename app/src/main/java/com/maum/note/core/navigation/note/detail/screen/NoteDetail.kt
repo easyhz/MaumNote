@@ -4,7 +4,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class NoteDetail(
-    val id: Long,
+    val id: String,
     val noteType: String,
     val ageType: String,
     val sentenceCountType: String,
