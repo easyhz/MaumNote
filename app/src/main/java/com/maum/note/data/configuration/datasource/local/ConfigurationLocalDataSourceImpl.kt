@@ -22,4 +22,12 @@ class ConfigurationLocalDataSourceImpl @Inject constructor(
     override suspend fun updateNotificationDate(newValue: String) {
         configurationDataStore.updateNotificationDate(newValue)
     }
+
+    override fun getIsSynchronization(): Flow<Boolean> {
+        return configurationDataStore.getIsSynchronization()
+    }
+
+    override suspend fun updateIsSynchronization(newValue: Boolean) {
+        configurationDataStore.updateIsSynchronization(newValue)
+    }
 }
