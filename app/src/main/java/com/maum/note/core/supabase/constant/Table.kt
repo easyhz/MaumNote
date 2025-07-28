@@ -1,7 +1,5 @@
 package com.maum.note.core.supabase.constant
 
-import kotlinx.datetime.Instant
-
 sealed class Table(val name: String) {
     object USERS : Table("MN_USERS") {
         const val ID = "id"
@@ -26,6 +24,7 @@ sealed class Table(val name: String) {
         const val INPUT_CONTENT = "input_content"
         const val RESULT = "result"
         const val CREATED_AT = "created_at"
+        const val UPDATED_AT = "updated_at"
         const val IS_DELETED = "is_deleted"
     }
 

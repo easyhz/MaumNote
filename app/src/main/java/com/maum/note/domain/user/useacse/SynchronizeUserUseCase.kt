@@ -53,7 +53,8 @@ class SynchronizeUserUseCase @Inject constructor(
                         sentenceCount = note.sentenceCountType,
                         inputContent = note.inputContent,
                         result = note.result,
-                        createdAt = note.createdAt
+                        createdAt = note.createdAt,
+                        updatedAt = note.createdAt
                     )
                     noteRepository.insertLegacyNote(param = param)
                 } finally {

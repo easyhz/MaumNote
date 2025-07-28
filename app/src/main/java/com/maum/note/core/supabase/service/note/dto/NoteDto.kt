@@ -2,6 +2,7 @@ package com.maum.note.core.supabase.service.note.dto
 
 import com.maum.note.core.common.util.Generate
 import com.maum.note.core.supabase.constant.Table
+import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -26,6 +27,8 @@ data class NoteDto(
     val result: String,
     @SerialName(Table.NOTES.CREATED_AT)
     val createdAt: Instant,
+    @SerialName(Table.NOTES.UPDATED_AT)
+    val updatedAt: Instant = Clock.System.now(),
     @SerialName(Table.NOTES.IS_DELETED)
     val isDeleted: Boolean = false
 )

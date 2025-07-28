@@ -116,6 +116,9 @@ class NoteMapper @Inject constructor(
         createdAt = Instant.fromEpochMilliseconds(
             param.createdAt.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
         ),
+        updatedAt = Instant.fromEpochMilliseconds(
+            param.updatedAt.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
+        ),
         isDeleted = false
     )
 

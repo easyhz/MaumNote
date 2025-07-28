@@ -10,5 +10,6 @@ data class LegacyNoteRequestParam(
     val inputContent: String,
     val result: String,
     val createdAt: LocalDateTime,
+    val updatedAt: LocalDateTime,
     val studentId: Long? = null,
 )
