@@ -1,5 +1,7 @@
 package com.maum.note.core.supabase.constant
 
+import kotlinx.datetime.Instant
+
 sealed class Table(val name: String) {
     object USERS : Table("MN_USERS") {
         const val ID = "id"
@@ -50,5 +52,15 @@ sealed class Table(val name: String) {
         const val CREATED_AT = "created_at"
 
         const val DTO_NAME = "comments"
+    }
+
+    object TONES : Table("TONES") {
+        const val ID = "id"
+        const val USER_ID = "user_id"
+        const val COMMON = "common"
+        const val LETTER_GREETING = "letter_greeting"
+        const val PLAY_CONTEXT = "play_context"
+        const val ANNOUNCEMENT_CONTENT = "announcement_content"
+        const val CREATED_AT = "created_at"
     }
 }

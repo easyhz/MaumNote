@@ -1,7 +1,9 @@
 package com.maum.note.data.setting.repository.tone
 
 import com.maum.note.data.setting.datasource.tone.local.ToneLocalDataSource
+import com.maum.note.data.setting.datasource.tone.remote.ToneRemoteDataSource
 import com.maum.note.data.setting.mapper.tone.ToneMapper
+import com.maum.note.domain.setting.model.tone.request.InsertToneRequestParam
 import com.maum.note.domain.setting.model.tone.request.UpdateToneRequestParam
 import com.maum.note.domain.setting.model.tone.response.ToneResponseResult
 import com.maum.note.domain.setting.repository.tone.ToneRepository
@@ -9,7 +11,8 @@ import javax.inject.Inject
 
 class ToneRepositoryImpl @Inject constructor(
     private val toneMapper: ToneMapper,
-    private val toneLocalDataSource: ToneLocalDataSource
+    private val toneLocalDataSource: ToneLocalDataSource,
+    private val toneRemoteDataSource: ToneRemoteDataSource
 ): ToneRepository {
     override suspend fun getAllSelectedTones(): List<ToneResponseResult> {
         return toneLocalDataSource.findAllSelectedTones()
@@ -34,5 +37,9 @@ class ToneRepositoryImpl @Inject constructor(
             noteType = updateToneRequestParam.noteType,
             content = updateToneRequestParam.content
         )
+    }
+
+    override suspend fun insertTone(param: InsertToneRequestParam) {
+        toneRemoteDataSource.insertTone(toneMapper.mapToToneDto(param))
     }
 }
