@@ -64,7 +64,7 @@ fun SettingItemView(
                 Text(
                     modifier = Modifier.weight(1f),
                     text = stringResource(item.stringResId),
-                    style = AppTypography.body1,
+                    style = AppTypography.body1_regular,
                     color = MainText,
                 )
                 when(item) {

@@ -5,19 +5,18 @@ import com.maum.note.core.common.base.BaseViewModel
 import com.maum.note.core.common.di.dispatcher.AppDispatchers
 import com.maum.note.core.common.di.dispatcher.Dispatcher
 import com.maum.note.core.common.helper.log.Logger
-import com.maum.note.core.model.setting.Configuration
+import com.maum.note.core.model.setting.BoardSettingItem
 import com.maum.note.core.model.setting.EtcSettingItem
 import com.maum.note.core.model.setting.NoteSettingItem
 import com.maum.note.core.model.setting.SettingItem
-import com.maum.note.domain.configuration.model.response.ConfigurationResponse
 import com.maum.note.domain.configuration.usecase.FetchConfigurationUseCase
-import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import com.maum.note.ui.screen.setting.setting.contract.SettingSideEffect
 import com.maum.note.ui.screen.setting.setting.contract.SettingState
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
 /**
  * Date: 2025. 4. 18.
@@ -52,6 +51,7 @@ class SettingViewModel @Inject constructor(
     fun onClickItem(item: SettingItem) {
         when (item) {
             is NoteSettingItem -> handleNoteSettingItem(item)
+            is BoardSettingItem -> handleBoardSettingItem(item)
             is EtcSettingItem -> handleEtcSettingItem(item)
         }
     }
@@ -64,7 +64,12 @@ class SettingViewModel @Inject constructor(
             NoteSettingItem.TONE -> {
                 navigateToToneSetting()
             }
-            NoteSettingItem.LEGACY_NOTE -> {
+        }
+    }
+
+    private fun handleBoardSettingItem(item: BoardSettingItem) {
+        when (item) {
+            BoardSettingItem.PROFILE -> {
 
             }
         }

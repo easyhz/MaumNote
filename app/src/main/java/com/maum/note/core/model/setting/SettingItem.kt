@@ -18,6 +18,9 @@ enum class MajorSettingItem(
     NOTE(
         stringResId = R.string.setting_major_note,
         items = NoteSettingItem.entries
+    ), BOARD(
+        stringResId = R.string.setting_major_board,
+        items = BoardSettingItem.entries
     ), ETC(
         stringResId = R.string.setting_major_etc,
         items = EtcSettingItem.entries
@@ -31,9 +34,13 @@ enum class NoteSettingItem: SettingItem {
     }, TONE {
         override val stringResId: Int
             get() = R.string.setting_note_tone
-    }, LEGACY_NOTE {
+    };
+}
+
+enum class BoardSettingItem: SettingItem {
+    PROFILE {
         override val stringResId: Int
-            get() = R.string.setting_note_legacy_note
+            get() = R.string.setting_board_profile
     };
 }
 
