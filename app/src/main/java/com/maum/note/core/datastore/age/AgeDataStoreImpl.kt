@@ -15,9 +15,9 @@ class AgeDataStoreImpl @Inject constructor(
     @AgeDataStorePreference private val dataStore: DataStore<Preferences>
 ): AgeDataStore {
     private val ageKey = stringPreferencesKey(PreferencesKey.AGE)
-    override fun getAgeSetting(): Flow<String> {
+    override fun getAgeSetting(): Flow<String?> {
         return dataStore.data.map { preferences ->
-            preferences[ageKey] ?: AgeType.MIXED.name
+            preferences[ageKey]
         }
     }
 

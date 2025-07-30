@@ -69,7 +69,7 @@ class SynchronizeUserUseCase @Inject constructor(
     }.flowOn(dispatcher)
 
     private suspend fun updateAge(userId: String) {
-        val age = ageRepository.getAgeSetting()
+        val age = ageRepository.getAgeSetting() ?: AgeType.MIXED.name
         val updateUserStudentRequestParam = UpdateUserStudentRequestParam(userId = userId, ageType = AgeType.getByValue(age)?.alias ?: AgeType.MIXED.alias)
         userRepository.updateUserStudentAge(updateUserStudentRequestParam)
     }

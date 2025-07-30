@@ -7,7 +7,7 @@ import javax.inject.Inject
 class AgeRepositoryImpl @Inject constructor(
     private val ageLocalDataSource: AgeLocalDataSource
 ): AgeRepository {
-    override suspend fun getAgeSetting(): String {
+    override suspend fun getAgeSetting(): String? {
         return ageLocalDataSource.getAgeSetting()
     }
 

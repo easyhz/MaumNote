@@ -6,6 +6,7 @@ import com.maum.note.core.common.util.version.Version
 import com.maum.note.core.model.user.UserStep
 import com.maum.note.domain.configuration.model.response.ConfigurationResponse
 import com.maum.note.domain.configuration.repository.ConfigurationRepository
+import com.maum.note.domain.setting.repository.age.AgeRepository
 import com.maum.note.domain.user.model.request.SaveUserRequestParam
 import com.maum.note.domain.user.repository.UserRepository
 import kotlinx.coroutines.flow.first
@@ -14,6 +15,7 @@ import javax.inject.Inject
 class CheckUserStepUseCase @Inject constructor(
     private val configurationRepository: ConfigurationRepository,
     private val userRepository: UserRepository,
+    private val ageRepository: AgeRepository,
     private val version: Version = Version(),
 ): BaseUseCase<Unit, UserStep>() {
     override suspend fun invoke(param: Unit): Result<UserStep> {
@@ -52,7 +54,8 @@ class CheckUserStepUseCase @Inject constructor(
     private suspend fun handleNewUser(userId: String): UserStep {
         userRepository.saveUser(SaveUserRequestParam(userId)).getOrThrow()
         val isSynchronization = configurationRepository.getIsSynchronization().first()
-        return if (!isSynchronization) {
+        val hasAge = ageRepository.getAgeSetting() != null
+        return if (!isSynchronization && hasAge) {
             UserStep.NeedSynchronize
         } else {
             UserStep.NewUserToOnboarding
