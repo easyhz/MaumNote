@@ -5,6 +5,7 @@ import com.maum.note.core.common.di.dispatcher.Dispatcher
 import com.maum.note.core.common.error.AppError
 import com.maum.note.core.model.note.AgeType
 import com.maum.note.core.model.note.NoteType
+import com.maum.note.domain.configuration.repository.ConfigurationRepository
 import com.maum.note.domain.note.model.request.LegacyNoteRequestParam
 import com.maum.note.domain.note.repository.NoteRepository
 import com.maum.note.domain.setting.repository.age.AgeRepository
@@ -27,7 +28,8 @@ class SynchronizeUserUseCase @Inject constructor(
     private val userRepository: UserRepository,
     private val noteRepository: NoteRepository,
     private val toneRepository: ToneRepository,
-    private val ageRepository: AgeRepository
+    private val ageRepository: AgeRepository,
+    private val configurationRepository: ConfigurationRepository,
 ) {
     operator fun invoke(
         concurrency: Int = 5
@@ -66,6 +68,7 @@ class SynchronizeUserUseCase @Inject constructor(
                 send(percent)
             }
         }
+        updateConfiguration()
     }.flowOn(dispatcher)
 
     private suspend fun updateAge(userId: String) {
@@ -87,5 +90,9 @@ class SynchronizeUserUseCase @Inject constructor(
         )
 
         toneRepository.insertTone(param)
+    }
+
+    private suspend fun updateConfiguration() {
+        configurationRepository.updateIsSynchronization(true)
     }
 }

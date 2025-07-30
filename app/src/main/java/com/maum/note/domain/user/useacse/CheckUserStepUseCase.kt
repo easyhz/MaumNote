@@ -58,6 +58,7 @@ class CheckUserStepUseCase @Inject constructor(
         return if (!isSynchronization && hasAge) {
             UserStep.NeedSynchronize
         } else {
+            configurationRepository.updateIsSynchronization(true)
             UserStep.NewUserToOnboarding
         }
     }
