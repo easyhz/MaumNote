@@ -3,8 +3,8 @@ package com.maum.note.domain.note.usecase
 import com.maum.note.domain.note.repository.NoteRepository
 import javax.inject.Inject
 
-class GetPagedNotesUseCase @Inject constructor(
+class FetchPagedNotesUseCase @Inject constructor(
     private val noteRepository: NoteRepository
 ) {
-    operator fun invoke() = noteRepository.getPagedNotes()
+    operator fun invoke() = noteRepository.fetchPagedNotes()
 }

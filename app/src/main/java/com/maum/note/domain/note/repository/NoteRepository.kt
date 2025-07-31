@@ -16,5 +16,5 @@ interface NoteRepository {
     suspend fun countNotes(): Int
 
     suspend fun insertLegacyNote(param: LegacyNoteRequestParam)
-    fun getPagedNotes(): Flow<PagingData<Note>>
+    fun fetchPagedNotes(): Flow<PagingData<Note>>
 }

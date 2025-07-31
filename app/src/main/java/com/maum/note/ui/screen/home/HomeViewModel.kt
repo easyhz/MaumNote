@@ -12,7 +12,7 @@ import com.maum.note.core.common.helper.resource.ResourceHelper
 import com.maum.note.core.model.note.Note
 import com.maum.note.domain.configuration.usecase.ShouldNotificationPermissionUseCase
 import com.maum.note.domain.configuration.usecase.UpdateNotificationPermissionUseCase
-import com.maum.note.domain.note.usecase.GetPagedNotesUseCase
+import com.maum.note.domain.note.usecase.FetchPagedNotesUseCase
 import com.maum.note.ui.screen.home.contract.HomeSideEffect
 import com.maum.note.ui.screen.home.contract.HomeState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -29,20 +29,19 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     @Dispatcher(AppDispatchers.IO) private val ioDispatcher: CoroutineDispatcher,
-    private val getPagedNotesUseCase: GetPagedNotesUseCase,
+    private val fetchPagedNotesUseCase: FetchPagedNotesUseCase,
     private val resourceHelper: ResourceHelper,
     private val shouldNotificationPermissionUseCase: ShouldNotificationPermissionUseCase,
     private val updateNotificationPermissionUseCase: UpdateNotificationPermissionUseCase,
 ) : BaseViewModel<HomeState, HomeSideEffect>(
     initialState = HomeState.init()
 ) {
-    val notesFlow = getPagedNotesUseCase()
+    val notesFlow = fetchPagedNotesUseCase()
         .cachedIn(viewModelScope)
         .flowOn(ioDispatcher)
 
     init {
         init()
-//        findAllNotes()
     }
 
     private fun init() {

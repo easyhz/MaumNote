@@ -107,7 +107,7 @@ class NoteRepositoryImpl @Inject constructor(
         noteRemoteDataSource.insertNote(noteMapper.mapLegacyNoteToNoteDto(param))
     }
 
-    override fun getPagedNotes(): Flow<PagingData<Note>> {
+    override fun fetchPagedNotes(): Flow<PagingData<Note>> {
         return Pager(
             config = PagingConfig(pageSize = NotePagingSource.PAGE_SIZE),
             pagingSourceFactory = {
