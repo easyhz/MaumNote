@@ -5,6 +5,8 @@
     <string name="board_empty">아직 작성된 글이 없어요.\n첫 번째 글을 작성해 볼까요?</string>
     <string name="board_creation_title">게시글 작성</string>
     <string name="board_creation_button">작성</string>
+    <string name="board_bottom_sheet_title">게시글</string>
+    <string name="comment_bottom_sheet_title">댓글</string>
 
     <string name="board_creation_post_title">제목</string>
     <string name="board_creation_post_title_placeholder">제목을 입력해 주세요.</string>
