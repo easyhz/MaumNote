@@ -8,8 +8,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import com.maum.note.ui.theme.SubText
 import com.maum.note.ui.theme.AppTypography
+import com.maum.note.ui.theme.SubText
 
 @Composable
 fun EmptyView(
