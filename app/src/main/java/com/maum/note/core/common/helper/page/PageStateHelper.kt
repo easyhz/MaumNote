@@ -5,7 +5,10 @@ import androidx.paging.compose.LazyPagingItems
 
 
 val LazyPagingItems<*>.isInitialLoading: Boolean
-    get() = loadState.refresh is LoadState.Loading
+    get() = loadState.refresh is LoadState.Loading && itemCount == 0
+
+val LazyPagingItems<*>.isRefreshing: Boolean
+    get() = loadState.refresh is LoadState.Loading && itemCount > 0
 
 val LazyPagingItems<*>.isAppending: Boolean
     get() = loadState.append is LoadState.Loading
