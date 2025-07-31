@@ -31,7 +31,8 @@ class PostMapper @Inject constructor(
         dto: PostWithCommentDto
     ): Post = Post(
         id = dto.id,
-        author = dto.user.nickname ?: resourceHelper.getString(R.string.board_anonymous),
+        userId = dto.userId,
+        userNickname = dto.user.nickname ?: resourceHelper.getString(R.string.board_anonymous),
         title = dto.title,
         content = dto.content,
         isAnonymous = dto.isAnonymous,

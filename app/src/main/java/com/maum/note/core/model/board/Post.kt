@@ -7,7 +7,8 @@ data class Post(
     val id: String,
     val title: String,
     val content: String,
-    val author: String,
+    val userNickname: String,
+    val userId: String,
     val isAnonymous: Boolean,
     val commentCount: Int,
     val createdAt: LocalDateTime

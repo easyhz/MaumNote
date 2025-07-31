@@ -32,13 +32,13 @@ import java.time.LocalDateTime
 fun PostSection(
     modifier: Modifier = Modifier,
     post: Post,
-    onClick: () -> Unit
+    onClick: (() -> Unit)?
 ) {
     Column(
         modifier = modifier
             .fillMaxWidth()
             .background(White)
-            .singleClickable(onClick = onClick)
+            .singleClickable(enabled = onClick != null, onClick = { onClick?.invoke() })
             .padding(horizontal = 20.dp, vertical = 12.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
@@ -66,7 +66,7 @@ fun PostSection(
             verticalAlignment = Alignment.CenterVertically
         ) {
             AuthorWithTime(
-                author = post.author,
+                author = post.userNickname,
                 isAnonymous = post.isAnonymous,
                 createdAt = post.createdAt
             )
@@ -118,7 +118,8 @@ private fun PostSectionPreview() {
                 id = "23",
                 title = "심심한데",
                 content = "OO이는 식목일을 맞이해 옥상 텃밭에 상추, 고추, 방울토마토를 심었어요. 또 여러 가지 자료들을 통해 따뜻한 봄에 볼 수 있는 동식물에 대해 알아보기도 했답니다. 봄이",
-                author = "노래하는 곰돌이",
+                userNickname = "ㅇㅇ",
+                userId = "sdf",
                 isAnonymous = true,
                 commentCount = 10,
                 createdAt = LocalDateTime.now()
@@ -131,7 +132,8 @@ private fun PostSectionPreview() {
                 id = "23",
                 title = "심심한데",
                 content = "OO이는 식목일을 맞이해 옥상 텃밭에 상추, 고추, 방울토마토를 심었어요. 또 여러 가지 자료들을 통해 따뜻한 봄에 볼 수 있는 동식물에 대해 알아보기도 했답니다. 봄이",
-                author = "노래하는곰돌이",
+                userNickname = "ㅇㅇ",
+                userId = "sdf",
                 isAnonymous = false,
                 commentCount = 10032342,
                 createdAt = LocalDateTime.now()
