@@ -14,7 +14,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.TextFieldValue
@@ -92,6 +94,7 @@ private fun PostDetailScreen(
     hideMoreBottomSheet: () -> Unit = { },
     onClickBottomSheetItem: (MoreBottomSheet, BottomSheetType) -> Unit = { _, _ -> },
 ) {
+    val haptic = LocalHapticFeedback.current
 
     BackHandler {
         clearFocus()
@@ -137,7 +140,10 @@ private fun PostDetailScreen(
                 onValueChange = onValueChange,
                 isAnonymous = uiState.isAnonymous,
                 onClickAnonymous = onClickAnonymous,
-                onClickSend = onClickSend
+                onClickSend = {
+                    onClickSend()
+                    haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
+                }
             )
         }
     ) { innerPadding ->
