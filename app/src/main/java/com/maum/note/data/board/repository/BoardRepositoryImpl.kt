@@ -1,5 +1,9 @@
 package com.maum.note.data.board.repository
 
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import androidx.paging.map
 import com.maum.note.core.common.error.AppError
 import com.maum.note.core.model.board.Comment
 import com.maum.note.core.model.board.Post
@@ -8,11 +12,13 @@ import com.maum.note.data.board.datasource.remote.comment.CommentRemoteDataSourc
 import com.maum.note.data.board.datasource.remote.post.PostRemoteDataSource
 import com.maum.note.data.board.mapper.CommentMapper
 import com.maum.note.data.board.mapper.PostMapper
+import com.maum.note.data.board.pagingsource.post.PostPagingSource
 import com.maum.note.data.user.datasource.remote.UserRemoteDataSource
 import com.maum.note.domain.board.model.comment.request.CreateCommentRequest
 import com.maum.note.domain.board.model.post.request.CreatePostRequest
 import com.maum.note.domain.board.repository.BoardRepository
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class BoardRepositoryImpl @Inject constructor(
@@ -28,8 +34,23 @@ class BoardRepositoryImpl @Inject constructor(
         postRemoteDataSource.insertPost(postMapper.toPostDto(request = request, userId = userInfo.id))
     }
 
+    override fun fetchPagedPosts(): Flow<PagingData<Post>> {
+        return Pager(
+            config = PagingConfig(pageSize = PostPagingSource.PAGE_SIZE),
+            pagingSourceFactory = {
+                PostPagingSource(
+                    postRemoteDataSource = postRemoteDataSource,
+                )
+            }
+        ).flow.map { pagingData ->
+            pagingData.map { postDto ->
+                postMapper.toPost(postDto)
+            }
+        }
+    }
+
     override suspend fun fetchPosts(): Result<List<Post>> = runCatching {
-        postRemoteDataSource.fetchPosts().map { postMapper.toPost(it) }
+        postRemoteDataSource.fetchPosts(0, 10).map { postMapper.toPost(it) }
     }
 
     override suspend fun fetchPost(id: String): Result<Post> = runCatching {

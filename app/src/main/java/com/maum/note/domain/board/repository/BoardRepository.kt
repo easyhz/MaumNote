@@ -1,5 +1,6 @@
 package com.maum.note.domain.board.repository
 
+import androidx.paging.PagingData
 import com.maum.note.core.model.board.Comment
 import com.maum.note.core.model.board.Post
 import com.maum.note.domain.board.model.comment.request.CreateCommentRequest
@@ -8,6 +9,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface BoardRepository {
     suspend fun createPost(request: CreatePostRequest): Result<Unit>
+    fun fetchPagedPosts(): Flow<PagingData<Post>>
     suspend fun fetchPosts(): Result<List<Post>>
     suspend fun fetchPost(id: String): Result<Post>
     suspend fun deletePost(id: String): Result<Unit>
