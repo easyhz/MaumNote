@@ -1,6 +1,5 @@
 package com.maum.note.core.designSystem.component.section.board
 
-import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -11,7 +10,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
@@ -25,7 +23,6 @@ import com.maum.note.core.designSystem.extension.modifier.singleClickable
 import com.maum.note.core.model.board.Post
 import com.maum.note.ui.theme.AppTypography
 import com.maum.note.ui.theme.FilledIconDisabled
-import com.maum.note.ui.theme.FilledIconPrimary
 import com.maum.note.ui.theme.MainBackground
 import com.maum.note.ui.theme.Placeholder
 import com.maum.note.ui.theme.White
