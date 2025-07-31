@@ -4,6 +4,7 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.maum.note.core.common.error.AppError
 import com.maum.note.core.supabase.service.note.dto.NoteDto
+import com.maum.note.data.board.pagingsource.post.PostPagingSource
 import com.maum.note.data.note.datasource.remote.NoteRemoteDataSource
 import com.maum.note.data.user.datasource.remote.UserRemoteDataSource
 
@@ -24,8 +25,9 @@ class NotePagingSource(
             val user = userRemoteDataSource.getCurrentUser() ?: return LoadResult.Error(AppError.NoUserDataError)
             val page = params.key ?: START_PAGE
             val loadSize = params.loadSize
-            val from = page * loadSize
-            val to = from + loadSize - 1
+
+            val from = page * PostPagingSource.Companion.PAGE_SIZE
+            val to = from + params.loadSize - 1L
             val data = noteRemoteDataSource.fetchNotes(userId = user.id, from = from.toLong(), to = to.toLong())
             LoadResult.Page(
                 data = data,

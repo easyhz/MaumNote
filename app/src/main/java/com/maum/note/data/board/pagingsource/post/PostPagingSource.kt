@@ -20,8 +20,9 @@ class PostPagingSource(
         return try {
             val page = params.key ?: START_PAGE
             val loadSize = params.loadSize
-            val from = page * loadSize
-            val to = from + loadSize - 1
+
+            val from = page * PAGE_SIZE
+            val to = from + params.loadSize - 1L
             val data = postRemoteDataSource.fetchPosts(from = from.toLong(), to = to.toLong())
             LoadResult.Page(
                 data = data,
@@ -34,7 +35,7 @@ class PostPagingSource(
     }
 
     companion object {
-        const val PAGE_SIZE = 4
+        const val PAGE_SIZE = 20
         private const val START_PAGE = 0
     }
 }
