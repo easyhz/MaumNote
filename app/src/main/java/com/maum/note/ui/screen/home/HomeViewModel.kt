@@ -1,6 +1,7 @@
 package com.maum.note.ui.screen.home
 
 import androidx.lifecycle.viewModelScope
+import androidx.paging.cachedIn
 import com.maum.note.R
 import com.maum.note.core.common.analytics.AnalyticsManager
 import com.maum.note.core.common.analytics.event.HomeAnalyticsEvent
@@ -11,14 +12,12 @@ import com.maum.note.core.common.helper.resource.ResourceHelper
 import com.maum.note.core.model.note.Note
 import com.maum.note.domain.configuration.usecase.ShouldNotificationPermissionUseCase
 import com.maum.note.domain.configuration.usecase.UpdateNotificationPermissionUseCase
-import com.maum.note.domain.note.usecase.FindAllNotesUseCase
+import com.maum.note.domain.note.usecase.GetPagedNotesUseCase
 import com.maum.note.ui.screen.home.contract.HomeSideEffect
 import com.maum.note.ui.screen.home.contract.HomeState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -30,16 +29,20 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     @Dispatcher(AppDispatchers.IO) private val ioDispatcher: CoroutineDispatcher,
-    private val findAllNotesUseCase: FindAllNotesUseCase,
+    private val getPagedNotesUseCase: GetPagedNotesUseCase,
     private val resourceHelper: ResourceHelper,
     private val shouldNotificationPermissionUseCase: ShouldNotificationPermissionUseCase,
     private val updateNotificationPermissionUseCase: UpdateNotificationPermissionUseCase,
 ) : BaseViewModel<HomeState, HomeSideEffect>(
     initialState = HomeState.init()
 ) {
+    val notesFlow = getPagedNotesUseCase()
+        .cachedIn(viewModelScope)
+        .flowOn(ioDispatcher)
+
     init {
         init()
-        findAllNotes()
+//        findAllNotes()
     }
 
     private fun init() {
@@ -54,14 +57,6 @@ class HomeViewModel @Inject constructor(
                 setState { copy(needNotificationPermission = true) }
             }
         }
-    }
-
-    private fun findAllNotes() {
-        findAllNotesUseCase.invoke()
-            .flowOn(ioDispatcher)
-            .onEach {
-                setState { copy(noteList = it.map { it.toNote() }, isLoading = false) }
-            }.launchIn(viewModelScope)
     }
 
     fun onClickCopyButton(note: Note) {

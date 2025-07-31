@@ -15,7 +15,7 @@ data class HomeState(
 ) : UiState() {
     companion object {
         fun init(): HomeState = HomeState(
-            isLoading = true,
+            isLoading = false,
             noteList = emptyList(),
             needNotificationPermission = false
         )
