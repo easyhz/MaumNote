@@ -9,15 +9,18 @@ import androidx.navigation.navDeepLink
 import androidx.navigation.navOptions
 import com.maum.note.core.common.util.url.urlEncode
 import com.maum.note.core.model.error.ErrorMessage
+import com.maum.note.core.model.note.Note
 import com.maum.note.core.model.note.NoteType
 import com.maum.note.core.model.note.generation.GenerationNote
+import com.maum.note.core.navigation.home.navigateToHome
 import com.maum.note.core.navigation.home.screen.Home
 import com.maum.note.core.navigation.note.creation.screen.NoteCreation
-import com.maum.note.core.navigation.note.detail.navigateToNoteDetail
+import com.maum.note.core.navigation.note.detail.screen.NoteDetail
 import com.maum.note.core.navigation.splash.navigateToSplash
 import com.maum.note.ui.screen.note.creation.content.NoteContentScreen
 import com.maum.note.ui.screen.note.creation.generation.NoteGenerationScreen
 import com.maum.note.ui.screen.note.creation.select.NoteTypeSelectionScreen
+import com.maum.note.ui.screen.note.detail.NoteDetailScreen
 
 fun NavGraphBuilder.noteCreationGraph(
     navController: NavController
@@ -64,7 +67,7 @@ fun NavGraphBuilder.noteCreationGraph(
                     val navOptions = navOptions {
                         popUpTo(Home::class.java.name) { inclusive = false }
                     }
-                    navController.navigateToNoteDetail(
+                    navController.navigateToNoteResult(
                         note = it,
                         navOptions = navOptions
                     )
@@ -75,6 +78,22 @@ fun NavGraphBuilder.noteCreationGraph(
                     }
                     navController.navigateToSplash(navOptions = navOptions)
                 }
+            )
+        }
+
+        composable<NoteCreation.NoteResult>(
+            deepLinks = listOf(
+                navDeepLink {
+                    uriPattern =
+                        "maum-note://note/result?id={id}&noteType={noteType}&ageType={ageType}&sentenceCountType={sentenceCountType}&inputContent={inputContent}&result={result}&createdAt={createdAt}"
+                }
+            )
+        ) {
+            val navOptions = navOptions {
+                popUpTo(navController.graph.id) { inclusive = true }
+            }
+            NoteDetailScreen(
+                navigateUp = { navController.navigateToHome(navOptions = navOptions) },
             )
         }
 
@@ -101,5 +120,22 @@ fun NavController.navigateToNoteGeneration(
             inputContent = generationNote.inputContent.urlEncode()
         ),
         navOptions = navOptions
+    )
+}
+
+fun NavController.navigateToNoteResult(
+    note: Note,
+    navOptions: NavOptions? = null
+) {
+    navigate(
+        route = NoteCreation.NoteResult(
+            id = note.id,
+            noteType = note.noteType.name,
+            ageType = note.ageType.name,
+            sentenceCountType = note.sentenceCountType.name,
+            inputContent = note.inputContent.urlEncode(),
+            result = note.result.urlEncode(),
+            createdAt = note.createdAt.toString(),
+        ), navOptions = navOptions
     )
 }
