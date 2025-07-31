@@ -36,7 +36,7 @@ class HomeViewModel @Inject constructor(
 ) : BaseViewModel<HomeState, HomeSideEffect>(
     initialState = HomeState.init()
 ) {
-    val notesFlow = fetchPagedNotesUseCase()
+    val notesFlow = fetchPagedNotesUseCase.invoke()
         .cachedIn(viewModelScope)
         .flowOn(ioDispatcher)
 
