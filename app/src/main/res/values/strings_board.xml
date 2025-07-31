@@ -2,6 +2,7 @@
     <string name="board">게시판</string>
     <string name="add_board">글쓰기</string>
     <string name="board_anonymous">익명</string>
+    <string name="board_empty">아직 작성된 글이 없어요.\n첫 번째 글을 작성해 볼까요?</string>
     <string name="board_creation_title">게시글 작성</string>
     <string name="board_creation_button">작성</string>
 

@@ -1,15 +1,19 @@
 package com.maum.note.ui.screen.board.board
 
 import android.content.Intent
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -21,10 +25,19 @@ import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.paging.PagingData
+import androidx.paging.compose.LazyPagingItems
+import androidx.paging.compose.collectAsLazyPagingItems
+import androidx.paging.compose.itemKey
 import com.maum.note.R
+import com.maum.note.core.common.helper.page.isEmpty
+import com.maum.note.core.common.helper.page.isInitialError
+import com.maum.note.core.common.helper.page.isInitialLoading
 import com.maum.note.core.common.util.collect.collectInSideEffectWithLifecycle
 import com.maum.note.core.designSystem.component.button.BoardFloatingActionButton
 import com.maum.note.core.designSystem.component.empty.EmptyView
+import com.maum.note.core.designSystem.component.error.ErrorView
+import com.maum.note.core.designSystem.component.loading.FullLoadingIndicator
 import com.maum.note.core.designSystem.component.scaffold.AppScaffold
 import com.maum.note.core.designSystem.component.section.ad.BoardAdSection
 import com.maum.note.core.designSystem.component.section.board.PostSection
@@ -36,6 +49,8 @@ import com.maum.note.ui.screen.board.board.contract.BoardState
 import com.maum.note.ui.theme.AppTypography
 import com.maum.note.ui.theme.MainText
 import com.maum.note.ui.theme.White
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOf
 import java.time.LocalDateTime
 
 /**
@@ -52,11 +67,13 @@ fun BoardScreen(
     navigateToPostDetail: (id: String, title: String) -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val posts = viewModel.postsFlow.collectAsLazyPagingItems()
     val context = LocalContext.current
 
     BoardScreen(
         modifier = modifier,
         uiState = uiState,
+        posts = posts,
         onClickSetting = navigateToSetting,
         onClickFab = navigateToCreation,
         onClickAd = viewModel::onClickAd,
@@ -79,6 +96,7 @@ fun BoardScreen(
 private fun BoardScreen(
     modifier: Modifier = Modifier,
     uiState: BoardState,
+    posts: LazyPagingItems<Post>,
     onClickSetting: () -> Unit = { },
     onClickFab: () -> Unit = { },
     onClickAd: (BoardAdContent) -> Unit = { },
@@ -106,61 +124,105 @@ private fun BoardScreen(
             )
         }
     ) { innerPadding ->
-        if (!uiState.isLoading && uiState.postList.isEmpty()) {
-            EmptyView(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .fillMaxHeight(0.6f)
-            )
-        }
-        LazyColumn(
+        AnimatedContent(
             modifier = Modifier.padding(innerPadding),
-            contentPadding = PaddingValues(bottom = 80.dp)
-        ) {
-            item {
-                BoardAdSection(
-                    boardAdContents = uiState.configuration.boardAdContents,
-                    onClick = onClickAd
-                )
+            targetState = posts,
+            label = "",
+            transitionSpec = {
+                fadeIn() togetherWith fadeOut()
             }
-            items(uiState.postList) { item ->
-                PostSection(
-                    post = item,
-                    onClick = {
-                        onClickPost(item)
+        ) { states ->
+            when {
+                states.isInitialLoading -> {
+                    FullLoadingIndicator(isLoading = true)
+                }
+
+                states.isInitialError -> {
+                    Column {
+                        BoardAdSection(
+                            boardAdContents = uiState.configuration.boardAdContents,
+                            onClick = onClickAd
+                        )
+                        ErrorView(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .fillMaxHeight(0.6f),
+                            onClick = posts::retry
+                        )
                     }
-                )
-                Box(modifier = Modifier.height(8.dp).fillMaxWidth())
+                }
+
+                states.isEmpty -> {
+                    Column {
+                        BoardAdSection(
+                            boardAdContents = uiState.configuration.boardAdContents,
+                            onClick = onClickAd
+                        )
+                        EmptyView(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .fillMaxHeight(0.6f),
+                            text = stringResource(R.string.board_empty)
+                        )
+                    }
+                }
+
+                else -> {
+                    LazyColumn(
+                        contentPadding = PaddingValues(bottom = 80.dp)
+                    ) {
+                        item {
+                            BoardAdSection(
+                                boardAdContents = uiState.configuration.boardAdContents,
+                                onClick = onClickAd
+                            )
+                        }
+                        items(posts.itemCount, key = posts.itemKey()) { index ->
+                            posts[index]?.let { post ->
+                                PostSection(
+                                    post = post,
+                                    onClick = {
+                                        onClickPost(post)
+                                    }
+                                )
+                                Box(modifier = Modifier.height(8.dp).fillMaxWidth())
+                            }
+                        }
+                    }
+                }
             }
         }
     }
-
 }
 
 @Preview
 @Composable
 private fun BoardScreenPreview() {
-    BoardScreen(
-        uiState = BoardState.init().copy(
-            postList = listOf(
-                Post(
-                    id = "3",
-                    title = "title",
-                    content = "content",
-                    author = "author",
-                    isAnonymous = false,
-                    commentCount = 3,
-                    createdAt = LocalDateTime.now(),
-                ), Post(
-                    id = "3",
-                    title = "title",
-                    content = "content",
-                    author = "author",
-                    isAnonymous = false,
-                    commentCount = 3,
-                    createdAt = LocalDateTime.now(),
-                )
+    val pagingFlow: Flow<PagingData<Post>> = flowOf(PagingData.from(
+        listOf(
+            Post(
+                id = "3",
+                title = "title",
+                content = "content",
+                author = "author",
+                isAnonymous = false,
+                commentCount = 3,
+                createdAt = LocalDateTime.now(),
+            ), Post(
+                id = "3",
+                title = "title",
+                content = "content",
+                author = "author",
+                isAnonymous = false,
+                commentCount = 3,
+                createdAt = LocalDateTime.now(),
             )
         )
+    ))
+    val posts = pagingFlow.collectAsLazyPagingItems()
+
+    BoardScreen(
+        uiState = BoardState.init(),
+        posts = posts
     )
 }

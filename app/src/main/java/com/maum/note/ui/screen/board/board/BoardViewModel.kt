@@ -1,17 +1,19 @@
 package com.maum.note.ui.screen.board.board
 
 import androidx.lifecycle.viewModelScope
+import androidx.paging.cachedIn
 import com.maum.note.core.common.base.BaseViewModel
 import com.maum.note.core.common.di.dispatcher.AppDispatchers
 import com.maum.note.core.common.di.dispatcher.Dispatcher
 import com.maum.note.core.common.helper.log.Logger
 import com.maum.note.core.model.setting.BoardAdContent
-import com.maum.note.domain.board.usecase.post.FetchPostsUseCase
+import com.maum.note.domain.board.usecase.post.FetchPagesPostsUseCase
 import com.maum.note.domain.configuration.usecase.FetchConfigurationUseCase
 import com.maum.note.ui.screen.board.board.contract.BoardSideEffect
 import com.maum.note.ui.screen.board.board.contract.BoardState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -25,34 +27,22 @@ import javax.inject.Inject
 class BoardViewModel @Inject constructor(
     @Dispatcher(AppDispatchers.IO) private val ioDispatcher: CoroutineDispatcher,
     @Dispatcher(AppDispatchers.MAIN) private val mainDispatcher: CoroutineDispatcher,
-    private val fetchPostsUseCase: FetchPostsUseCase,
+    private val fetchPagesPostsUseCase: FetchPagesPostsUseCase,
     private val fetchConfigurationUseCase: FetchConfigurationUseCase,
     private val logger: Logger,
 ) : BaseViewModel<BoardState, BoardSideEffect>(
     initialState = BoardState.init()
 ) {
+    val postsFlow = fetchPagesPostsUseCase.invoke()
+        .cachedIn(viewModelScope)
+        .flowOn(ioDispatcher)
+
     init {
-        fetchPosts()
         fetchConfiguration()
     }
 
     fun onClickAd(boardAdContent: BoardAdContent) {
         postSideEffect { BoardSideEffect.NavigateToUrl(boardAdContent.directUrl) }
-    }
-
-    private fun fetchPosts() {
-        viewModelScope.launch(ioDispatcher) {
-            setLoading(true)
-            fetchPostsUseCase.invoke(Unit).onSuccess {
-                withContext(mainDispatcher) {
-                    setState { copy(postList = it) } // TODO 페이징 처리
-                }
-            }.onFailure {
-                // TODO 에러 처리
-            }.also {
-                setLoading(false)
-            }
-        }
     }
 
     private fun fetchConfiguration() {
