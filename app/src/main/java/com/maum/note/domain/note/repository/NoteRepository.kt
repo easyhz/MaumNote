@@ -1,5 +1,7 @@
 package com.maum.note.domain.note.repository
 
+import androidx.paging.PagingData
+import com.maum.note.core.model.note.Note
 import com.maum.note.domain.note.model.request.LegacyNoteRequestParam
 import com.maum.note.domain.note.model.request.NoteGenerationRequestParam
 import com.maum.note.domain.note.model.request.NoteRequestParam
@@ -15,4 +17,5 @@ interface NoteRepository {
     suspend fun countNotes(): Int
 
     suspend fun insertLegacyNote(param: LegacyNoteRequestParam)
+    fun getPagedNotes(): Flow<PagingData<Note>>
 }

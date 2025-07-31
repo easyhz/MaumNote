@@ -19,4 +19,12 @@ class NoteRemoteDataSourceImpl @Inject constructor(
     override suspend fun insertNote(noteDto: NoteDto) {
         return noteService.insertNote(noteDto)
     }
+
+    override suspend fun fetchNotes(
+        userId: String,
+        from: Long,
+        to: Long
+    ): List<NoteDto> {
+        return noteService.fetchNotes(userId = userId, from = from, to = to)
+    }
 }

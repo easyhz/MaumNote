@@ -1,10 +1,15 @@
 package com.maum.note.data.note.repository
 
 import android.util.Log
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import androidx.paging.map
 import com.maum.note.core.common.error.AppError
 import com.maum.note.core.common.helper.log.Logger
 import com.maum.note.core.common.util.Generate
 import com.maum.note.core.database.note.entity.NoteWithStudent
+import com.maum.note.core.model.note.Note
 import com.maum.note.core.model.note.NoteType
 import com.maum.note.data.configuration.datasource.remote.ConfigurationRemoteDataSource
 import com.maum.note.data.note.datasource.local.NoteLocalDataSource
@@ -12,6 +17,7 @@ import com.maum.note.data.note.datasource.remote.NoteRemoteDataSource
 import com.maum.note.data.note.mapper.NoteMapper
 import com.maum.note.data.note.model.InsertNoteParam
 import com.maum.note.data.note.model.NoteGenerationMapParam
+import com.maum.note.data.note.pagingsource.NotePagingSource
 import com.maum.note.data.setting.datasource.tone.local.ToneLocalDataSource
 import com.maum.note.data.user.datasource.remote.UserRemoteDataSource
 import com.maum.note.domain.note.model.request.LegacyNoteRequestParam
@@ -42,43 +48,47 @@ class NoteRepositoryImpl @Inject constructor(
         )
     }
 
-    override suspend fun generateNote(param: NoteGenerationRequestParam): Result<NoteResponse> = runCatching {
-        coroutineScope {
-            val userId = userRemoteDataSource.getCurrentUser()?.id ?: throw AppError.NoUserDataError
-            val defaultToneDeferred =
-                async { toneLocalDataSource.findByNoteType(NoteType.DEFAULT.name) }
-            val typeToneDeferred = async { toneLocalDataSource.findByNoteType(param.noteType) }
-            val systemPromptDeferred = async { configurationRemoteDataSource.fetchSystemPrompt() }
+    override suspend fun generateNote(param: NoteGenerationRequestParam): Result<NoteResponse> =
+        runCatching {
+            coroutineScope {
+                val userId =
+                    userRemoteDataSource.getCurrentUser()?.id ?: throw AppError.NoUserDataError
+                val defaultToneDeferred =
+                    async { toneLocalDataSource.findByNoteType(NoteType.DEFAULT.name) }
+                val typeToneDeferred = async { toneLocalDataSource.findByNoteType(param.noteType) }
+                val systemPromptDeferred =
+                    async { configurationRemoteDataSource.fetchSystemPrompt() }
 
-            val defaultTone = defaultToneDeferred.await()
-            val typeTone = typeToneDeferred.await()
-            val systemPrompt = systemPromptDeferred.await().getOrNull()
+                val defaultTone = defaultToneDeferred.await()
+                val typeTone = typeToneDeferred.await()
+                val systemPrompt = systemPromptDeferred.await().getOrNull()
 
-            val noteGenerationMapParam = NoteGenerationMapParam(
-                noteGenerationRequestParam = param,
-                defaultTone = defaultTone?.content ?: "",
-                typeTone = typeTone?.content ?: "",
-                systemPrompt = systemPrompt
-            )
+                val noteGenerationMapParam = NoteGenerationMapParam(
+                    noteGenerationRequestParam = param,
+                    defaultTone = defaultTone?.content ?: "",
+                    typeTone = typeTone?.content ?: "",
+                    systemPrompt = systemPrompt
+                )
 
-            val generateNoteRequest = noteMapper.mapToCreateNoteRequest(noteGenerationMapParam)
-            Log.d("NoteRepositoryImpl", "generateNoteRequest: $generateNoteRequest")
+                val generateNoteRequest = noteMapper.mapToCreateNoteRequest(noteGenerationMapParam)
+                Log.d("NoteRepositoryImpl", "generateNoteRequest: $generateNoteRequest")
 
-            val response = noteRemoteDataSource.generateNote(request = generateNoteRequest).getOrThrow()
-            val result = noteMapper.mapToNoteGenerationResponse(response)
-            val noteId = Generate.randomUUIDv7()
-            insertNote(noteId = noteId, userId = userId, request = param, result = result)
-            NoteResponse(
-                id = noteId,
-                noteType = param.noteType,
-                ageType = param.ageType,
-                sentenceCountType = param.sentenceCount,
-                inputContent = param.inputContent,
-                result = result.result,
-                createdAt = LocalDateTime.now()
-            )
+                val response =
+                    noteRemoteDataSource.generateNote(request = generateNoteRequest).getOrThrow()
+                val result = noteMapper.mapToNoteGenerationResponse(response)
+                val noteId = Generate.randomUUIDv7()
+                insertNote(noteId = noteId, userId = userId, request = param, result = result)
+                NoteResponse(
+                    id = noteId,
+                    noteType = param.noteType,
+                    ageType = param.ageType,
+                    sentenceCountType = param.sentenceCount,
+                    inputContent = param.inputContent,
+                    result = result.result,
+                    createdAt = LocalDateTime.now()
+                )
+            }
         }
-    }
 
     override fun findAllNotesFlow(): Flow<List<NoteResponse>> {
         return noteLocalDataSource.findAllNotesFlow()
@@ -95,6 +105,22 @@ class NoteRepositoryImpl @Inject constructor(
 
     override suspend fun insertLegacyNote(param: LegacyNoteRequestParam) {
         noteRemoteDataSource.insertNote(noteMapper.mapLegacyNoteToNoteDto(param))
+    }
+
+    override fun getPagedNotes(): Flow<PagingData<Note>> {
+        return Pager(
+            config = PagingConfig(pageSize = NotePagingSource.PAGE_SIZE),
+            pagingSourceFactory = {
+                NotePagingSource(
+                    noteRemoteDataSource = noteRemoteDataSource,
+                    userRemoteDataSource = userRemoteDataSource
+                )
+            }
+        ).flow.map { pagingData ->
+            pagingData.map { noteDto ->
+                noteMapper.mapToNote(noteDto)
+            }
+        }
     }
 
     private suspend fun insertNote(
