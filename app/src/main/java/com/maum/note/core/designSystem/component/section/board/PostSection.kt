@@ -51,7 +51,9 @@ fun PostSection(
         ) {
             Text(
                 text = post.title,
-                style = AppTypography.body1_semiBold
+                style = AppTypography.body1_semiBold,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
             )
             Text(
                 text = post.content,
