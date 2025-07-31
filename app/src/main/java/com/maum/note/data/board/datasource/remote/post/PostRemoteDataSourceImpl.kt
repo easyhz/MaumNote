@@ -12,8 +12,8 @@ class PostRemoteDataSourceImpl @Inject constructor(
         postService.insertPost(postDto)
     }
 
-    override suspend fun fetchPosts(): List<PostWithCommentDto> {
-        return postService.fetchPosts()
+    override suspend fun fetchPosts(from: Long, to: Long): List<PostWithCommentDto> {
+        return postService.fetchPosts(from = from, to = to)
     }
 
     override suspend fun fetchPost(id: String): PostWithCommentDto {
