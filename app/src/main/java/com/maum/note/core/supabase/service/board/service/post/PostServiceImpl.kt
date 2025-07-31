@@ -39,6 +39,7 @@ class PostServiceImpl @Inject constructor(
             ), request = {
                 filter {
                     eq(Table.POSTS.IS_DELETED, false)
+                    eq("${Table.COMMENTS.name}.${Table.COMMENTS.IS_DELETED}", false)
                 }
                 order(Table.POSTS.CREATED_AT, Order.DESCENDING)
                 range(from = from, to = to)
@@ -71,6 +72,7 @@ class PostServiceImpl @Inject constructor(
                 filter {
                     eq(Table.POSTS.ID, id)
                     eq(Table.POSTS.IS_DELETED, false)
+                    eq("${Table.COMMENTS.name}.${Table.COMMENTS.IS_DELETED}", false)
                 }
                 order(Table.POSTS.CREATED_AT, Order.DESCENDING)
             }
