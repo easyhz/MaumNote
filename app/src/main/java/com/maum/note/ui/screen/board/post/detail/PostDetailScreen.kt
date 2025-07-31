@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -23,6 +24,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.maum.note.R
 import com.maum.note.core.common.util.collect.collectInSideEffectWithLifecycle
+import com.maum.note.core.designSystem.component.bottomSheet.BottomSheetType
+import com.maum.note.core.designSystem.component.bottomSheet.ListBottomSheet
 import com.maum.note.core.designSystem.component.dialog.BasicDialog
 import com.maum.note.core.designSystem.component.loading.FullLoadingIndicator
 import com.maum.note.core.designSystem.component.scaffold.AppScaffold
@@ -33,8 +36,10 @@ import com.maum.note.core.designSystem.component.topbar.TopBar
 import com.maum.note.core.designSystem.component.topbar.TopBarIcon
 import com.maum.note.core.designSystem.component.topbar.TopBarText
 import com.maum.note.core.designSystem.extension.modifier.noRippleClickable
+import com.maum.note.core.model.board.Comment
 import com.maum.note.ui.screen.board.post.detail.contract.PostDetailSideEffect
 import com.maum.note.ui.screen.board.post.detail.contract.PostDetailState
+import com.maum.note.ui.screen.board.post.detail.model.MoreBottomSheet
 import com.maum.note.ui.theme.White
 
 /**
@@ -57,8 +62,12 @@ fun PostDetailScreen(
         clearFocus = focusManager::clearFocus,
         navigateUp = navigateUp,
         onValueChange = viewModel::onCommentTextChanged,
+        onClickPostMore = viewModel::onClickPostMore,
+        onClickCommentMore = viewModel::onClickCommentMore,
         onClickAnonymous = viewModel::onClickAnonymous,
-        onClickSend = viewModel::onClickSend
+        onClickSend = viewModel::onClickSend,
+        hideMoreBottomSheet = viewModel::hideMoreBottomSheet,
+        onClickBottomSheetItem = viewModel::onClickBottomSheetItem
     )
 
     viewModel.sideEffect.collectInSideEffectWithLifecycle { sideEffect ->
@@ -68,6 +77,7 @@ fun PostDetailScreen(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun PostDetailScreen(
     modifier: Modifier = Modifier,
@@ -75,8 +85,12 @@ private fun PostDetailScreen(
     clearFocus: () -> Unit,
     navigateUp: () -> Unit,
     onValueChange: (TextFieldValue) -> Unit = { },
+    onClickPostMore: () -> Unit = { },
+    onClickCommentMore: (Comment) -> Unit = { },
     onClickAnonymous: () -> Unit = { },
-    onClickSend: () -> Unit = { }
+    onClickSend: () -> Unit = { },
+    hideMoreBottomSheet: () -> Unit = { },
+    onClickBottomSheetItem: (MoreBottomSheet, BottomSheetType) -> Unit = { _, _ -> },
 ) {
 
     BackHandler {
@@ -111,7 +125,7 @@ private fun PostDetailScreen(
                         modifier = it,
                         painter = painterResource(R.drawable.ic_more_small_trailing),
                         alignment = Alignment.CenterEnd,
-                        onClick = {}
+                        onClick = onClickPostMore
                     )
                 },
             )
@@ -133,17 +147,24 @@ private fun PostDetailScreen(
             item {
                 if (uiState.post == null) return@item
                 PostSection(
-                    post = uiState.post
-                ) { }
-                Box(modifier = Modifier.height(8.dp).fillMaxWidth())
+                    post = uiState.post,
+                    onClick = null
+                )
+                Box(modifier = Modifier
+                    .height(8.dp)
+                    .fillMaxWidth())
             }
 
             items(uiState.comments) { item ->
                 CommentSection(
-                    comment = item
-                ) { }
+                    modifier = Modifier.animateItem(),
+                    comment = item,
+                    onClickMore = { onClickCommentMore(item) }
+                )
 
-                Box(modifier = Modifier.height(1.dp).fillMaxWidth())
+                Box(modifier = Modifier
+                    .height(1.dp)
+                    .fillMaxWidth())
             }
 
         }
@@ -154,6 +175,15 @@ private fun PostDetailScreen(
                 content = dialog.message,
                 positiveButton = dialog.positiveButton,
                 negativeButton = dialog.negativeButton
+            )
+        }
+
+        if (uiState.moreBottomSheet != null) {
+            ListBottomSheet(
+                items = uiState.moreBottomSheet.list,
+                title = stringResource(uiState.moreBottomSheet.title),
+                onDismissRequest = hideMoreBottomSheet,
+                onClick = { onClickBottomSheetItem(uiState.moreBottomSheet, it) }
             )
         }
     }

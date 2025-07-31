@@ -6,14 +6,22 @@ import androidx.lifecycle.viewModelScope
 import com.maum.note.core.common.base.BaseViewModel
 import com.maum.note.core.common.di.dispatcher.AppDispatchers
 import com.maum.note.core.common.di.dispatcher.Dispatcher
+import com.maum.note.core.designSystem.component.bottomSheet.BottomSheetType
+import com.maum.note.core.model.board.Comment
+import com.maum.note.core.model.common.OwnerBottomSheet
+import com.maum.note.core.model.common.ViewerBottomSheet
 import com.maum.note.domain.board.model.comment.request.CreateCommentRequest
 import com.maum.note.domain.board.usecase.GetAnonymousSettingFlowUseCase
 import com.maum.note.domain.board.usecase.SetAnonymousSettingUseCase
 import com.maum.note.domain.board.usecase.comment.CreateCommentUseCase
+import com.maum.note.domain.board.usecase.comment.DeleteCommentUseCase
 import com.maum.note.domain.board.usecase.comment.FetchCommentsUseCase
+import com.maum.note.domain.board.usecase.post.DeletePostUseCase
 import com.maum.note.domain.board.usecase.post.FetchPostUseCase
+import com.maum.note.domain.user.useacse.GetCurrentUserUseCase
 import com.maum.note.ui.screen.board.post.detail.contract.PostDetailSideEffect
 import com.maum.note.ui.screen.board.post.detail.contract.PostDetailState
+import com.maum.note.ui.screen.board.post.detail.model.MoreBottomSheet
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.catch
@@ -31,18 +39,22 @@ import javax.inject.Inject
 class PostDetailViewModel @Inject constructor(
     @Dispatcher(AppDispatchers.IO) private val ioDispatcher: CoroutineDispatcher,
     @Dispatcher(AppDispatchers.MAIN) private val mainDispatcher: CoroutineDispatcher,
+    private val getCurrentUserUseCase: GetCurrentUserUseCase,
     private val savedStateHandle: SavedStateHandle,
     private val fetchPostUseCase: FetchPostUseCase,
     private val fetchCommentsUseCase: FetchCommentsUseCase,
     private val createCommentUseCase: CreateCommentUseCase,
     private val getAnonymousSettingFlowUseCase: GetAnonymousSettingFlowUseCase,
     private val setAnonymousSettingUseCase: SetAnonymousSettingUseCase,
+    private val deletePostUseCase: DeletePostUseCase,
+    private val deleteCommentUseCase: DeleteCommentUseCase
 ) : BaseViewModel<PostDetailState, PostDetailSideEffect>(
     initialState = PostDetailState.init()
 ) {
 
     init {
         init()
+        getCurrentUser()
         getAnonymousSetting()
     }
 
@@ -53,8 +65,17 @@ class PostDetailViewModel @Inject constructor(
         if (id == null) return navigateUp()
 
         setState { copy(post = post?.copy(id = id, title = title)) }
+        fetchAll(id)
+    }
+    
+    private fun fetchAll(id: String = currentState.post?.id ?: "") {
         fetchPost(id = id)
         fetchComments(id = id)
+    }
+
+    private fun getCurrentUser() {
+        val user = getCurrentUserUseCase.invoke()
+        setState { copy(userId = user?.id) }
     }
 
     private fun getAnonymousSetting() {
@@ -69,6 +90,35 @@ class PostDetailViewModel @Inject constructor(
 
     fun onCommentTextChanged(value: TextFieldValue) {
         setState { copy(commentText = value) }
+    }
+
+    fun onClickPostMore() {
+        if (currentState.post == null) return
+        val list =
+            if (currentState.userId == currentState.post?.userId) enumValues<OwnerBottomSheet>()
+            else enumValues<ViewerBottomSheet>()
+        setState {
+            copy(
+                moreBottomSheet = MoreBottomSheet.Post(
+                    targetId = post?.id!!,
+                    list = list.toList()
+                )
+            )
+        }
+    }
+
+    fun onClickCommentMore(item: Comment) {
+        val list =
+            if (currentState.userId == item.userId) enumValues<OwnerBottomSheet>()
+            else enumValues<ViewerBottomSheet>()
+        setState {
+            copy(
+                moreBottomSheet = MoreBottomSheet.Comment(
+                    targetId = item.id,
+                    list = list.toList()
+                )
+            )
+        }
     }
 
     fun onClickAnonymous() {
@@ -94,9 +144,22 @@ class PostDetailViewModel @Inject constructor(
             }.also {
                 setLoading(false)
             }
-            fetchComments(id = postId)
+            fetchAll()
         }
 
+    }
+
+    fun hideMoreBottomSheet() {
+        setState { copy(moreBottomSheet = null) }
+    }
+
+    fun onClickBottomSheetItem(moreBottomSheet: MoreBottomSheet, item: BottomSheetType) {
+        val targetId = moreBottomSheet.targetId
+
+        when(item) {
+            OwnerBottomSheet.DELETE -> { delete(targetId = targetId, moreBottomSheet = moreBottomSheet) }
+            ViewerBottomSheet.REPORT -> { }
+        }
     }
 
     private fun fetchPost(id: String = currentState.post?.id ?: "") {
@@ -147,6 +210,46 @@ class PostDetailViewModel @Inject constructor(
             val isAnonymous = currentState.isAnonymous
             setAnonymousSettingUseCase.invoke(isAnonymous)
         }
+    }
+
+    private fun delete(targetId: String, moreBottomSheet: MoreBottomSheet) {
+        when(moreBottomSheet) {
+            is MoreBottomSheet.Post -> deletePost(targetId = targetId)
+            is MoreBottomSheet.Comment -> deleteComment(targetId = targetId)
+        }
+
+    }
+
+    private fun deletePost(
+        targetId: String
+    ) {
+        viewModelScope.launch {
+            deletePostUseCase.invoke(param = targetId).onSuccess {
+                // TODO 어떻게 처리 할지 고민
+                navigateUp()
+            }.onFailure {
+                // TODO ERROR 처리
+                it.printStackTrace()
+            }
+        }
+    }
+
+    private fun deleteComment(
+        targetId: String
+    ) {
+        println("deleteComment $targetId")
+        viewModelScope.launch {
+            deleteCommentUseCase.invoke(param = targetId).onSuccess {
+                fetchAll()
+            }.onFailure {
+                // TODO ERROR 처리
+                it.printStackTrace()
+            }
+        }
+    }
+
+    private fun report() {
+
     }
 
 }
