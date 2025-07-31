@@ -109,7 +109,10 @@ class NoteRepositoryImpl @Inject constructor(
 
     override fun fetchPagedNotes(): Flow<PagingData<Note>> {
         return Pager(
-            config = PagingConfig(pageSize = NotePagingSource.PAGE_SIZE),
+            config = PagingConfig(
+                pageSize = NotePagingSource.PAGE_SIZE,
+                initialLoadSize = NotePagingSource.PAGE_SIZE
+            ),
             pagingSourceFactory = {
                 NotePagingSource(
                     noteRemoteDataSource = noteRemoteDataSource,

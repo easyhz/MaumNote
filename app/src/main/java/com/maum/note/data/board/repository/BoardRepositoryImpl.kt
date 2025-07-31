@@ -36,7 +36,10 @@ class BoardRepositoryImpl @Inject constructor(
 
     override fun fetchPagedPosts(): Flow<PagingData<Post>> {
         return Pager(
-            config = PagingConfig(pageSize = PostPagingSource.PAGE_SIZE),
+            config = PagingConfig(
+                pageSize = PostPagingSource.PAGE_SIZE,
+                initialLoadSize = PostPagingSource.PAGE_SIZE,
+            ),
             pagingSourceFactory = {
                 PostPagingSource(
                     postRemoteDataSource = postRemoteDataSource,
