@@ -15,7 +15,7 @@ class PostServiceImpl @Inject constructor(
         postgrest.from(Table.POSTS.name).insert(postDto)
     }
 
-    override suspend fun fetchPosts(): List<PostWithCommentDto> {
+    override suspend fun fetchPosts(from: Long, to: Long): List<PostWithCommentDto> {
         return postgrest.from(Table.POSTS.name).select(
             columns = Columns.raw(
                 """
@@ -41,7 +41,7 @@ class PostServiceImpl @Inject constructor(
                     eq(Table.POSTS.IS_DELETED, false)
                 }
                 order(Table.POSTS.CREATED_AT, Order.DESCENDING)
-                range(0, 10)
+                range(from = from, to = to)
             }
         ).decodeList<PostWithCommentDto>()
     }
