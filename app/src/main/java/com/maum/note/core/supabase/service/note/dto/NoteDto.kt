@@ -10,7 +10,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class NoteDto(
     @SerialName(Table.NOTES.ID)
-    val id: String? = Generate.randomUUIDv7(),
+    val id: String = Generate.randomUUIDv7(),
     @SerialName(Table.NOTES.USER_ID)
     val userId: String,
     @SerialName(Table.NOTES.STUDENT_ID)

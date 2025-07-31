@@ -36,6 +36,10 @@ enum class AgeType(
         fun getByValue(value: String): AgeType? {
             return AgeType.entries.find { it.name == value }
         }
+
+        fun getByAlias(value: String): AgeType? {
+            return AgeType.entries.find { it.alias == value }
+        }
     }
 
     fun getOnboardingLogEvent(): OnboardingAnalyticsEvent {

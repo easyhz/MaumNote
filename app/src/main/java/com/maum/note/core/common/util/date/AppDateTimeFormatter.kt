@@ -36,4 +36,10 @@ object AppDateTimeFormatter {
     fun convertInstantToDateTime(instant: Instant): LocalDateTime {
         return LocalDateTime.ofInstant(instant.toJavaInstant(), ZoneId.systemDefault())
     }
+
+    fun convertDateTimeToInstant(dateTime: LocalDateTime): Instant {
+        return Instant.fromEpochMilliseconds(
+            dateTime.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
+        )
+    }
 }

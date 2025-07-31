@@ -58,6 +58,10 @@ enum class NoteType(
         fun getByValue(value: String): NoteType? {
             return entries.find { it.name == value }
         }
+
+        fun getByAlias(value: String): NoteType? {
+            return entries.find { it.alias == value }
+        }
     }
 
     fun getAddNoteLogEvent(): AddNoteAnalyticsEvent? {

@@ -8,6 +8,7 @@ import com.maum.note.core.database.note.entity.NoteEntity
 import com.maum.note.core.database.note.entity.NoteWithStudent
 import com.maum.note.core.firebase.configuration.model.response.SystemPromptResponse
 import com.maum.note.core.model.note.AgeType
+import com.maum.note.core.model.note.Note
 import com.maum.note.core.model.note.NoteType
 import com.maum.note.core.model.note.SentenceType
 import com.maum.note.core.network.gpt.model.note.request.GptRequest
@@ -113,13 +114,21 @@ class NoteMapper @Inject constructor(
         sentenceCount = SentenceType.getByValue(param.sentenceCount)?.alias ?: SentenceType.FOUR_TO_FIVE.alias,
         inputContent = param.inputContent,
         result = param.result,
-        createdAt = Instant.fromEpochMilliseconds(
-            param.createdAt.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
-        ),
-        updatedAt = Instant.fromEpochMilliseconds(
-            param.updatedAt.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
-        ),
+        createdAt = AppDateTimeFormatter.convertDateTimeToInstant(param.createdAt),
+        updatedAt = AppDateTimeFormatter.convertDateTimeToInstant(param.updatedAt),
         isDeleted = false
+    )
+
+    fun mapToNote(
+        param: NoteDto
+    ): Note = Note(
+        id = param.id,
+        noteType = NoteType.getByAlias(param.noteType) ?: NoteType.PLAY_CONTEXT,
+        ageType = AgeType.getByAlias(param.studentAge) ?: AgeType.MIXED,
+        sentenceCountType = SentenceType.getByAlias(param.sentenceCount) ?: SentenceType.FOUR_TO_FIVE,
+        inputContent = param.inputContent,
+        result = param.result,
+        createdAt = AppDateTimeFormatter.convertInstantToDateTime(param.createdAt),
     )
 
     /**

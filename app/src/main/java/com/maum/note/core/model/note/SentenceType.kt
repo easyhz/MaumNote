@@ -24,6 +24,10 @@ enum class SentenceType(
         fun getByValue(value: String): SentenceType? {
             return entries.find { it.name == value }
         }
+
+        fun getByAlias(value: String): SentenceType? {
+            return entries.find { it.alias == value }
+        }
     }
 
     fun getAddNoteLogEvent(): AddNoteAnalyticsEvent {
