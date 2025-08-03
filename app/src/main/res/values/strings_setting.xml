@@ -10,6 +10,13 @@
     <string name="setting_note_legacy_note">지난 노트</string>
 
     <string name="setting_board_profile">프로필 설정</string>
+    <string name="setting_board_profile_title">프로필</string>
+    <string name="setting_board_profile_nickname">닉네임</string>
+    <string name="setting_board_profile_nickname_place_holder">닉네임을 입력해 주세요.</string>
+    <string name="setting_board_profile_nickname_caption_default">게시판에서 사용할 닉네임을 설정해요.\n불쾌감을 줄 수 있는 표현은 제한될 수 있어요.</string>
+    <string name="setting_board_profile_nickname_caption_duplicated">이미 있는 닉네임이에요.\n다른 닉네임을 사용해 주세요.</string>
+    <string name="setting_board_profile_nickname_caption_length">3자 이상만 가능해요.</string>
+    <string name="setting_board_profile_nickname_caption_blank">공백은 포함할 수 없어요.</string>
 
     <string name="setting_etc_about">마음노트 사용법</string>
     <string name="setting_etc_version">버전</string>
