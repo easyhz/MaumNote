@@ -9,4 +9,6 @@ interface UserService {
     suspend fun updateUserNickname(userId: String, nickname: String)
     suspend fun updateUserStudentAge(userId: String, ageType: String)
     suspend fun updateUserHasAgreedToTerms(userId: String, hasAgreedToTerms: Boolean)
+
+    suspend fun isNicknameDuplicated(userId: String, nickname: String): Boolean
 }

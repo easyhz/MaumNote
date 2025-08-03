@@ -3,6 +3,7 @@ package com.maum.note.core.supabase.service.user.service
 import com.maum.note.core.supabase.constant.Table
 import com.maum.note.core.supabase.service.user.dto.UserDto
 import io.github.jan.supabase.postgrest.Postgrest
+import io.github.jan.supabase.postgrest.query.filter.FilterOperator
 import javax.inject.Inject
 
 class UserServiceImpl @Inject constructor(
@@ -57,5 +58,14 @@ class UserServiceImpl @Inject constructor(
                 eq(Table.USERS.ID, userId)
             }
         }
+    }
+
+    override suspend fun isNicknameDuplicated(userId: String, nickname: String): Boolean {
+        return postgrest.from(Table.USERS.name).select {
+            filter {
+                eq(Table.USERS.NICKNAME, nickname)
+                filterNot(Table.USERS.ID, FilterOperator.EQ, userId)
+            }
+        }.decodeList<UserDto>().isNotEmpty()
     }
 }
