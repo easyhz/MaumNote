@@ -26,6 +26,7 @@ class ErrorHandler @Inject constructor(
 @StringRes
 fun Throwable.handleError(): Int =
     when (this) {
+        is java.io.IOException -> R.string.network_connection_error
         AppError.UnexpectedError -> R.string.unexpected_error
         AppError.NoResultError -> R.string.no_result_error
         AppError.NetworkConnectionError -> R.string.network_connection_error
