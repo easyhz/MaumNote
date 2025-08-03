@@ -1,4 +1,4 @@
-package com.maum.note.ui.screen.setting.nickname
+package com.maum.note.ui.screen.setting.profile
 
 import android.widget.Toast
 import androidx.compose.animation.AnimatedContent
@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.ime
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -38,8 +37,8 @@ import com.maum.note.core.designSystem.component.topbar.TopBarIcon
 import com.maum.note.core.designSystem.component.topbar.TopBarText
 import com.maum.note.core.designSystem.extension.modifier.noRippleClickable
 import com.maum.note.core.designSystem.util.textField.TextFieldType
-import com.maum.note.ui.screen.setting.nickname.contract.NicknameSideEffect
-import com.maum.note.ui.screen.setting.nickname.contract.NicknameState
+import com.maum.note.ui.screen.setting.profile.contract.NicknameState
+import com.maum.note.ui.screen.setting.profile.contract.ProfileSideEffect
 import com.maum.note.ui.theme.AppTypography
 import com.maum.note.ui.theme.LocalSnackBarHostState
 
@@ -49,9 +48,9 @@ import com.maum.note.ui.theme.LocalSnackBarHostState
  */
 
 @Composable
-fun NicknameScreen(
+fun ProfileScreen(
     modifier: Modifier = Modifier,
-    viewModel: NicknameViewModel = hiltViewModel(),
+    viewModel: ProfileViewModel = hiltViewModel(),
     navigateUp: () -> Unit,
 ) {
     val context = LocalContext.current
@@ -63,7 +62,7 @@ fun NicknameScreen(
     LaunchedEffect(imeVisible) {
         viewModel.onImeVisibilityChanged(imeVisible)
     }
-    NicknameScreen(
+    ProfileScreen(
         modifier = modifier,
         uiState = uiState,
         clearFocus = focusManager::clearFocus,
@@ -74,19 +73,19 @@ fun NicknameScreen(
 
     viewModel.sideEffect.collectInSideEffectWithLifecycle { sideEffect ->
         when(sideEffect){
-            is NicknameSideEffect.ShowSnackBar -> {
+            is ProfileSideEffect.ShowSnackBar -> {
                 snackBarHost.showSnackbar(message = sideEffect.message)
             }
-            is NicknameSideEffect.ShowToast -> {
+            is ProfileSideEffect.ShowToast -> {
                 Toast.makeText(context, sideEffect.message, Toast.LENGTH_LONG).show()
             }
-            is NicknameSideEffect.NavigateUp -> navigateUp()
+            is ProfileSideEffect.NavigateUp -> navigateUp()
         }
     }
 }
 
 @Composable
-private fun NicknameScreen(
+private fun ProfileScreen(
     modifier: Modifier = Modifier,
     uiState: NicknameState,
     clearFocus: () -> Unit = {},
@@ -164,8 +163,8 @@ private fun NicknameScreen(
 
 @Preview
 @Composable
-private fun NicknameScreenPreview() {
-    NicknameScreen(
+private fun ProfileScreenPreview() {
+    ProfileScreen(
         uiState = NicknameState.init()
     )
 }

@@ -1,4 +1,4 @@
-package com.maum.note.ui.screen.setting.nickname
+package com.maum.note.ui.screen.setting.profile
 
 import android.util.Log
 import androidx.compose.ui.text.input.TextFieldValue
@@ -9,11 +9,11 @@ import com.maum.note.core.common.helper.resource.ResourceHelper
 import com.maum.note.domain.user.useacse.FetchUserUseCase
 import com.maum.note.domain.user.useacse.IsNicknameDuplicatedUseCase
 import com.maum.note.domain.user.useacse.UpdateUserNicknameUseCase
-import com.maum.note.ui.screen.setting.nickname.contract.CaptionType
+import com.maum.note.ui.screen.setting.profile.contract.CaptionType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
-import com.maum.note.ui.screen.setting.nickname.contract.NicknameSideEffect
-import com.maum.note.ui.screen.setting.nickname.contract.NicknameState
+import com.maum.note.ui.screen.setting.profile.contract.ProfileSideEffect
+import com.maum.note.ui.screen.setting.profile.contract.NicknameState
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -24,12 +24,12 @@ import kotlinx.coroutines.launch
  */
 
 @HiltViewModel
-class NicknameViewModel @Inject constructor(
+class ProfileViewModel @Inject constructor(
     private val resourceHelper: ResourceHelper,
     private val fetchUserUseCase: FetchUserUseCase,
     private val isNicknameDuplicatedUseCase: IsNicknameDuplicatedUseCase,
     private val updateUserNicknameUseCase: UpdateUserNicknameUseCase
-) : BaseViewModel<NicknameState, NicknameSideEffect>(
+) : BaseViewModel<NicknameState, ProfileSideEffect>(
     initialState = NicknameState.init()
 ) {
     private val tag = this::class.simpleName
@@ -79,7 +79,7 @@ class NicknameViewModel @Inject constructor(
                 navigateUp()
             }.onFailure { e ->
                 setState { copy(isLoading = false) }
-                postSideEffect { NicknameSideEffect.ShowToast(resourceHelper.getString(e.handleError())) }
+                postSideEffect { ProfileSideEffect.ShowToast(resourceHelper.getString(e.handleError())) }
             }
         }
     }
@@ -102,7 +102,7 @@ class NicknameViewModel @Inject constructor(
             val message = e.handleError()
 
             setState { copy(enabledButton = false, buttonLoading = false) }
-            postSideEffect { NicknameSideEffect.ShowToast(resourceHelper.getString(message)) }
+            postSideEffect { ProfileSideEffect.ShowToast(resourceHelper.getString(message)) }
         }
     }
 
@@ -118,6 +118,6 @@ class NicknameViewModel @Inject constructor(
     }
 
     private fun navigateUp() {
-        postSideEffect { NicknameSideEffect.NavigateUp }
+        postSideEffect { ProfileSideEffect.NavigateUp }
     }
 }

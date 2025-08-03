@@ -1,4 +1,4 @@
-package com.maum.note.ui.screen.setting.nickname.contract
+package com.maum.note.ui.screen.setting.profile.contract
 
 import androidx.annotation.StringRes
 import androidx.compose.ui.graphics.Color
