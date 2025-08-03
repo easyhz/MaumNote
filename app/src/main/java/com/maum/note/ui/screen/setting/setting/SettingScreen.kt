@@ -44,6 +44,7 @@ fun SettingScreen(
     navigateUp: () -> Unit,
     navigateToToneSetting: () -> Unit,
     navigateToAgeSetting: () -> Unit,
+    navigateToProfileSetting: () -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val context = LocalContext.current
@@ -57,12 +58,9 @@ fun SettingScreen(
 
     viewModel.sideEffect.collectInSideEffectWithLifecycle { sideEffect ->
         when(sideEffect) {
-            SettingSideEffect.NavigateToToneSetting -> {
-                navigateToToneSetting()
-            }
-            SettingSideEffect.NavigateToAgeSetting -> {
-                navigateToAgeSetting()
-            }
+            SettingSideEffect.NavigateToToneSetting -> navigateToToneSetting()
+            SettingSideEffect.NavigateToAgeSetting -> navigateToAgeSetting()
+            SettingSideEffect.NavigateToProfileSetting -> navigateToProfileSetting()
             is SettingSideEffect.NavigateToUrl -> {
                 val intent = Intent(Intent.ACTION_VIEW, Uri.parse(sideEffect.url))
                 context.startActivity(intent)

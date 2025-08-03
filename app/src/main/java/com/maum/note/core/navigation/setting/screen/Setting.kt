@@ -15,4 +15,7 @@ object Setting: Parcelable {
 
     @Serializable
     data object Age
+
+    @Serializable
+    data object Profile
 }

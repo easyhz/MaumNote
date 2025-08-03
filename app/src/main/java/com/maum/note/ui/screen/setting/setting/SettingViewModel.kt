@@ -69,9 +69,7 @@ class SettingViewModel @Inject constructor(
 
     private fun handleBoardSettingItem(item: BoardSettingItem) {
         when (item) {
-            BoardSettingItem.PROFILE -> {
-
-            }
+            BoardSettingItem.PROFILE ->  navigatetoProfileSetting()
         }
     }
 
@@ -90,6 +88,10 @@ class SettingViewModel @Inject constructor(
 
     private fun navigateToAgeSetting() {
         postSideEffect { SettingSideEffect.NavigateToAgeSetting }
+    }
+
+    private fun navigatetoProfileSetting() {
+        postSideEffect { SettingSideEffect.NavigateToProfileSetting }
     }
 
     private fun navigateToUrl(url: String){

@@ -7,6 +7,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.maum.note.core.navigation.setting.screen.Setting
 import com.maum.note.ui.screen.setting.age.SettingAgeScreen
+import com.maum.note.ui.screen.setting.nickname.NicknameScreen
 import com.maum.note.ui.screen.setting.setting.SettingScreen
 import com.maum.note.ui.screen.setting.tone.ToneSettingScreen
 
@@ -21,6 +22,7 @@ fun NavGraphBuilder.settingGraph(
                 navigateUp = navController::navigateUp,
                 navigateToToneSetting = navController::navigateToSettingTone,
                 navigateToAgeSetting = navController::navigateToSettingAge,
+                navigateToProfileSetting = navController::navigateToSettingProfile,
             )
         }
 
@@ -36,6 +38,12 @@ fun NavGraphBuilder.settingGraph(
                 navigateToNext = navController::navigateUp,
             )
         }
+
+        composable<Setting.Profile> {
+            NicknameScreen(
+                navigateUp = navController::navigateUp
+            )
+        }
     }
 }
 
@@ -49,4 +57,8 @@ fun NavController.navigateToSettingTone(navOptions: NavOptions? = null) {
 
 fun NavController.navigateToSettingAge(navOptions: NavOptions? = null) {
     navigate(route = Setting.Age, navOptions = navOptions)
+}
+
+fun NavController.navigateToSettingProfile(navOptions: NavOptions? = null) {
+    navigate(route = Setting.Profile, navOptions = navOptions)
 }
