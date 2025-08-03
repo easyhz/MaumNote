@@ -1,6 +1,7 @@
 package com.maum.note.data.user.repository
 
 import android.util.Log
+import com.maum.note.core.common.error.AppError
 import com.maum.note.data.user.datasource.remote.UserRemoteDataSource
 import com.maum.note.data.user.mapper.UserMapper
 import com.maum.note.domain.user.model.request.SaveUserRequestParam
@@ -74,6 +75,17 @@ class UserRepositoryImpl @Inject constructor(
 
     override suspend fun updateUserStudentAge(updateUserStudentRequestParam: UpdateUserStudentRequestParam) {
         userRemoteDataSource.updateUserStudentAge(userId = updateUserStudentRequestParam.userId, ageType = updateUserStudentRequestParam.ageType)
+    }
+
+    override suspend fun isNicknameDuplicated(nickname: String): Result<Boolean> = runCatching {
+        val id = userRemoteDataSource.getCurrentUser()?.id ?: throw AppError.NoUserDataError
+        userRemoteDataSource.isNicknameDuplicated(userId = id, nickname = nickname)
+    }
+
+    override suspend fun updateUserNickname(nickName: String): Result<Unit> = runCatching {
+        val id = userRemoteDataSource.getCurrentUser()?.id ?: throw AppError.NoUserDataError
+        userRemoteDataSource.updateUserNickname(userId = id, nickname = nickName)
+
     }
 
     private fun isDuplicateKeyError(e: PostgrestRestException): Boolean {

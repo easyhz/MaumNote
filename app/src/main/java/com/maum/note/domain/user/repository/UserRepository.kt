@@ -15,4 +15,7 @@ interface UserRepository {
     suspend fun clearUserSession()
 
     suspend fun updateUserStudentAge(updateUserStudentRequestParam: UpdateUserStudentRequestParam)
+
+    suspend fun isNicknameDuplicated(nickName: String): Result<Boolean>
+    suspend fun updateUserNickname(nickName: String): Result<Unit>
 }
