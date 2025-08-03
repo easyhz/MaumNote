@@ -12,4 +12,6 @@ interface UserRemoteDataSource {
     suspend fun clearUserSession()
 
     suspend fun updateUserStudentAge(userId: String, ageType: String)
+    suspend fun isNicknameDuplicated(userId: String, nickname: String): Boolean
+    suspend fun updateUserNickname(userId: String, nickname: String)
 }

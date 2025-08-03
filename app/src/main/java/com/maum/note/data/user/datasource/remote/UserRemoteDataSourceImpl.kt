@@ -35,4 +35,12 @@ class UserRemoteDataSourceImpl @Inject constructor(
     override suspend fun updateUserStudentAge(userId: String, ageType: String) {
         return userService.updateUserStudentAge(userId, ageType)
     }
+
+    override suspend fun isNicknameDuplicated(userId: String, nickname: String): Boolean {
+        return userService.isNicknameDuplicated(userId = userId, nickname = nickname)
+    }
+
+    override suspend fun updateUserNickname(userId: String, nickname: String) {
+        return userService.updateUserNickname(userId = userId, nickname = nickname)
+    }
 }
