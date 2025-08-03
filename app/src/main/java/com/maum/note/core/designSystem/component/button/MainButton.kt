@@ -1,12 +1,17 @@
 package com.maum.note.core.designSystem.component.button
 
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -18,13 +23,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.maum.note.core.designSystem.component.loading.LoadingIndicator
 import com.maum.note.core.designSystem.extension.modifier.dropShadow
 import com.maum.note.core.designSystem.extension.modifier.singleClickable
 import com.maum.note.core.designSystem.util.button.ButtonColor
 import com.maum.note.ui.theme.AppTypography
+import com.maum.note.ui.theme.Primary
+import com.maum.note.ui.theme.White
 
 
 @Composable
@@ -36,6 +45,7 @@ fun MainButton(
     enabled: Boolean = true,
     isImeVisible: Boolean? = null,
     height: Dp = 52.dp,
+    isLoading: Boolean? = null,
     onClick: () -> Unit,
 ) {
     val onClickInvoke: () -> Unit = remember(enabled, onClick) {
@@ -70,14 +80,44 @@ fun MainButton(
             )
             .clip(RoundedCornerShape(cornerRadius))
             .background(backgroundColor)
-            .singleClickable(enabled) { onClickInvoke() },
+            .singleClickable(enabled || isLoading != true) { onClickInvoke() },
         contentAlignment = Alignment.Center
     ) {
-        Text(
-            text = text,
-            style = textStyle,
-            color = textColor
-        )
+        if (isLoading == null) {
+            Text(
+                text = text,
+                style = textStyle,
+                color = textColor
+            )
+
+            return@Box
+        }
+        AnimatedContent(
+            targetState = isLoading,
+            transitionSpec = {
+                fadeIn() togetherWith fadeOut()
+            }
+        ) {
+            if (it) {
+                LoadingIndicator(
+                    isLoading = true,
+                    enabledClearFocus = false,
+                    color = if (enabled) White else Primary,
+                    width = 100.dp,
+                    height = 40.dp
+                )
+            } else {
+                Text(
+                    modifier = Modifier.widthIn(min = 100.dp),
+                    text = text,
+                    style = textStyle.copy(
+                        textAlign = TextAlign.Center
+                    ),
+                    color = textColor
+                )
+            }
+
+        }
     }
 }
 
@@ -118,7 +158,8 @@ private fun getCornerRadius(
 private fun MainButtonPrev() {
     MainButton(
         modifier = Modifier.fillMaxWidth(),
-        text = "Button", onClick = { }
+        text = "Button", onClick = { },
+        isLoading = true
     )
 
 }

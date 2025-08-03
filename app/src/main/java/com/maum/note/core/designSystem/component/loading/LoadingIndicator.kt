@@ -6,6 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalFocusManager
@@ -29,6 +30,8 @@ import com.maum.note.ui.theme.Primary
 fun LoadingIndicator(
     modifier: Modifier = Modifier,
     isLoading: Boolean = false,
+    color: Color = Primary,
+    enabledClearFocus: Boolean = true,
     width: Dp = (LocalConfiguration.current.screenWidthDp / 4).dp,
     height: Dp = (LocalConfiguration.current.screenWidthDp / 4).dp,
 ) {
@@ -39,7 +42,7 @@ fun LoadingIndicator(
         rememberLottieDynamicProperty(
             property = LottieProperty.COLOR_FILTER,
             value = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(
-                Primary.hashCode(),
+                color.hashCode(),
                 BlendModeCompat.SRC_ATOP
             ),
             keyPath = arrayOf( "**" )
@@ -52,6 +55,7 @@ fun LoadingIndicator(
     )
 
     LaunchedEffect(isLoading) {
+        if (!enabledClearFocus) return@LaunchedEffect
         focusManager.clearFocus()
     }
     LottieAnimation(
