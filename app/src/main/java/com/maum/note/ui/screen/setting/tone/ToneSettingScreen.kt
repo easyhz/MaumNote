@@ -27,6 +27,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.maum.note.R
 import com.maum.note.core.common.util.collect.collectInSideEffectWithLifecycle
 import com.maum.note.core.designSystem.component.dialog.BasicDialog
+import com.maum.note.core.designSystem.component.loading.FullLoadingIndicator
 import com.maum.note.core.designSystem.component.scaffold.AppScaffold
 import com.maum.note.core.designSystem.component.textField.ContentTextFieldWithTitle
 import com.maum.note.core.designSystem.component.topbar.TopBar
@@ -160,6 +161,10 @@ private fun ToneSettingScreen(
                 negativeButton = dialog.negativeButton
             )
         }
+
+        FullLoadingIndicator(
+            isLoading = uiState.isLoading
+        )
     }
 }
 

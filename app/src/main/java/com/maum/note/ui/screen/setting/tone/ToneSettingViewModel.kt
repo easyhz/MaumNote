@@ -14,11 +14,9 @@ import com.maum.note.core.common.util.validation.ValidationInput
 import com.maum.note.core.designSystem.util.dialog.BasicDialogButton
 import com.maum.note.core.designSystem.util.dialog.DialogMessage
 import com.maum.note.core.model.note.NoteType
-import com.maum.note.domain.setting.model.tone.request.UpdateToneRequestParam
-import com.maum.note.domain.setting.usecase.tone.GetAllSelectedTonesUseCase
+import com.maum.note.domain.setting.model.tone.request.UpdateAllToneRequestParam
+import com.maum.note.domain.setting.usecase.tone.FetchToneUseCase
 import com.maum.note.domain.setting.usecase.tone.UpdateAllToneUseCase
-import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import com.maum.note.ui.screen.setting.tone.contract.ToneSettingSideEffect
 import com.maum.note.ui.screen.setting.tone.contract.ToneSettingState
 import com.maum.note.ui.theme.AppTypography
@@ -27,9 +25,11 @@ import com.maum.note.ui.theme.DestructiveRed
 import com.maum.note.ui.theme.MainBackground
 import com.maum.note.ui.theme.MainText
 import com.maum.note.ui.theme.Primary
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
 /**
  * Date: 2025. 4. 19.
@@ -40,7 +40,7 @@ import kotlinx.coroutines.withContext
 class ToneSettingViewModel @Inject constructor(
     @Dispatcher(AppDispatchers.IO) private val ioDispatcher: CoroutineDispatcher,
     @Dispatcher(AppDispatchers.MAIN) private val mainDispatcher: CoroutineDispatcher,
-    private val getAllSelectedTonesUseCase: GetAllSelectedTonesUseCase,
+    private val fetchToneUseCase: FetchToneUseCase,
     private val updateAllToneUseCase: UpdateAllToneUseCase,
     private val validationInput: ValidationInput,
     private val resourceHelper: ResourceHelper,
@@ -81,31 +81,38 @@ class ToneSettingViewModel @Inject constructor(
 
     private fun getAllSelectedTones() {
         viewModelScope.launch(ioDispatcher) {
-            getAllSelectedTonesUseCase.invoke(Unit).onSuccess { tones ->
-                val contents = tones.mapNotNull { tone ->
-                    NoteType.getByValue(tone.noteType)?.let { type ->
-                        type to TextFieldValue(tone.content)
-                    }
+            setLoading(true)
+            fetchToneUseCase.invoke(Unit).onSuccess { tone ->
+                val contents = NoteType.entries.associateWith {
+                    TextFieldValue(when(it) {
+                        NoteType.DEFAULT -> tone.common
+                        NoteType.PLAY_CONTEXT -> tone.playContext
+                        NoteType.LETTER_GREETING -> tone.letterGreeting
+                        NoteType.ANNOUNCEMENT_CONTENT -> tone.announcementContent
+                    })
                 }.toMap()
                 withContext(mainDispatcher) {
-                    setState { copy(contents = contents, originalContents = contents) }
+                    setState { copy(toneId = tone.id, contents = contents, originalContents = contents) }
                 }
             }.onFailure {
                 withContext(mainDispatcher) {
                     setState { copy(isLoading = false) }
                 }
             }
+            setLoading(false)
         }
     }
 
     private fun updateAllTone() {
         viewModelScope.launch(ioDispatcher) {
-            val param = getUpdateToneRequestParam()
+            setLoading(true)
+            val param = currentState.contents.toUpdateParam()
             updateAllToneUseCase.invoke(param).onSuccess {
                 withContext(mainDispatcher) {
                     setState { copy(isLoading = false, originalContents = contents) }
-                    showSnackBar(value = R.string.setting_note_tone_save_success)
                     logEventSave()
+                    navigateUp()
+                    showSnackBar(value = R.string.setting_note_tone_save_success)
                 }
             }.onFailure {
                 withContext(mainDispatcher) {
@@ -113,16 +120,18 @@ class ToneSettingViewModel @Inject constructor(
                     showSnackBar(value = R.string.setting_note_tone_save_failure)
                 }
             }
+            setLoading(false)
         }
     }
 
-    private fun getUpdateToneRequestParam(): List<UpdateToneRequestParam> {
-        return currentState.contents.map { (noteType, textFieldValue) ->
-            UpdateToneRequestParam(
-                noteType = noteType.name,
-                content = textFieldValue.text
-            )
-        }
+    private fun Map<NoteType, TextFieldValue>.toUpdateParam(): UpdateAllToneRequestParam {
+        return UpdateAllToneRequestParam(
+            toneId = currentState.toneId,
+            common = this[NoteType.DEFAULT]?.text.orEmpty(),
+            letterGreeting = this[NoteType.LETTER_GREETING]?.text.orEmpty(),
+            playContext = this[NoteType.PLAY_CONTEXT]?.text.orEmpty(),
+            announcementContent = this[NoteType.ANNOUNCEMENT_CONTENT]?.text.orEmpty()
+        )
     }
 
     private fun checkValidInput(): NoteType? {
@@ -209,5 +218,9 @@ class ToneSettingViewModel @Inject constructor(
             resourceHelper = resourceHelper,
             value = value
         ) { ToneSettingSideEffect.ShowSnackBar(it) }
+    }
+
+    private fun setLoading(isLoading: Boolean) {
+        setState { copy(isLoading = isLoading) }
     }
 }
