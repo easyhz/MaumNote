@@ -12,4 +12,15 @@ class ToneServiceImpl @Inject constructor(
         postgrest.from(Table.TONES.name).insert(toneDto)
     }
 
+    override suspend fun fetchTone(userId: String): ToneDto? {
+        return postgrest.from(Table.TONES.name).select {
+            filter {
+                eq(Table.TONES.USER_ID, userId)
+            }
+        }.decodeSingle()
+    }
+
+    override suspend fun upsertTone(toneDto: ToneDto) {
+        postgrest.from(Table.TONES.name).upsert(toneDto)
+    }
 }
