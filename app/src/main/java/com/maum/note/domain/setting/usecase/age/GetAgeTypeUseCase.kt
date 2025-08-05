@@ -5,12 +5,13 @@ import com.maum.note.core.model.note.AgeType
 import com.maum.note.domain.setting.repository.age.AgeRepository
 import javax.inject.Inject
 
-class GetAgeSettingUseCase @Inject constructor(
+class GetAgeTypeUseCase @Inject constructor(
     private val ageRepository: AgeRepository
-): BaseUseCase<Unit, String>() {
-    override suspend fun invoke(param: Unit): Result<String> {
+): BaseUseCase<Unit, AgeType>() {
+    override suspend fun invoke(param: Unit): Result<AgeType> {
         return runCatching {
-            ageRepository.getAgeSetting() ?: AgeType.MIXED.name
+            val age = ageRepository.getAgeSetting() ?: AgeType.MIXED.name
+            AgeType.getByValue(age) ?: AgeType.MIXED
         }
     }
 }
