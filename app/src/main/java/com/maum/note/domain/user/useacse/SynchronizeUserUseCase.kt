@@ -82,6 +82,7 @@ class SynchronizeUserUseCase @Inject constructor(
         val toneMap = tones.associateBy { it.noteType }
 
         val param = InsertToneRequestParam(
+            id = null,
             userId = userId,
             common = toneMap[NoteType.DEFAULT.name]?.content.orEmpty(),
             letterGreeting = toneMap[NoteType.LETTER_GREETING.name]?.content.orEmpty(),

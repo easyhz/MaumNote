@@ -9,7 +9,7 @@ import com.maum.note.core.common.di.dispatcher.Dispatcher
 import com.maum.note.core.common.error.handleError
 import com.maum.note.core.common.helper.resource.ResourceHelper
 import com.maum.note.core.model.note.AgeType
-import com.maum.note.domain.setting.usecase.age.GetAgeSettingUseCase
+import com.maum.note.domain.setting.usecase.age.GetAgeTypeUseCase
 import com.maum.note.domain.setting.usecase.age.UpdateAgeSettingUseCase
 import com.maum.note.domain.user.useacse.UpdateUserStudentAgeUseCase
 import com.maum.note.ui.screen.setting.age.contract.SettingAgeSideEffect
@@ -30,7 +30,7 @@ class SettingAgeViewModel @Inject constructor(
     @Dispatcher(AppDispatchers.IO) private val ioDispatcher: CoroutineDispatcher,
     @Dispatcher(AppDispatchers.MAIN) private val mainDispatcher: CoroutineDispatcher,
     private val resourceHelper: ResourceHelper,
-    private val getAgeSettingUseCase: GetAgeSettingUseCase,
+    private val getAgeTypeUseCase: GetAgeTypeUseCase,
     private val updateAgeSettingUseCase: UpdateAgeSettingUseCase,
     private val updateUserStudentAgeUseCase: UpdateUserStudentAgeUseCase,
 ) : BaseViewModel<SettingAgeState, SettingAgeSideEffect>(
@@ -51,20 +51,23 @@ class SettingAgeViewModel @Inject constructor(
 
     private fun getAgeSetting() {
         viewModelScope.launch(ioDispatcher) {
-            getAgeSettingUseCase.invoke(Unit)
-                .onSuccess {
+            setLoading(true)
+            getAgeTypeUseCase.invoke(Unit)
+                .onSuccess { age ->
                     withContext(mainDispatcher) {
-                        val age = AgeType.getByValue(it) ?: AgeType.MIXED
                         setState { copy(age = age) }
                         postSideEffect { SettingAgeSideEffect.SetPickerAge(ageType = age) }
                     }
                 }
+
+            setLoading(false)
         }
     }
 
 
     private fun updateAge(ageType: AgeType) {
         viewModelScope.launch(ioDispatcher) {
+            setLoading(true)
             runCatching {
                 updateUserStudentAgeUseCase.invoke(ageType.alias).getOrThrow()
                 updateAgeSettingUseCase.invoke(ageType.name).getOrThrow()
@@ -78,6 +81,7 @@ class SettingAgeViewModel @Inject constructor(
                     value = e.handleError()
                 ) { SettingAgeSideEffect.ShowSnackBar(it) }
             }
+            setLoading(false)
         }
     }
 
@@ -87,5 +91,9 @@ class SettingAgeViewModel @Inject constructor(
 
     private fun logEvent() {
         AnalyticsManager.logEvent(SettingAnalyticsEvent.SETTING_STUDENT_AGE_CHANGED)
+    }
+
+    private fun setLoading(isLoading: Boolean) {
+        setState { copy(isLoading = isLoading) }
     }
 }

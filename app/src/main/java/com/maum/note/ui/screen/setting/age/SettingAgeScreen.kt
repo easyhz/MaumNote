@@ -17,6 +17,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.maum.note.R
 import com.maum.note.core.common.util.collect.collectInSideEffectWithLifecycle
 import com.maum.note.core.designSystem.component.button.MainButton
+import com.maum.note.core.designSystem.component.loading.FullLoadingIndicator
 import com.maum.note.core.designSystem.component.picker.AgeNumberPicker
 import com.maum.note.core.designSystem.component.scaffold.AppScaffold
 import com.maum.note.core.designSystem.component.text.OnboardingText
@@ -111,6 +112,10 @@ private fun SettingAgeScreen(
                 state = pickerState
             )
         }
+
+        FullLoadingIndicator(
+            isLoading = uiState.isLoading
+        )
     }
 }
 

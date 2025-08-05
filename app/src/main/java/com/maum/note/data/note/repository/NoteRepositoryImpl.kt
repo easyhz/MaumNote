@@ -11,6 +11,7 @@ import com.maum.note.core.common.util.Generate
 import com.maum.note.core.database.note.entity.NoteWithStudent
 import com.maum.note.core.model.note.Note
 import com.maum.note.core.model.note.NoteType
+import com.maum.note.core.supabase.service.tone.dto.ToneDto
 import com.maum.note.data.configuration.datasource.remote.ConfigurationRemoteDataSource
 import com.maum.note.data.note.datasource.local.NoteLocalDataSource
 import com.maum.note.data.note.datasource.remote.NoteRemoteDataSource
@@ -18,7 +19,7 @@ import com.maum.note.data.note.mapper.NoteMapper
 import com.maum.note.data.note.model.InsertNoteParam
 import com.maum.note.data.note.model.NoteGenerationMapParam
 import com.maum.note.data.note.pagingsource.NotePagingSource
-import com.maum.note.data.setting.datasource.tone.local.ToneLocalDataSource
+import com.maum.note.data.setting.datasource.tone.remote.ToneRemoteDataSource
 import com.maum.note.data.user.datasource.remote.UserRemoteDataSource
 import com.maum.note.domain.note.model.request.LegacyNoteRequestParam
 import com.maum.note.domain.note.model.request.NoteGenerationRequestParam
@@ -36,7 +37,7 @@ import javax.inject.Inject
 class NoteRepositoryImpl @Inject constructor(
     private val logger: Logger,
     private val noteMapper: NoteMapper,
-    private val toneLocalDataSource: ToneLocalDataSource,
+    private val toneRemoteDataSource: ToneRemoteDataSource,
     private val noteLocalDataSource: NoteLocalDataSource,
     private val noteRemoteDataSource: NoteRemoteDataSource,
     private val configurationRemoteDataSource: ConfigurationRemoteDataSource,
@@ -53,20 +54,18 @@ class NoteRepositoryImpl @Inject constructor(
             coroutineScope {
                 val userId =
                     userRemoteDataSource.getCurrentUser()?.id ?: throw AppError.NoUserDataError
-                val defaultToneDeferred =
-                    async { toneLocalDataSource.findByNoteType(NoteType.DEFAULT.name) }
-                val typeToneDeferred = async { toneLocalDataSource.findByNoteType(param.noteType) }
+                val toneDeferred = async { toneRemoteDataSource.fetchTone(userId) }
                 val systemPromptDeferred =
                     async { configurationRemoteDataSource.fetchSystemPrompt() }
 
-                val defaultTone = defaultToneDeferred.await()
-                val typeTone = typeToneDeferred.await()
+                val tones = toneDeferred.await()
+                val typeTone = getToneFromNoteType(param.noteType, tones)
                 val systemPrompt = systemPromptDeferred.await().getOrNull()
 
                 val noteGenerationMapParam = NoteGenerationMapParam(
                     noteGenerationRequestParam = param,
-                    defaultTone = defaultTone?.content ?: "",
-                    typeTone = typeTone?.content ?: "",
+                    defaultTone = tones?.common ?: "",
+                    typeTone = typeTone,
                     systemPrompt = systemPrompt
                 )
 
@@ -173,4 +172,15 @@ class NoteRepositoryImpl @Inject constructor(
 
         return entity
     }
+
+    private fun getToneFromNoteType(noteType: String, toneDto: ToneDto?): String {
+        return when (NoteType.getByValue(noteType)) {
+            NoteType.DEFAULT -> toneDto?.common
+            NoteType.ANNOUNCEMENT_CONTENT -> toneDto?.announcementContent
+            NoteType.PLAY_CONTEXT -> toneDto?.playContext
+            NoteType.LETTER_GREETING -> toneDto?.letterGreeting
+            else -> ""
+        } ?: ""
+    }
+
 }

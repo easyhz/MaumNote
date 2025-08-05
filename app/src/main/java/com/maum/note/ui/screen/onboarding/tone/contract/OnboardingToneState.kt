@@ -11,6 +11,7 @@ import com.maum.note.core.designSystem.util.dialog.DialogMessage
 
 data class OnboardingToneState(
     val isLoading: Boolean,
+    val toneId: String?,
     val content: TextFieldValue,
     val enabledButton: Boolean,
     val isImeVisible: Boolean,
@@ -20,6 +21,7 @@ data class OnboardingToneState(
     companion object {
         fun init(): OnboardingToneState = OnboardingToneState(
             isLoading = true,
+            toneId = null,
             content = TextFieldValue(""),
             enabledButton = true,
             isImeVisible = false,

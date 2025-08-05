@@ -17,11 +17,10 @@ import com.maum.note.core.common.util.validation.ValidationInput
 import com.maum.note.core.designSystem.util.dialog.BasicDialogButton
 import com.maum.note.core.designSystem.util.dialog.DialogMessage
 import com.maum.note.core.model.error.ErrorMessage
-import com.maum.note.core.model.note.AgeType
 import com.maum.note.core.model.note.NoteType
 import com.maum.note.core.model.note.SentenceType
 import com.maum.note.core.model.note.generation.GenerationNote
-import com.maum.note.domain.setting.usecase.age.GetAgeSettingUseCase
+import com.maum.note.domain.setting.usecase.age.GetAgeTypeUseCase
 import com.maum.note.ui.screen.note.creation.content.contract.NoteContentSideEffect
 import com.maum.note.ui.screen.note.creation.content.contract.NoteContentState
 import com.maum.note.ui.theme.AppTypography
@@ -45,7 +44,7 @@ class NoteContentViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle,
     private val validationInput: ValidationInput,
     private val resourceHelper: ResourceHelper,
-    private val getAgeSettingUseCase: GetAgeSettingUseCase,
+    private val getAgeTypeUseCase: GetAgeTypeUseCase,
 ) : BaseViewModel<NoteContentState, NoteContentSideEffect>(
     initialState = NoteContentState.init()
 ) {
@@ -67,10 +66,9 @@ class NoteContentViewModel @Inject constructor(
 
     private fun getAgeSetting() {
         viewModelScope.launch(ioDispatcher) {
-            getAgeSettingUseCase.invoke(Unit)
-                .onSuccess {
+            getAgeTypeUseCase.invoke(Unit)
+                .onSuccess { age ->
                     withContext(mainDispatcher) {
-                        val age = AgeType.getByValue(it) ?: AgeType.MIXED
                         setState { copy(ageType = age) }
                     }
                 }

@@ -10,4 +10,12 @@ class ToneRemoteDataSourceImpl @Inject constructor(
     override suspend fun insertTone(toneDto: ToneDto) {
         toneService.insertTone(toneDto)
     }
+
+    override suspend fun fetchTone(userId: String): ToneDto? {
+        return toneService.fetchTone(userId)
+    }
+
+    override suspend fun upsertTone(toneDto: ToneDto) {
+        return toneService.upsertTone(toneDto)
+    }
 }
