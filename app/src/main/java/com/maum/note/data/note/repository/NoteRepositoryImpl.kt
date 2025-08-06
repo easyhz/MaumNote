@@ -125,6 +125,10 @@ class NoteRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun deleteNote(noteId: String): Result<Unit> = runCatching {
+        noteRemoteDataSource.deleteNote(noteId = noteId)
+    }
+
     private suspend fun insertNote(
         noteId: String,
         userId: String,

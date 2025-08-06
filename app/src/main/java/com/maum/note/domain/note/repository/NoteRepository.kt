@@ -17,4 +17,6 @@ interface NoteRepository {
 
     suspend fun insertLegacyNote(param: LegacyNoteRequestParam)
     fun fetchPagedNotes(): Flow<PagingData<Note>>
+
+    suspend fun deleteNote(noteId: String): Result<Unit>
 }
