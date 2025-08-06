@@ -16,7 +16,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
+import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
@@ -86,6 +88,7 @@ fun HomeScreen(
     val notes = viewModel.notesFlow.collectAsLazyPagingItems()
     val clipboardManager = LocalClipboardManager.current
     val snackBarHost = LocalSnackBarHostState.current
+    val state: LazyGridState = rememberLazyGridState()
 
     CheckNotification(
         needNotificationPermission = uiState.needNotificationPermission,
@@ -96,6 +99,7 @@ fun HomeScreen(
         modifier = modifier,
         uiState = uiState,
         notes = notes,
+        state = state,
         onClickSetting = navigateToSetting,
         navigateToCreation = navigateToCreation,
         navigateToDetail = {
@@ -132,6 +136,7 @@ private fun HomeScreen(
     modifier: Modifier = Modifier,
     uiState: HomeState,
     notes: LazyPagingItems<Note>,
+    state: LazyGridState = rememberLazyGridState(),
     onClickSetting: () -> Unit,
     navigateToCreation: () -> Unit,
     navigateToDetail: (Note) -> Unit,
@@ -224,6 +229,7 @@ private fun HomeScreen(
 
                     else -> {
                         LazyVerticalGrid(
+                            state = state,
                             columns = GridCells.Fixed(2),
                             horizontalArrangement = Arrangement.spacedBy(12.dp),
                             verticalArrangement = Arrangement.spacedBy(12.dp),
