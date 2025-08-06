@@ -27,4 +27,8 @@ class NoteRemoteDataSourceImpl @Inject constructor(
     ): List<NoteDto> {
         return noteService.fetchNotes(userId = userId, from = from, to = to)
     }
+
+    override suspend fun deleteNote(noteId: String) {
+        return noteService.deleteNote(noteId)
+    }
 }

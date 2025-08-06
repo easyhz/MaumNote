@@ -9,4 +9,5 @@ interface NoteRemoteDataSource {
     suspend fun generateNote(request: GptRequest): Result<GptResponse>
     suspend fun insertNote(noteDto: NoteDto)
     suspend fun fetchNotes(userId: String, from: Long, to: Long): List<NoteDto>
+    suspend fun deleteNote(noteId: String)
 }
