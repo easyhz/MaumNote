@@ -21,6 +21,7 @@ import com.maum.note.R
 import com.maum.note.core.designSystem.component.board.AuthorWithTime
 import com.maum.note.core.designSystem.extension.modifier.singleClickable
 import com.maum.note.core.model.board.Post
+import com.maum.note.core.model.board.PostViewType
 import com.maum.note.ui.theme.AppTypography
 import com.maum.note.ui.theme.FilledIconDisabled
 import com.maum.note.ui.theme.MainBackground
@@ -32,6 +33,7 @@ import java.time.LocalDateTime
 fun PostSection(
     modifier: Modifier = Modifier,
     post: Post,
+    type: PostViewType,
     onClick: (() -> Unit)?
 ) {
     Column(
@@ -49,13 +51,14 @@ fun PostSection(
             Text(
                 text = post.title,
                 style = AppTypography.body1_semiBold,
-                maxLines = 1,
+                maxLines = type.titleMaxLine,
                 overflow = TextOverflow.Ellipsis
             )
+            if(post.content.isBlank()) return@Column
             Text(
                 text = post.content,
                 style = AppTypography.body1_regular,
-                maxLines = 3,
+                maxLines = type.contentMaxLine,
                 overflow = TextOverflow.Ellipsis
             )
         }
@@ -124,6 +127,7 @@ private fun PostSectionPreview() {
                 commentCount = 10,
                 createdAt = LocalDateTime.now()
             ),
+            type = PostViewType.OVERVIEW,
             onClick = {}
         )
 
@@ -138,6 +142,7 @@ private fun PostSectionPreview() {
                 commentCount = 10032342,
                 createdAt = LocalDateTime.now()
             ),
+            type = PostViewType.DETAIL,
             onClick = {}
         )
     }

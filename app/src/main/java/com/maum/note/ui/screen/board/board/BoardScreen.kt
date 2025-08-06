@@ -54,6 +54,7 @@ import com.maum.note.core.designSystem.component.section.ad.AdSection
 import com.maum.note.core.designSystem.component.section.board.PostSection
 import com.maum.note.core.designSystem.component.topbar.HomeTopBar
 import com.maum.note.core.model.board.Post
+import com.maum.note.core.model.board.PostViewType
 import com.maum.note.core.model.setting.AdContent
 import com.maum.note.ui.screen.board.board.contract.BoardSideEffect
 import com.maum.note.ui.screen.board.board.contract.BoardState
@@ -213,6 +214,7 @@ private fun BoardScreen(
                                     PostSection(
                                         modifier = Modifier.animateItem(),
                                         post = post,
+                                        type = PostViewType.OVERVIEW,
                                         onClick = {
                                             onClickPost(post)
                                         }

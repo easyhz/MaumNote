@@ -39,6 +39,7 @@ import com.maum.note.core.designSystem.component.topbar.TopBarIcon
 import com.maum.note.core.designSystem.component.topbar.TopBarText
 import com.maum.note.core.designSystem.extension.modifier.noRippleClickable
 import com.maum.note.core.model.board.Comment
+import com.maum.note.core.model.board.PostViewType
 import com.maum.note.ui.screen.board.post.detail.contract.PostDetailSideEffect
 import com.maum.note.ui.screen.board.post.detail.contract.PostDetailState
 import com.maum.note.ui.screen.board.post.detail.model.MoreBottomSheet
@@ -158,6 +159,7 @@ private fun PostDetailScreen(
                 if (uiState.post == null) return@item
                 PostSection(
                     post = uiState.post,
+                    type = PostViewType.DETAIL,
                     onClick = null
                 )
                 Box(modifier = Modifier
