@@ -1,0 +1,13 @@
+<resources>
+    <string name="report_title">신고하기</string>
+    <string name="report_submit">제출</string>
+    <string name="report_reason">신고 사유</string>
+    <string name="report_reason_placeholder">신고 사유를 입력해주세요.</string>
+    <string name="report_info">
+        신고 내용은 24시간 모니터링되고 있어요.
+        \n빠른 확인과 조치를 위해 노력하겠습니다.
+    </string>
+
+    <string name="report_dialog_title">신고 완료</string>
+    <string name="report_dialog_content">신고 내용을 확인했어요.\n최대 24시간 안에 처리될 예정이에요.</string>
+</resources>
