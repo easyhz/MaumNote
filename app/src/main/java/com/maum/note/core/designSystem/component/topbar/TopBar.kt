@@ -1,5 +1,6 @@
 package com.maum.note.core.designSystem.component.topbar
 
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -8,6 +9,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -20,6 +22,8 @@ import com.maum.note.core.designSystem.extension.modifier.circleClickable
 import com.maum.note.core.designSystem.extension.modifier.noRippleClickable
 import com.maum.note.ui.theme.AppTypography
 import com.maum.note.ui.theme.MainText
+import com.maum.note.ui.theme.Placeholder
+import com.maum.note.ui.theme.Primary
 
 @Composable
 fun TopBar(
@@ -67,12 +71,16 @@ fun TopBarText(
     modifier: Modifier = Modifier,
     text: String,
     alignment: Alignment,
+    enabled: Boolean = true,
     color: Color = MainText,
     onClick: (() -> Unit)? = null,
 ) {
+    val color by animateColorAsState(
+        targetValue = if (enabled) color else Placeholder,
+    )
     Box(
         modifier = modifier
-            .circleClickable(onClick != null) { onClick?.invoke() },
+            .circleClickable(onClick != null && enabled) { onClick?.invoke() },
         contentAlignment = alignment
     ) {
         Text(

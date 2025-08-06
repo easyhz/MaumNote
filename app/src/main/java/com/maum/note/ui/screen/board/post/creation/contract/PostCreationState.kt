@@ -15,6 +15,7 @@ data class PostCreationState(
     val titleText: TextFieldValue,
     val contentText: TextFieldValue,
     val isAnonymous: Boolean,
+    val enabledButton: Boolean,
     val dialogMessage: DialogMessage?,
     val errorMessage: ErrorMessage?,
 ) : UiState() {
@@ -24,6 +25,7 @@ data class PostCreationState(
             titleText = TextFieldValue(""),
             contentText = TextFieldValue(""),
             isAnonymous = false,
+            enabledButton = false,
             dialogMessage = null,
             errorMessage = null,
         )

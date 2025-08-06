@@ -119,6 +119,7 @@ private fun PostCreationScreen(
                         modifier = it,
                         text = stringResource(id = R.string.board_creation_button),
                         alignment = Alignment.CenterEnd,
+                        enabled = uiState.enabledButton,
                         color = Primary,
                         onClick = onClickNext
                     )
