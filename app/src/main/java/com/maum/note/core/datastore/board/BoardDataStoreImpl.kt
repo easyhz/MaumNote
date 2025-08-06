@@ -17,7 +17,7 @@ class BoardDataStoreImpl @Inject constructor(
 
     override fun getAnonymousSettingFlow(): Flow<Boolean> {
         return dataStore.data.map { preferences ->
-            preferences[isAnonymousKey] == true
+            preferences[isAnonymousKey] != false
         }
     }
 
