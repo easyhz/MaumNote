@@ -16,6 +16,7 @@ import com.maum.note.core.designSystem.util.transition.exitSlide
 import com.maum.note.core.navigation.board.screen.Board
 import com.maum.note.core.navigation.board.screen.PostCreation
 import com.maum.note.core.navigation.board.screen.PostDetail
+import com.maum.note.core.navigation.report.navigateToReport
 import com.maum.note.core.navigation.setting.navigateToSetting
 import com.maum.note.ui.screen.board.board.BoardScreen
 import com.maum.note.ui.screen.board.post.creation.PostCreationScreen
@@ -66,7 +67,8 @@ fun NavGraphBuilder.boardGraph(
                     popUpTo(Board::class.java.name) { inclusive = false }
                 }
                 navController.navigateToBoard(navOptions)
-            }
+            },
+            navigateToReport = navController::navigateToReport
         )
     }
 }

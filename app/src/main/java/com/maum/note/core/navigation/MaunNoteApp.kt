@@ -14,6 +14,7 @@ import com.maum.note.core.navigation.home.homeGraph
 import com.maum.note.core.navigation.note.creation.noteCreationGraph
 import com.maum.note.core.navigation.note.detail.noteDetailGraph
 import com.maum.note.core.navigation.onboarding.onboardingGraph
+import com.maum.note.core.navigation.report.reportGraph
 import com.maum.note.core.navigation.setting.settingGraph
 import com.maum.note.core.navigation.splash.screen.Splash
 import com.maum.note.core.navigation.splash.splashGraph
@@ -57,6 +58,9 @@ fun MaumNoteApp(
             noteDetailGraph(navController = navController)
             boardGraph(
                 modifier = Modifier.padding(innerPadding),
+                navController = navController
+            )
+            reportGraph(
                 navController = navController
             )
         }

@@ -12,6 +12,7 @@ import com.maum.note.core.common.helper.resource.ResourceHelper
 import com.maum.note.core.designSystem.component.bottomSheet.BottomSheetType
 import com.maum.note.core.designSystem.util.dialog.BasicDialogButton
 import com.maum.note.core.designSystem.util.dialog.DialogMessage
+import com.maum.note.core.model.board.BoardReport
 import com.maum.note.core.model.board.Comment
 import com.maum.note.core.model.common.OwnerBottomSheet
 import com.maum.note.core.model.common.ViewerBottomSheet
@@ -164,7 +165,7 @@ class PostDetailViewModel @Inject constructor(
 
         when(item) {
             OwnerBottomSheet.DELETE -> { delete(targetId = targetId, moreBottomSheet = moreBottomSheet) }
-            ViewerBottomSheet.REPORT -> { }
+            ViewerBottomSheet.REPORT -> { report(targetId = targetId, moreBottomSheet = moreBottomSheet) }
         }
     }
 
@@ -223,7 +224,15 @@ class PostDetailViewModel @Inject constructor(
             is MoreBottomSheet.Post -> setPostDeleteDialog(targetId = targetId)
             is MoreBottomSheet.Comment -> setCommentDeleteDialog(targetId = targetId)
         }
+    }
 
+    private fun report(targetId: String, moreBottomSheet: MoreBottomSheet) {
+        val boardReport = when(moreBottomSheet) {
+            is MoreBottomSheet.Post -> BoardReport(postId = targetId, commentId = null)
+            is MoreBottomSheet.Comment -> BoardReport(postId = null, commentId = targetId)
+        }
+
+        navigateToReport(boardReport)
     }
 
     private fun setPostDeleteDialog(targetId: String) {
@@ -321,4 +330,7 @@ class PostDetailViewModel @Inject constructor(
         postSideEffect { PostDetailSideEffect.NavigateToBoard }
     }
 
+    private fun navigateToReport(boardReport: BoardReport) {
+        postSideEffect { PostDetailSideEffect.NavigateToReport(postId = boardReport.postId, commentId = boardReport.commentId) }
+    }
 }

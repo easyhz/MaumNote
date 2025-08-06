@@ -10,4 +10,8 @@ import com.maum.note.core.common.base.UiSideEffect
 sealed class PostDetailSideEffect : UiSideEffect() {
     data object NavigateUp: PostDetailSideEffect()
     data object NavigateToBoard: PostDetailSideEffect()
+    data class NavigateToReport(
+        val postId: String?,
+        val commentId: String?
+    ): PostDetailSideEffect()
 }
