@@ -13,7 +13,6 @@ import com.maum.note.core.designSystem.util.dialog.BasicDialogButton
 import com.maum.note.core.designSystem.util.dialog.DialogAction
 import com.maum.note.core.designSystem.util.dialog.DialogMessage
 import com.maum.note.core.model.user.UserStep
-import com.maum.note.domain.note.usecase.InsertNoteIfFirstLaunchUseCase
 import com.maum.note.domain.user.useacse.CheckUserStepUseCase
 import com.maum.note.domain.user.useacse.ClearUserSessionUseCase
 import com.maum.note.domain.user.useacse.SynchronizeUserUseCase
@@ -40,7 +39,6 @@ class SplashViewModel @Inject constructor(
     @Dispatcher(AppDispatchers.IO) private val ioDispatcher: CoroutineDispatcher,
     @Dispatcher(AppDispatchers.MAIN) private val mainDispatcher: CoroutineDispatcher,
     private val checkUserStepUseCase: CheckUserStepUseCase,
-    private val insertNoteIfFirstLaunchUseCase: InsertNoteIfFirstLaunchUseCase,
     private val clearUserSessionUseCase: ClearUserSessionUseCase,
     private val synchronizeUserUseCase: SynchronizeUserUseCase,
     private val resourceHelper: ResourceHelper,
@@ -51,7 +49,6 @@ class SplashViewModel @Inject constructor(
     private val tag = "SplashViewModel"
 
     init {
-        insertNoteIfFirstLaunch()
         checkAppStep()
     }
 
@@ -72,12 +69,6 @@ class SplashViewModel @Inject constructor(
     private suspend fun signOutAndDelete() {
         clearUserSessionUseCase.invoke(Unit).onFailure { e ->
             logger.e(tag, "signOutAndDelete: ${e.message}")
-        }
-    }
-
-    private fun insertNoteIfFirstLaunch() = viewModelScope.launch(ioDispatcher) {
-        insertNoteIfFirstLaunchUseCase.invoke(Unit).onFailure { e ->
-            logger.e(tag, "insertNoteIfFirstLaunch: ${e.message}")
         }
     }
 

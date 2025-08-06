@@ -9,6 +9,7 @@ import com.maum.note.domain.note.repository.NoteRepository
 import com.maum.note.domain.user.repository.UserRepository
 import javax.inject.Inject
 
+@Deprecated("CheckUserStepUseCase 에서 온보딩으로 이동하기 전에 삽입")
 class InsertNoteIfFirstLaunchUseCase @Inject constructor(
     private val userRepository: UserRepository,
     private val noteRepository: NoteRepository,
