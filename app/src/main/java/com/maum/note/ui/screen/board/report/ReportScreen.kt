@@ -34,10 +34,10 @@ import com.maum.note.core.designSystem.component.topbar.TopBarIcon
 import com.maum.note.core.designSystem.component.topbar.TopBarText
 import com.maum.note.core.designSystem.extension.modifier.noRippleClickable
 import com.maum.note.core.designSystem.util.textField.TextFieldType
+import com.maum.note.ui.screen.board.report.contract.ReportSideEffect
 import com.maum.note.ui.screen.board.report.contract.ReportState
 import com.maum.note.ui.theme.MainBackground
 import com.maum.note.ui.theme.Primary
-import com.maum.note.ui.theme.White
 
 /**
  * Date: 2025. 8. 6.
@@ -47,19 +47,23 @@ import com.maum.note.ui.theme.White
 @Composable
 fun ReportScreen(
     modifier: Modifier = Modifier,
-    viewModel: ReportViewModel = hiltViewModel()
+    viewModel: ReportViewModel = hiltViewModel(),
+    navigateUp: () -> Unit = { }
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     ReportScreen(
         modifier = modifier,
-        uiState = uiState
+        uiState = uiState,
+        navigateUp = navigateUp,
+        onClickNext = viewModel::onClickNext,
+        onValueChangeContent = viewModel::onValueChangeContent
     )
 
     viewModel.sideEffect.collectInSideEffectWithLifecycle { sideEffect ->
-//        when (sideEffect) {
-//
-//        }
+        when (sideEffect) {
+            is ReportSideEffect.NavigateUp -> navigateUp()
+        }
     }
 }
 
@@ -154,6 +158,8 @@ private fun ReportScreen(
 @Composable
 private fun ReportScreenPreview() {
     ReportScreen(
-        uiState = ReportState.init()
+        uiState = ReportState.init().copy(
+            isLoading = false
+        )
     )
 }
