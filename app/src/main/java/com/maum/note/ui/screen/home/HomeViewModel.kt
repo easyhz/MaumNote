@@ -8,8 +8,11 @@ import com.maum.note.core.common.analytics.event.HomeAnalyticsEvent
 import com.maum.note.core.common.base.BaseViewModel
 import com.maum.note.core.common.di.dispatcher.AppDispatchers
 import com.maum.note.core.common.di.dispatcher.Dispatcher
+import com.maum.note.core.common.helper.log.Logger
 import com.maum.note.core.common.helper.resource.ResourceHelper
 import com.maum.note.core.model.note.Note
+import com.maum.note.core.model.setting.AdContent
+import com.maum.note.domain.configuration.usecase.FetchConfigurationUseCase
 import com.maum.note.domain.configuration.usecase.ShouldNotificationPermissionUseCase
 import com.maum.note.domain.configuration.usecase.UpdateNotificationPermissionUseCase
 import com.maum.note.domain.note.usecase.FetchPagedNotesUseCase
@@ -19,6 +22,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 /**
@@ -29,10 +33,13 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     @Dispatcher(AppDispatchers.IO) private val ioDispatcher: CoroutineDispatcher,
+    @Dispatcher(AppDispatchers.MAIN) private val mainDispatcher: CoroutineDispatcher,
+    private val logger: Logger,
     private val fetchPagedNotesUseCase: FetchPagedNotesUseCase,
     private val resourceHelper: ResourceHelper,
     private val shouldNotificationPermissionUseCase: ShouldNotificationPermissionUseCase,
     private val updateNotificationPermissionUseCase: UpdateNotificationPermissionUseCase,
+    private val fetchConfigurationUseCase: FetchConfigurationUseCase,
 ) : BaseViewModel<HomeState, HomeSideEffect>(
     initialState = HomeState.init()
 ) {
@@ -46,6 +53,7 @@ class HomeViewModel @Inject constructor(
 
     private fun init() {
         checkNotificationPermission()
+        fetchConfiguration()
     }
 
     private fun checkNotificationPermission() {
@@ -54,6 +62,23 @@ class HomeViewModel @Inject constructor(
                 setState { copy(needNotificationPermission = it) }
             }.onFailure {
                 setState { copy(needNotificationPermission = true) }
+            }
+        }
+    }
+
+
+    private fun fetchConfiguration() {
+        viewModelScope.launch(ioDispatcher) {
+            fetchConfigurationUseCase.invoke(Unit).onSuccess { configuration ->
+                withContext(mainDispatcher) {
+                    setState {
+                        copy(configuration = configuration.toModel().let {
+                            it.copy(adContents = it.adContents.shuffled())
+                        })
+                    }
+                }
+            }.onFailure { error ->
+                logger.e("HomeViewModel", "Error fetching configuration: $error")
             }
         }
     }
@@ -82,5 +107,9 @@ class HomeViewModel @Inject constructor(
 
     fun logEventNoteSelected() {
         AnalyticsManager.logEvent(HomeAnalyticsEvent.NOTE_SELECTED)
+    }
+
+    fun onClickAd(adContent: AdContent) {
+        postSideEffect { HomeSideEffect.NavigateToUrl(adContent.directUrl) }
     }
 }

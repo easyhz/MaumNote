@@ -8,6 +8,7 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.ColorPainter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
@@ -16,15 +17,16 @@ import com.bumptech.glide.integration.compose.CrossFade
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.bumptech.glide.integration.compose.placeholder
-import com.maum.note.core.model.setting.BoardAdContent
+import com.maum.note.core.model.setting.AdContent
 import com.maum.note.ui.theme.MainBackground
 
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
-fun BoardAdSection(
+fun AdSection(
     modifier: Modifier = Modifier,
-    boardAdContents: List<BoardAdContent>,
-    onClick: (BoardAdContent) -> Unit,
+    adContents: List<AdContent>,
+    placeholderColor: Color = MainBackground,
+    onClick: (AdContent) -> Unit,
 ) {
     val pageCount = Int.MAX_VALUE
     val pagerState = rememberPagerState(
@@ -32,7 +34,7 @@ fun BoardAdSection(
         pageCount = { pageCount }
     )
 
-    if (boardAdContents.isEmpty()) return
+    if (adContents.isEmpty()) return
     Box(modifier = modifier.fillMaxWidth()) {
         HorizontalPager(
             state = pagerState,
@@ -40,17 +42,17 @@ fun BoardAdSection(
                 .fillMaxWidth()
                 .height(72.dp)
         ) { pageIndex ->
-            val actualIndex = pageIndex % boardAdContents.size
-            val content = boardAdContents.getOrNull(actualIndex) ?: boardAdContents.first()
+            val actualIndex = pageIndex % adContents.size
+            val content = adContents.getOrNull(actualIndex) ?: adContents.first()
 
             GlideImage(
                 model = content.imageUrl,
                 contentDescription = null,
-                loading = placeholder(ColorPainter(MainBackground)),
-                failure = placeholder(ColorPainter(MainBackground)),
+                loading = placeholder(ColorPainter(placeholderColor)),
+                failure = placeholder(ColorPainter(placeholderColor)),
                 contentScale = ContentScale.FillWidth,
                 transition = CrossFade,
-                modifier = Modifier.fillMaxWidth().clickable { onClick(content) }
+                modifier = Modifier.fillMaxWidth().clickable { onClick(content) },
             )
         }
     }
@@ -58,10 +60,10 @@ fun BoardAdSection(
 
 @Preview
 @Composable
-private fun BoardAdSectionPreview() {
-    BoardAdSection(
+private fun AdSectionPreview() {
+    AdSection(
         modifier = Modifier,
-        boardAdContents = listOf(),
+        adContents = listOf(),
         onClick = {}
     )
 }

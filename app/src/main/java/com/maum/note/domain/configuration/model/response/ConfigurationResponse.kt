@@ -15,6 +15,6 @@ data class ConfigurationResponse(
         androidVersion = androidVersion,
         notionUrl = notionUrl,
         maintenanceNotice = maintenanceNotice,
-        boardAdContents = boardAdContents.map { it.toModel() }
+        adContents = boardAdContents.map { it.toModel() }
     )
 }

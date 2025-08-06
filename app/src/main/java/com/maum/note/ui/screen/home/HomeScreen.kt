@@ -1,11 +1,13 @@
 package com.maum.note.ui.screen.home
 
+import android.content.Intent
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
@@ -15,6 +17,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
@@ -22,12 +25,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.core.net.toUri
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.PagingData
@@ -50,12 +55,15 @@ import com.maum.note.core.designSystem.component.loading.BottomLoadingIndicator
 import com.maum.note.core.designSystem.component.loading.FullLoadingIndicator
 import com.maum.note.core.designSystem.component.loading.PullToRefreshIndicator
 import com.maum.note.core.designSystem.component.scaffold.AppScaffold
+import com.maum.note.core.designSystem.component.section.ad.AdSection
 import com.maum.note.core.designSystem.component.topbar.HomeTopBar
 import com.maum.note.core.designSystem.util.notification.CheckNotification
 import com.maum.note.core.model.note.Note
+import com.maum.note.core.model.setting.AdContent
 import com.maum.note.ui.screen.home.contract.HomeSideEffect
 import com.maum.note.ui.screen.home.contract.HomeState
 import com.maum.note.ui.theme.LocalSnackBarHostState
+import com.maum.note.ui.theme.White
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import java.time.LocalDateTime
@@ -73,6 +81,7 @@ fun HomeScreen(
     navigateToCreation: () -> Unit,
     navigateToDetail: (Note) -> Unit,
 ) {
+    val context = LocalContext.current
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val notes = viewModel.notesFlow.collectAsLazyPagingItems()
     val clipboardManager = LocalClipboardManager.current
@@ -93,7 +102,8 @@ fun HomeScreen(
             viewModel.logEventNoteSelected()
             navigateToDetail(it)
         },
-        onClickCopy = viewModel::onClickCopyButton
+        onClickCopy = viewModel::onClickCopyButton,
+        onClickAd = { }
     )
 
     viewModel.sideEffect.collectInSideEffectWithLifecycle { sideEffect ->
@@ -106,6 +116,11 @@ fun HomeScreen(
 
             is HomeSideEffect.CopyToClipboard -> {
                 clipboardManager.setText(AnnotatedString(sideEffect.result))
+            }
+
+            is HomeSideEffect.NavigateToUrl -> {
+                val intent = Intent(Intent.ACTION_VIEW, sideEffect.url.toUri())
+                context.startActivity(intent)
             }
         }
     }
@@ -121,6 +136,7 @@ private fun HomeScreen(
     navigateToCreation: () -> Unit,
     navigateToDetail: (Note) -> Unit,
     onClickCopy: (Note) -> Unit,
+    onClickAd: (AdContent) -> Unit
 ) {
     val pullRefreshState = rememberPullToRefreshState()
     val context = LocalContext.current
@@ -170,20 +186,40 @@ private fun HomeScreen(
                     }
 
                     states.isInitialError -> {
-                        ErrorView(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .fillMaxHeight(0.6f),
-                            onClick = notes::retry
-                        )
+                        Column(
+                            modifier = Modifier.padding(horizontal = 12.dp)
+                        ) {
+                            AdSection(
+                                modifier = Modifier.clip(RoundedCornerShape(12.dp)),
+                                adContents = uiState.configuration.adContents,
+                                placeholderColor = White,
+                                onClick = onClickAd
+                            )
+                            ErrorView(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .fillMaxHeight(0.6f),
+                                onClick = notes::retry
+                            )
+                        }
                     }
 
                     states.isEmpty -> {
-                        EmptyView(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .fillMaxHeight(0.6f)
-                        )
+                        Column(
+                            modifier = Modifier.padding(horizontal = 12.dp)
+                        ) {
+                            AdSection(
+                                modifier = Modifier.clip(RoundedCornerShape(8.dp)),
+                                adContents = uiState.configuration.adContents,
+                                placeholderColor = White,
+                                onClick = onClickAd
+                            )
+                            EmptyView(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .fillMaxHeight(0.6f)
+                            )
+                        }
                     }
 
                     else -> {
@@ -198,6 +234,14 @@ private fun HomeScreen(
                                 bottom = 80.dp
                             )
                         ) {
+                            item(span = { GridItemSpan(2)} ) {
+                                AdSection(
+                                    modifier = Modifier.clip(RoundedCornerShape(12.dp)),
+                                    adContents = uiState.configuration.adContents,
+                                    placeholderColor = White,
+                                    onClick = onClickAd
+                                )
+                            }
                             items(notes.itemCount, key = notes.itemKey()) { index ->
                                 notes[index]?.let { note ->
                                     NoteCard(
@@ -254,5 +298,6 @@ private fun HomeScreenPreview() {
         navigateToCreation = { },
         navigateToDetail = { },
         onClickCopy = { },
+        onClickAd = { }
     )
 }

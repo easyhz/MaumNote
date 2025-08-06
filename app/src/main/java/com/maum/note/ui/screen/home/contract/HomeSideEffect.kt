@@ -10,4 +10,5 @@ import com.maum.note.core.common.base.UiSideEffect
 sealed class HomeSideEffect : UiSideEffect() {
     data class ShowSnackBar(val message: String) : HomeSideEffect()
     data class CopyToClipboard(val result: String) : HomeSideEffect()
+    data class NavigateToUrl(val url: String) : HomeSideEffect()
 }

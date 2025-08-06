@@ -6,7 +6,7 @@ import com.maum.note.core.common.base.BaseViewModel
 import com.maum.note.core.common.di.dispatcher.AppDispatchers
 import com.maum.note.core.common.di.dispatcher.Dispatcher
 import com.maum.note.core.common.helper.log.Logger
-import com.maum.note.core.model.setting.BoardAdContent
+import com.maum.note.core.model.setting.AdContent
 import com.maum.note.domain.board.usecase.post.FetchPagesPostsUseCase
 import com.maum.note.domain.configuration.usecase.FetchConfigurationUseCase
 import com.maum.note.ui.screen.board.board.contract.BoardSideEffect
@@ -41,8 +41,8 @@ class BoardViewModel @Inject constructor(
         fetchConfiguration()
     }
 
-    fun onClickAd(boardAdContent: BoardAdContent) {
-        postSideEffect { BoardSideEffect.NavigateToUrl(boardAdContent.directUrl) }
+    fun onClickAd(adContent: AdContent) {
+        postSideEffect { BoardSideEffect.NavigateToUrl(adContent.directUrl) }
     }
 
     private fun fetchConfiguration() {
@@ -51,7 +51,7 @@ class BoardViewModel @Inject constructor(
                 withContext(mainDispatcher) {
                     setState {
                         copy(configuration = configuration.toModel().let {
-                            it.copy(boardAdContents = it.boardAdContents.shuffled())
+                            it.copy(adContents = it.adContents.shuffled())
                         })
                     }
                 }

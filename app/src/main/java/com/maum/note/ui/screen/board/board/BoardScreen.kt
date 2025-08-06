@@ -15,13 +15,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.grid.GridItemSpan
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
-import androidx.compose.material3.pulltorefresh.PullToRefreshDefaults.Indicator
-import androidx.compose.material3.pulltorefresh.pullToRefresh
 import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -34,7 +30,6 @@ import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
@@ -53,18 +48,15 @@ import com.maum.note.core.designSystem.component.loading.BottomLoadingIndicator
 import com.maum.note.core.designSystem.component.loading.FullLoadingIndicator
 import com.maum.note.core.designSystem.component.loading.PullToRefreshIndicator
 import com.maum.note.core.designSystem.component.scaffold.AppScaffold
-import com.maum.note.core.designSystem.component.section.ad.BoardAdSection
+import com.maum.note.core.designSystem.component.section.ad.AdSection
 import com.maum.note.core.designSystem.component.section.board.PostSection
 import com.maum.note.core.designSystem.component.topbar.HomeTopBar
 import com.maum.note.core.model.board.Post
-import com.maum.note.core.model.setting.BoardAdContent
+import com.maum.note.core.model.setting.AdContent
 import com.maum.note.ui.screen.board.board.contract.BoardSideEffect
 import com.maum.note.ui.screen.board.board.contract.BoardState
 import com.maum.note.ui.theme.AppTypography
 import com.maum.note.ui.theme.MainText
-import com.maum.note.ui.theme.NoteBackground
-import com.maum.note.ui.theme.Primary
-import com.maum.note.ui.theme.SubBackground
 import com.maum.note.ui.theme.White
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
@@ -117,7 +109,7 @@ private fun BoardScreen(
     posts: LazyPagingItems<Post>,
     onClickSetting: () -> Unit = { },
     onClickFab: () -> Unit = { },
-    onClickAd: (BoardAdContent) -> Unit = { },
+    onClickAd: (AdContent) -> Unit = { },
     onClickPost: (Post) -> Unit = { },
 ) {
     val pullRefreshState = rememberPullToRefreshState()
@@ -172,8 +164,8 @@ private fun BoardScreen(
 
                     states.isInitialError -> {
                         Column {
-                            BoardAdSection(
-                                boardAdContents = uiState.configuration.boardAdContents,
+                            AdSection(
+                                adContents = uiState.configuration.adContents,
                                 onClick = onClickAd
                             )
                             ErrorView(
@@ -187,8 +179,8 @@ private fun BoardScreen(
 
                     states.isEmpty -> {
                         Column {
-                            BoardAdSection(
-                                boardAdContents = uiState.configuration.boardAdContents,
+                            AdSection(
+                                adContents = uiState.configuration.adContents,
                                 onClick = onClickAd
                             )
                             EmptyView(
@@ -205,8 +197,8 @@ private fun BoardScreen(
                             contentPadding = PaddingValues(bottom = 80.dp)
                         ) {
                             item {
-                                BoardAdSection(
-                                    boardAdContents = uiState.configuration.boardAdContents,
+                                AdSection(
+                                    adContents = uiState.configuration.adContents,
                                     onClick = onClickAd
                                 )
                             }
