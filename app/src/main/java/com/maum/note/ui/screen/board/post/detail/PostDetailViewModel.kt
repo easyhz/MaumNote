@@ -30,6 +30,7 @@ import com.maum.note.ui.screen.board.post.detail.contract.PostDetailState
 import com.maum.note.ui.screen.board.post.detail.model.MoreBottomSheet
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
@@ -153,7 +154,15 @@ class PostDetailViewModel @Inject constructor(
             }
             fetchAll()
         }
+    }
 
+    fun refresh() {
+        viewModelScope.launch {
+            setState { copy(isRefreshing = true) }
+            fetchAll()
+            delay(100)
+            setState { copy(isRefreshing = false) }
+        }
     }
 
     fun hideMoreBottomSheet() {

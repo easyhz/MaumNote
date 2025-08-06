@@ -3,6 +3,7 @@ package com.maum.note.ui.screen.board.post.detail
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
@@ -10,6 +11,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
+import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -30,6 +33,7 @@ import com.maum.note.core.designSystem.component.bottomSheet.BottomSheetType
 import com.maum.note.core.designSystem.component.bottomSheet.ListBottomSheet
 import com.maum.note.core.designSystem.component.dialog.BasicDialog
 import com.maum.note.core.designSystem.component.loading.FullLoadingIndicator
+import com.maum.note.core.designSystem.component.loading.PullToRefreshIndicator
 import com.maum.note.core.designSystem.component.scaffold.AppScaffold
 import com.maum.note.core.designSystem.component.section.board.CommentSection
 import com.maum.note.core.designSystem.component.section.board.PostSection
@@ -39,11 +43,13 @@ import com.maum.note.core.designSystem.component.topbar.TopBarIcon
 import com.maum.note.core.designSystem.component.topbar.TopBarText
 import com.maum.note.core.designSystem.extension.modifier.noRippleClickable
 import com.maum.note.core.model.board.Comment
+import com.maum.note.core.model.board.Post
 import com.maum.note.core.model.board.PostViewType
 import com.maum.note.ui.screen.board.post.detail.contract.PostDetailSideEffect
 import com.maum.note.ui.screen.board.post.detail.contract.PostDetailState
 import com.maum.note.ui.screen.board.post.detail.model.MoreBottomSheet
 import com.maum.note.ui.theme.White
+import java.time.LocalDateTime
 
 /**
  * Date: 2025. 7. 26.
@@ -72,7 +78,8 @@ fun PostDetailScreen(
         onClickAnonymous = viewModel::onClickAnonymous,
         onClickSend = viewModel::onClickSend,
         hideMoreBottomSheet = viewModel::hideMoreBottomSheet,
-        onClickBottomSheetItem = viewModel::onClickBottomSheetItem
+        onClickBottomSheetItem = viewModel::onClickBottomSheetItem,
+        refresh = viewModel::refresh,
     )
 
     viewModel.sideEffect.collectInSideEffectWithLifecycle { sideEffect ->
@@ -98,8 +105,10 @@ private fun PostDetailScreen(
     onClickSend: () -> Unit = { },
     hideMoreBottomSheet: () -> Unit = { },
     onClickBottomSheetItem: (MoreBottomSheet, BottomSheetType) -> Unit = { _, _ -> },
+    refresh: () -> Unit = { },
 ) {
     val haptic = LocalHapticFeedback.current
+    val pullRefreshState = rememberPullToRefreshState()
 
     BackHandler {
         clearFocus()
@@ -152,33 +161,53 @@ private fun PostDetailScreen(
             )
         }
     ) { innerPadding ->
-        LazyColumn(
-            modifier = Modifier.padding(innerPadding),
+        PullToRefreshBox(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(innerPadding),
+            isRefreshing = uiState.isRefreshing,
+            onRefresh = refresh,
+            state = pullRefreshState,
+            indicator = {
+                PullToRefreshIndicator(
+                    modifier = Modifier.align(Alignment.TopCenter),
+                    state = pullRefreshState,
+                    isRefreshing = uiState.isRefreshing,
+                )
+            }
         ) {
-            item {
-                if (uiState.post == null) return@item
-                PostSection(
-                    post = uiState.post,
-                    type = PostViewType.DETAIL,
-                    onClick = null
-                )
-                Box(modifier = Modifier
-                    .height(8.dp)
-                    .fillMaxWidth())
+            LazyColumn(
+                modifier = Modifier.fillMaxSize(),
+            ) {
+                item {
+                    if (uiState.post == null) return@item
+                    PostSection(
+                        post = uiState.post,
+                        type = PostViewType.DETAIL,
+                        onClick = null
+                    )
+                    Box(
+                        modifier = Modifier
+                            .height(8.dp)
+                            .fillMaxWidth()
+                    )
+                }
+
+                items(uiState.comments) { item ->
+                    CommentSection(
+                        modifier = Modifier.animateItem(),
+                        comment = item,
+                        onClickMore = { onClickCommentMore(item) }
+                    )
+
+                    Box(
+                        modifier = Modifier
+                            .height(1.dp)
+                            .fillMaxWidth()
+                    )
+                }
+
             }
-
-            items(uiState.comments) { item ->
-                CommentSection(
-                    modifier = Modifier.animateItem(),
-                    comment = item,
-                    onClickMore = { onClickCommentMore(item) }
-                )
-
-                Box(modifier = Modifier
-                    .height(1.dp)
-                    .fillMaxWidth())
-            }
-
         }
 
         uiState.dialogMessage?.let { dialog ->
@@ -201,7 +230,7 @@ private fun PostDetailScreen(
     }
 
     FullLoadingIndicator(
-        isLoading = uiState.isLoading
+        isLoading = uiState.isLoading && !uiState.isRefreshing
     )
 
 }
@@ -210,7 +239,58 @@ private fun PostDetailScreen(
 @Composable
 private fun PostDetailScreenPreview() {
     PostDetailScreen(
-        uiState = PostDetailState.init(),
+        uiState = PostDetailState.init().copy(
+            isLoading = false,
+            post = Post(
+                id = "3",
+                title = "title",
+                content = "content",
+                userNickname = "ㅇㅇ",
+                userId = "sdf",
+                isAnonymous = false,
+                commentCount = 3,
+                createdAt = LocalDateTime.now(),
+            ),
+            comments = listOf(
+                Comment(
+                    id = "324",
+                    postId = "3",
+                    content = "234",
+                    userNickname = "324",
+                    userId = "23f",
+                    parentId = null,
+                    isAnonymous = true,
+                    createdAt = LocalDateTime.now()
+                ), Comment(
+                    id = "34",
+                    postId = "3",
+                    content = "234",
+                    userNickname = "324",
+                    userId = "23f",
+                    parentId = null,
+                    isAnonymous = true,
+                    createdAt = LocalDateTime.now()
+                ), Comment(
+                    id = "32433",
+                    postId = "3",
+                    content = "234",
+                    userNickname = "324",
+                    userId = "23f",
+                    parentId = null,
+                    isAnonymous = true,
+                    createdAt = LocalDateTime.now()
+                ), Comment(
+                    id = "32434",
+                    postId = "3",
+                    content = "234",
+                    userNickname = "324",
+                    userId = "23f",
+                    parentId = null,
+                    isAnonymous = true,
+                    createdAt = LocalDateTime.now()
+                )
+            )
+        ),
         clearFocus = { },
         navigateUp = { }
     )

@@ -22,7 +22,8 @@ data class PostDetailState(
     val isAnonymous: Boolean,
     val dialogMessage: DialogMessage?,
     val errorMessage: ErrorMessage?,
-    val moreBottomSheet: MoreBottomSheet?
+    val moreBottomSheet: MoreBottomSheet?,
+    val isRefreshing: Boolean,
 ) : UiState() {
     companion object {
         fun init(): PostDetailState = PostDetailState(
@@ -35,6 +36,7 @@ data class PostDetailState(
             dialogMessage = null,
             errorMessage = null,
             moreBottomSheet = null,
+            isRefreshing = false,
         )
     }
 }
