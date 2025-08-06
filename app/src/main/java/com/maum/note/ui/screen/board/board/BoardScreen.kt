@@ -15,6 +15,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
@@ -78,11 +80,13 @@ fun BoardScreen(
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val posts = viewModel.postsFlow.collectAsLazyPagingItems()
     val context = LocalContext.current
+    val state: LazyListState = rememberLazyListState()
 
     BoardScreen(
         modifier = modifier,
         uiState = uiState,
         posts = posts,
+        state = state,
         onClickSetting = navigateToSetting,
         onClickFab = navigateToCreation,
         onClickAd = viewModel::onClickAd,
@@ -107,6 +111,7 @@ private fun BoardScreen(
     modifier: Modifier = Modifier,
     uiState: BoardState,
     posts: LazyPagingItems<Post>,
+    state: LazyListState = rememberLazyListState(),
     onClickSetting: () -> Unit = { },
     onClickFab: () -> Unit = { },
     onClickAd: (AdContent) -> Unit = { },
@@ -194,6 +199,7 @@ private fun BoardScreen(
 
                     else -> {
                         LazyColumn(
+                            state = state,
                             contentPadding = PaddingValues(bottom = 80.dp)
                         ) {
                             item {

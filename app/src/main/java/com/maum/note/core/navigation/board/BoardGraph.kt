@@ -60,7 +60,13 @@ fun NavGraphBuilder.boardGraph(
         )
     ) {
         PostDetailScreen(
-            navigateUp = navController::navigateUp
+            navigateUp = navController::navigateUp,
+            navigateToBoard = {
+                val navOptions = navOptions {
+                    popUpTo(Board::class.java.name) { inclusive = false }
+                }
+                navController.navigateToBoard(navOptions)
+            }
         )
     }
 }
