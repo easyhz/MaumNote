@@ -54,6 +54,7 @@ fun PostDetailScreen(
     modifier: Modifier = Modifier,
     viewModel: PostDetailViewModel = hiltViewModel(),
     navigateUp: () -> Unit,
+    navigateToBoard: () -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val focusManager = LocalFocusManager.current
@@ -75,6 +76,7 @@ fun PostDetailScreen(
     viewModel.sideEffect.collectInSideEffectWithLifecycle { sideEffect ->
         when (sideEffect) {
             is PostDetailSideEffect.NavigateUp -> navigateUp()
+            is PostDetailSideEffect.NavigateToBoard -> navigateToBoard()
         }
     }
 }

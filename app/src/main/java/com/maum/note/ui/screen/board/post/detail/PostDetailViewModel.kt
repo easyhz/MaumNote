@@ -3,10 +3,15 @@ package com.maum.note.ui.screen.board.post.detail
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
+import com.maum.note.R
 import com.maum.note.core.common.base.BaseViewModel
 import com.maum.note.core.common.di.dispatcher.AppDispatchers
 import com.maum.note.core.common.di.dispatcher.Dispatcher
+import com.maum.note.core.common.error.handleError
+import com.maum.note.core.common.helper.resource.ResourceHelper
 import com.maum.note.core.designSystem.component.bottomSheet.BottomSheetType
+import com.maum.note.core.designSystem.util.dialog.BasicDialogButton
+import com.maum.note.core.designSystem.util.dialog.DialogMessage
 import com.maum.note.core.model.board.Comment
 import com.maum.note.core.model.common.OwnerBottomSheet
 import com.maum.note.core.model.common.ViewerBottomSheet
@@ -39,6 +44,7 @@ import javax.inject.Inject
 class PostDetailViewModel @Inject constructor(
     @Dispatcher(AppDispatchers.IO) private val ioDispatcher: CoroutineDispatcher,
     @Dispatcher(AppDispatchers.MAIN) private val mainDispatcher: CoroutineDispatcher,
+    private val resourceHelper: ResourceHelper,
     private val getCurrentUserUseCase: GetCurrentUserUseCase,
     private val savedStateHandle: SavedStateHandle,
     private val fetchPostUseCase: FetchPostUseCase,
@@ -140,7 +146,7 @@ class PostDetailViewModel @Inject constructor(
             createCommentUseCase.invoke(param).onSuccess {
                 setState { copy(commentText = TextFieldValue("")) }
             }.onFailure {
-                // ERROR 처리
+                setErrorDialog(it)
             }.also {
                 setLoading(false)
             }
@@ -172,7 +178,7 @@ class PostDetailViewModel @Inject constructor(
                     setState { copy(post = it) }
                 }
             }.onFailure {
-                // ERROR 처리
+                setErrorDialog(it)
             }.also {
                 setLoading(false)
             }
@@ -189,8 +195,8 @@ class PostDetailViewModel @Inject constructor(
                     setState { copy(comments = it) }
                 }
             }.onFailure {
-                // ERROR 처리
                 it.printStackTrace()
+                setErrorDialog(it)
             }.also {
                 setLoading(false)
             }
@@ -214,42 +220,105 @@ class PostDetailViewModel @Inject constructor(
 
     private fun delete(targetId: String, moreBottomSheet: MoreBottomSheet) {
         when(moreBottomSheet) {
-            is MoreBottomSheet.Post -> deletePost(targetId = targetId)
-            is MoreBottomSheet.Comment -> deleteComment(targetId = targetId)
+            is MoreBottomSheet.Post -> setPostDeleteDialog(targetId = targetId)
+            is MoreBottomSheet.Comment -> setCommentDeleteDialog(targetId = targetId)
         }
 
+    }
+
+    private fun setPostDeleteDialog(targetId: String) {
+        setDialog(
+            message = DialogMessage(
+                title = resourceHelper.getString(R.string.board_detail_post_delete_title),
+                message = resourceHelper.getString(R.string.board_detail_post_delete_content),
+                positiveButton = BasicDialogButton.delete(
+                    text = resourceHelper.getString(R.string.dialog_delete_positive),
+                    onClick = {
+                        hideDialog()
+                        deletePost(targetId)
+                    }
+                ),
+                negativeButton = BasicDialogButton.cancel(
+                    text = resourceHelper.getString(R.string.dialog_delete_negative),
+                    onClick = ::hideDialog
+                )
+            )
+        )
+    }
+
+    private fun setCommentDeleteDialog(targetId: String) {
+        setDialog(
+            message = DialogMessage(
+                title = resourceHelper.getString(R.string.board_detail_comment_delete_title),
+                message = resourceHelper.getString(R.string.board_detail_comment_delete_content),
+                positiveButton = BasicDialogButton.delete(
+                    text = resourceHelper.getString(R.string.dialog_delete_positive),
+                    onClick = {
+                        hideDialog()
+                        deleteComment(targetId)
+                    }
+                ),
+                negativeButton = BasicDialogButton.cancel(
+                    text = resourceHelper.getString(R.string.dialog_delete_negative),
+                    onClick = ::hideDialog
+                )
+            )
+        )
     }
 
     private fun deletePost(
         targetId: String
     ) {
         viewModelScope.launch {
+            setLoading(true)
             deletePostUseCase.invoke(param = targetId).onSuccess {
-                // TODO 어떻게 처리 할지 고민
-                navigateUp()
+                navigateToBoard()
             }.onFailure {
-                // TODO ERROR 처리
                 it.printStackTrace()
+                setErrorDialog(it)
             }
+            setLoading(false)
         }
     }
 
     private fun deleteComment(
         targetId: String
     ) {
-        println("deleteComment $targetId")
         viewModelScope.launch {
+            setLoading(true)
             deleteCommentUseCase.invoke(param = targetId).onSuccess {
                 fetchAll()
             }.onFailure {
-                // TODO ERROR 처리
                 it.printStackTrace()
+                setErrorDialog(it)
             }
+            setLoading(false)
         }
     }
 
-    private fun report() {
+    private fun setErrorDialog(error: Throwable) {
+        setDialog(
+            message = DialogMessage(
+                title = resourceHelper.getString(R.string.error_dialog_title),
+                message = resourceHelper.getString(error.handleError()),
+                positiveButton = BasicDialogButton.default(
+                    text = resourceHelper.getString(R.string.dialog_delete_positive),
+                    onClick = ::hideDialog
+                )
+            )
+        )
+    }
 
+    private fun setDialog(message: DialogMessage?) {
+        setState { copy(dialogMessage = message) }
+    }
+
+    private fun hideDialog() {
+        setDialog(null)
+    }
+
+    private fun navigateToBoard() {
+        postSideEffect { PostDetailSideEffect.NavigateToBoard }
     }
 
 }
