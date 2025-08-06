@@ -27,4 +27,16 @@ class NoteServiceImpl @Inject constructor(
             range(from = from, to = to)
         }.decodeList()
     }
+
+    override suspend fun deleteNote(noteId: String) {
+        postgrest.from(Table.NOTES.name).update(
+            {
+                set(Table.NOTES.IS_DELETED, true)
+            }
+        ) {
+            filter {
+                eq(Table.NOTES.ID, noteId)
+            }
+        }
+    }
 }
