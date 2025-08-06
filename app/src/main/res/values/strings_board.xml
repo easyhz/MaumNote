@@ -20,4 +20,9 @@
 
     <string name="board_detail_comment">댓글</string>
     <string name="board_detail_comment_placeholder">댓글을 입력하세요</string>
+
+    <string name="board_detail_post_delete_title">게시글을 삭제할까요?</string>
+    <string name="board_detail_post_delete_content">삭제된 게시글은 복구할 수 없어요.</string>
+    <string name="board_detail_comment_delete_title">댓글을 삭제할까요?</string>
+    <string name="board_detail_comment_delete_content">삭제한 댓글은 복구할 수 없어요.</string>
 </resources>

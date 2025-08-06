@@ -77,6 +77,9 @@
 
     <string name="note_copy_success">클립보드에 복사되었어요</string>
 
+    <string name="note_delete_dialog_title">노트를 삭제할까요?</string>
+    <string name="note_delete_dialog_content">삭제된 노트는 복구할 수 없어요.</string>
+
 
 
 </resources>
