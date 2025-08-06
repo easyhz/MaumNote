@@ -62,4 +62,13 @@ sealed class Table(val name: String) {
         const val ANNOUNCEMENT_CONTENT = "announcement_content"
         const val CREATED_AT = "created_at"
     }
+
+    object REPORTS : Table("REPORTS") {
+        const val ID = "id"
+        const val USER_ID = "user_id"
+        const val CONTENT = "content"
+        const val POST_ID = "post_id"
+        const val COMMENT_ID = "comment_id"
+        const val CREATED_AT = "created_at"
+    }
 }
