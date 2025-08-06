@@ -1,6 +1,8 @@
 package com.maum.note.core.common.util
 
 import com.github.f4b6a3.uuid.UuidCreator
+import kotlinx.datetime.Clock
+import kotlinx.datetime.Instant
 
 object Generate {
     fun randomUUIDv7() = UuidCreator.getTimeOrderedEpoch().toString()
@@ -10,6 +12,10 @@ object Generate {
         val noun = nouns.randomOrNull() ?: "유저"
         val suffix = generateRandomAlphanumeric(length)
         return "$adjective$noun$suffix"
+    }
+
+    fun now(): Instant {
+        return Clock.System.now()
     }
 
     private val adjectives = listOf(
