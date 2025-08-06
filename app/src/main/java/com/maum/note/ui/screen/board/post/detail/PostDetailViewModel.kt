@@ -302,7 +302,7 @@ class PostDetailViewModel @Inject constructor(
                 title = resourceHelper.getString(R.string.error_dialog_title),
                 message = resourceHelper.getString(error.handleError()),
                 positiveButton = BasicDialogButton.default(
-                    text = resourceHelper.getString(R.string.dialog_delete_positive),
+                    text = resourceHelper.getString(R.string.dialog_positive_button),
                     onClick = ::hideDialog
                 )
             )

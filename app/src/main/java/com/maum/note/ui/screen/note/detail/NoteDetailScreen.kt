@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -23,12 +24,16 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.maum.note.R
 import com.maum.note.core.common.util.collect.collectInSideEffectWithLifecycle
 import com.maum.note.core.common.util.date.toDisplayDate
+import com.maum.note.core.designSystem.component.bottomSheet.ListBottomSheet
 import com.maum.note.core.designSystem.component.button.MainButton
+import com.maum.note.core.designSystem.component.dialog.BasicDialog
+import com.maum.note.core.designSystem.component.loading.FullLoadingIndicator
 import com.maum.note.core.designSystem.component.scaffold.AppScaffold
 import com.maum.note.core.designSystem.component.section.DetailSection
 import com.maum.note.core.designSystem.component.topbar.TopBar
 import com.maum.note.core.designSystem.component.topbar.TopBarIcon
 import com.maum.note.core.designSystem.component.topbar.TopBarText
+import com.maum.note.core.model.common.OwnerBottomSheet
 import com.maum.note.core.model.note.NoteDetailType
 import com.maum.note.core.model.note.NoteType
 import com.maum.note.ui.screen.note.detail.contract.NoteDetailSideEffect
@@ -46,6 +51,7 @@ fun NoteDetailScreen(
     modifier: Modifier = Modifier,
     viewModel: NoteDetailViewModel = hiltViewModel(),
     navigateUp: () -> Unit,
+    navigateToHome: () -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val clipboardManager = LocalClipboardManager.current
@@ -55,12 +61,16 @@ fun NoteDetailScreen(
         modifier = modifier,
         uiState = uiState,
         navigateUp = navigateUp,
-        onClickCopyButton = viewModel::onClickCopyButton
+        onClickCopyButton = viewModel::onClickCopyButton,
+        onClickMore = viewModel::onClickMore,
+        hideBottomSheet = viewModel::hideBottomSheet,
+        onClickBottomSheetItem = viewModel::onClickBottomSheetItem,
     )
 
     viewModel.sideEffect.collectInSideEffectWithLifecycle { sideEffect ->
         when (sideEffect) {
             is NoteDetailSideEffect.NavigateUp -> navigateUp()
+            is NoteDetailSideEffect.NavigateToHome -> navigateToHome()
             is NoteDetailSideEffect.CopyToClipboard -> {
                 clipboardManager.setText(AnnotatedString(sideEffect.text))
             }
@@ -74,12 +84,16 @@ fun NoteDetailScreen(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun NoteDetailScreen(
     modifier: Modifier = Modifier,
     uiState: NoteDetailState,
     navigateUp: () -> Unit,
     onClickCopyButton: () -> Unit,
+    onClickMore: () -> Unit,
+    hideBottomSheet: () -> Unit,
+    onClickBottomSheetItem: (OwnerBottomSheet) -> Unit,
 ) {
     AppScaffold(
         modifier = modifier,
@@ -99,7 +113,15 @@ private fun NoteDetailScreen(
                         text = stringResource(R.string.note_detail_title),
                         alignment = Alignment.Center,
                     )
-                }
+                },
+                rightContent = {
+                    TopBarIcon(
+                        modifier = it,
+                        painter = painterResource(R.drawable.ic_more_small_trailing),
+                        alignment = Alignment.CenterEnd,
+                        onClick = onClickMore
+                    )
+                },
             )
         },
         bottomBar = {
@@ -132,7 +154,29 @@ private fun NoteDetailScreen(
                 Box(modifier = Modifier.height(20.dp))
             }
         }
+
+        uiState.dialogMessage?.let { dialog ->
+            BasicDialog(
+                title = dialog.title,
+                content = dialog.message,
+                positiveButton = dialog.positiveButton,
+                negativeButton = dialog.negativeButton
+            )
+        }
+
+        if (uiState.isShowBottomSheet) {
+            ListBottomSheet(
+                items = OwnerBottomSheet.entries,
+                title = stringResource(R.string.note_detail_bottom_sheet_title),
+                onDismissRequest = hideBottomSheet,
+                onClick = { onClickBottomSheetItem(it) }
+            )
+        }
     }
+
+    FullLoadingIndicator(
+        isLoading = uiState.isLoading
+    )
 }
 
 @Preview
@@ -155,6 +199,9 @@ private fun NoteDetailScreenPreview() {
             )
         ),
         navigateUp = { },
-        onClickCopyButton = { }
+        onClickCopyButton = { },
+        onClickMore = { },
+        hideBottomSheet = { },
+        onClickBottomSheetItem = { },
     )
 }

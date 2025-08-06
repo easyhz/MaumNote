@@ -94,6 +94,7 @@ fun NavGraphBuilder.noteCreationGraph(
             }
             NoteDetailScreen(
                 navigateUp = { navController.navigateToHome(navOptions = navOptions) },
+                navigateToHome = { navController.navigateToHome(navOptions = navOptions) },
             )
         }
 

@@ -5,8 +5,10 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import androidx.navigation.navDeepLink
+import androidx.navigation.navOptions
 import com.maum.note.core.common.util.url.urlEncode
 import com.maum.note.core.model.note.Note
+import com.maum.note.core.navigation.home.navigateToHome
 import com.maum.note.core.navigation.note.detail.screen.NoteDetail
 import com.maum.note.ui.screen.note.detail.NoteDetailScreen
 
@@ -23,6 +25,12 @@ fun NavGraphBuilder.noteDetailGraph(
     ) {
         NoteDetailScreen(
             navigateUp = navController::navigateUp,
+            navigateToHome = {
+                val navOptions = navOptions {
+                    popUpTo(navController.graph.id) { inclusive = true }
+                }
+                navController.navigateToHome(navOptions = navOptions)
+            }
         )
     }
 }
