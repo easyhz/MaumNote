@@ -157,6 +157,7 @@ private fun BoardScreen(
             }
         ) {
             AnimatedContent(
+                modifier = Modifier.fillMaxSize(),
                 targetState = posts,
                 label = "",
                 transitionSpec = {

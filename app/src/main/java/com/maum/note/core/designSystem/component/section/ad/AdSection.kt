@@ -12,6 +12,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.ColorPainter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.bumptech.glide.integration.compose.CrossFade
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
@@ -25,6 +26,7 @@ import com.maum.note.ui.theme.MainBackground
 fun AdSection(
     modifier: Modifier = Modifier,
     adContents: List<AdContent>,
+    height: Dp = 72.dp,
     placeholderColor: Color = MainBackground,
     onClick: (AdContent) -> Unit,
 ) {
@@ -40,7 +42,7 @@ fun AdSection(
             state = pagerState,
             modifier = Modifier
                 .fillMaxWidth()
-                .height(72.dp)
+                .height(height)
         ) { pageIndex ->
             val actualIndex = pageIndex % adContents.size
             val content = adContents.getOrNull(actualIndex) ?: adContents.first()

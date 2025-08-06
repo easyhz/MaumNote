@@ -194,10 +194,8 @@ private fun HomeScreen(
                         Column(
                             modifier = Modifier.padding(horizontal = 12.dp)
                         ) {
-                            AdSection(
-                                modifier = Modifier.clip(RoundedCornerShape(12.dp)),
+                            HomeAdContent(
                                 adContents = uiState.configuration.adContents,
-                                placeholderColor = White,
                                 onClick = onClickAd
                             )
                             ErrorView(
@@ -213,10 +211,8 @@ private fun HomeScreen(
                         Column(
                             modifier = Modifier.padding(horizontal = 12.dp)
                         ) {
-                            AdSection(
-                                modifier = Modifier.clip(RoundedCornerShape(8.dp)),
+                            HomeAdContent(
                                 adContents = uiState.configuration.adContents,
-                                placeholderColor = White,
                                 onClick = onClickAd
                             )
                             EmptyView(
@@ -241,10 +237,8 @@ private fun HomeScreen(
                             )
                         ) {
                             item(span = { GridItemSpan(2)} ) {
-                                AdSection(
-                                    modifier = Modifier.clip(RoundedCornerShape(12.dp)),
+                                HomeAdContent(
                                     adContents = uiState.configuration.adContents,
-                                    placeholderColor = White,
                                     onClick = onClickAd
                                 )
                             }
@@ -277,6 +271,21 @@ private fun HomeScreen(
             }
         }
     }
+}
+
+@Composable
+private fun HomeAdContent(
+    modifier: Modifier = Modifier,
+    adContents: List<AdContent>,
+    onClick: (AdContent) -> Unit
+) {
+    AdSection(
+        modifier = modifier.clip(RoundedCornerShape(8.dp)),
+        adContents = adContents,
+        height = 68.dp,
+        placeholderColor = White,
+        onClick = onClick
+    )
 }
 
 @Preview
