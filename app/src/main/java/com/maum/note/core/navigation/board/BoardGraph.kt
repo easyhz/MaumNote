@@ -46,7 +46,7 @@ fun NavGraphBuilder.boardGraph(
             navigateUp = navController::navigateUp,
             navigateToBoard = {
                 val navOptions = navOptions {
-                    popUpTo(Board::class.java.name) { inclusive = false }
+                    popUpTo(Board::class.java.name) { inclusive = true }
                 }
                 navController.navigateToBoard(navOptions)
             }
@@ -64,7 +64,7 @@ fun NavGraphBuilder.boardGraph(
             navigateUp = navController::navigateUp,
             navigateToBoard = {
                 val navOptions = navOptions {
-                    popUpTo(Board::class.java.name) { inclusive = false }
+                    popUpTo(Board::class.java.name) { inclusive = true }
                 }
                 navController.navigateToBoard(navOptions)
             },
