@@ -10,6 +10,8 @@ import com.maum.note.core.supabase.service.board.service.post.PostService
 import com.maum.note.core.supabase.service.board.service.post.PostServiceImpl
 import com.maum.note.core.supabase.service.note.service.NoteService
 import com.maum.note.core.supabase.service.note.service.NoteServiceImpl
+import com.maum.note.core.supabase.service.report.service.ReportService
+import com.maum.note.core.supabase.service.report.service.ReportServiceImpl
 import com.maum.note.core.supabase.service.tone.service.ToneService
 import com.maum.note.core.supabase.service.tone.service.ToneServiceImpl
 import dagger.Binds
@@ -49,4 +51,9 @@ interface ServiceModule {
     fun bindToneService(
         toneServiceImpl: ToneServiceImpl
     ): ToneService
+
+    @Binds
+    fun bindReportService(
+        reportServiceImpl: ReportServiceImpl
+    ): ReportService
 }
