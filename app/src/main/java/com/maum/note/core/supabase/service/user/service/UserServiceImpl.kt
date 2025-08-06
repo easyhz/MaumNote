@@ -17,6 +17,7 @@ class UserServiceImpl @Inject constructor(
         return postgrest.from(Table.USERS.name).select {
             filter {
                 eq(Table.USERS.ID, userId)
+                eq(Table.USERS.IS_DELETED, false)
             }
         }.decodeSingleOrNull()
     }
